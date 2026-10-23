@@ -1,5 +1,5 @@
 function App() {
-  return null
+  return <div>Mortals</div>
 }
 
 export default App
