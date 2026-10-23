@@ -14,3 +14,23 @@ Mortals is a hub where users can watch Mortal Kombat fatalities as 3D animations
 ## Tech Stack
 
 - [Three.js](https://threejs.org/) for the 3D animations
+
+## Getting Started
+
+```bash
+cd web
+npm install
+npm run dev
+```
+
+Other scripts: `npm run build`, `npm run lint`, `npm run preview`.
+
+## Project Structure
+
+The app lives in `web/` and follows atomic design with functional components only:
+
+- `web/src/components/atoms/`: smallest building blocks (buttons, labels).
+- `web/src/components/molecules/`: small groups of atoms.
+- `web/src/components/organisms/`: larger self-contained sections.
+- `web/src/components/templates/`: page layouts without real content.
+- `web/src/pages/`: full screens that fill templates with content.
