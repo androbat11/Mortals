@@ -42,7 +42,7 @@ The app lives in `web/` and follows atomic design with functional components onl
 Three.js code is split out of the components:
 
 - `web/src/three/`: plain TypeScript with no React and no page access, organised by what each module does, in the spirit of atomic design (small single-purpose pieces that compose upward). One factory per file:
-  - `objects/`: the things in the scene (`createGround`, `createCamera`, `createViewTarget`, the lights, the background and fog, `createSceneObject`), and `objects/character/`, the procedural low-poly character: small factories for the palette, measurements, materials, body parts, joints and limbs, assembled by `createCharacter` into a typed rig with nine named joints.
+  - `objects/`: the things in the scene (`createGround`, `createCamera`, `createViewTarget` (the point both the camera and the controls aim at), the lights, the background and fog, `createSceneObject`), and `objects/character/`, the procedural low-poly character: small factories for the palette, measurements, materials, body parts, joints and limbs, assembled by `createCharacter` into a typed rig with nine named joints.
   - `rendering/`: the renderer, timer and per-frame helpers (`createRenderer`, `applySize`, `disposeScene`, `clampDelta`, `clampPixelRatio`, `toSafeSize`).
   - `controls/`: `createOrbitControls` and the control settings (`controlLimits`).
   - `animation/`: `startRenderLoop`, which runs a list of per-frame updaters (`FrameUpdater`) and renders, so animation is one more entry in the list.
@@ -53,7 +53,7 @@ Three.js code is split out of the components:
 
 ## Testing
 
-Run `npm test` in `web/` (Vitest). The Three.js renderer is mocked in tests because jsdom has no WebGL.
+Run `npm test` in `web/` (Vitest). The Three.js renderer is mocked in tests because jsdom has no WebGL; shared test helpers (`mockThree.ts`, `stubResizeObserver.ts`) live in `web/src/test/`.
 
 ## Workflow
 

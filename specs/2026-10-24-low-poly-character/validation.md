@@ -7,7 +7,7 @@ The work can be merged when every item below passes.
 - [x] `npm test` exits 0, including the new character, loop, and scene-contents tests.
 - [x] `npm run lint` exits 0 with zero errors and zero warnings.
 - [x] `npm run build` exits 0 (type-check and Vite build both pass).
-- [ ] `npm run preview` serves the built output.
+- [x] `npm run preview` serves the built output.
 
 ## Manual checks
 - [ ] **Closeout:** the manual checks for Phases 2 and 3 are run and ticked, and both phases are marked done in `specs/roadmap.md`, before this phase is merged.

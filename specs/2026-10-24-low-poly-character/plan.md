@@ -10,7 +10,7 @@
 2. Run `npm test`, `npm run lint`, and `npm run build` in `web/` to confirm the baseline is green.
 
 ## 3. Types first
-1. Define `JointName` (the named joints: `neck`, `shoulderL`, `shoulderR`, `elbowL`, `elbowR`, `hipL`, `hipR`, `kneeL`, `kneeR`) and `CharacterRig` (`{ root: Group; joints: Record<JointName, Object3D> }`) in `web/src/three/objects/character/`.
+1. Define `JointName` (the named joints: `neck`, `shoulderL`, `shoulderR`, `elbowL`, `elbowR`, `hipL`, `hipR`, `kneeL`, `kneeR`) and `CharacterRig` (`{ root: Group; joints: Record<JointName, Group> }`) in `web/src/three/objects/character/`.
 2. Define the `FrameUpdater` type (`(deltaSeconds: number) => void`) in `web/src/three/animation/`.
 
 ## 4. Generic render loop (refactor first, its own commit)
@@ -30,7 +30,7 @@
 ## 6. Put the character in the scene
 1. Register `character` in `createSceneRepository`, and have `createSceneContents` add the character instead of the cube.
 2. Delete the cube: `createCube`, `rotateCube`, their tests, and the `cube` repository key.
-3. Frame the character: `createViewTarget()` (a factory) gives the character's chest height, and both the camera and the orbit controls aim at it instead of the ground origin. A test checks the closest zoom still frames a full-height character.
+3. Frame the character: `createViewTarget()` (a factory) gives the centre of the character (0.9), and both the camera and the orbit controls aim at it instead of the ground origin. A test checks the closest zoom still frames a full-height character.
 4. Update `ScenePage`'s `label` to describe the character.
 
 ## 7. Tests (Vitest, feature logic only)
