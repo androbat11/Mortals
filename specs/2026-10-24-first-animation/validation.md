@@ -3,11 +3,11 @@
 The work can be merged when every item below passes.
 
 ## Automated checks (run in `web/`)
-- [ ] `npm install` completes with no errors.
-- [ ] `npm test` exits 0, including the new evaluator, pose, player, animation-data, registry, and scene-contents tests.
-- [ ] `npm run lint` exits 0 with zero errors and zero warnings.
-- [ ] `npm run build` exits 0 (type-check and Vite build both pass).
-- [ ] `npm run preview` serves the built output.
+- [x] `npm install` completes with no errors.
+- [x] `npm test` exits 0, including the new evaluator, pose, player, animation-data, registry, and scene-contents tests.
+- [x] `npm run lint` exits 0 with zero errors and zero warnings.
+- [x] `npm run build` exits 0 (type-check and Vite build both pass).
+- [x] `npm run preview` serves the built output.
 
 ## Manual checks
 - [ ] **Earlier phases:** the manual checks for Phases 2 to 4 are run in the same browser pass and ticked, and the roadmap statuses are updated.
@@ -24,21 +24,21 @@ The work can be merged when every item below passes.
 - [ ] Unmounting leaves no canvas, no running loop, and no leftover listeners.
 
 ## Structure and conventions
-- [ ] The animation types are defined before the code that uses them, and an animation is plain data (an id, a duration, and keyframe tracks over `JointName`s).
-- [ ] `evaluateAnimation` is a pure function and `createAnimationPlayer` owns its time in a closure; nothing in the render loop knows about animations.
-- [ ] The animation is created through factories and the repository, selected by id, with no inline `new` in hooks or components.
-- [ ] The animation id reaches the scene as a typed prop, with no module-level constant holding it.
-- [ ] Every source file is under about 100 lines (tests exempt; check with `wc -l`), one purpose per file, in `web/src/three/animation/`.
-- [ ] No module-level constants or mutable state, no classes, and `any` is not used.
-- [ ] `web/src/three/` holds plain TypeScript with no React imports and no page access.
-- [ ] Design decisions are explained in code comments.
-- [ ] `README.md` describes the animation files and how an animation is defined.
+- [x] The animation types are defined before the code that uses them, and an animation is plain data (an id, a duration, and keyframe tracks over `JointName`s).
+- [x] `evaluateAnimation` is a pure function and `createAnimationPlayer` owns its time in a closure; nothing in the render loop knows about animations.
+- [x] The animation is created through factories and the repository, selected by id, with no inline `new` in hooks or components.
+- [x] The animation id reaches the scene as a typed prop, with no module-level constant holding it.
+- [x] Every source file is under about 100 lines (tests exempt; check with `wc -l`), one purpose per file, in `web/src/three/animation/`.
+- [x] No module-level constants or mutable state, no classes, and `any` is not used.
+- [x] `web/src/three/` holds plain TypeScript with no React imports and no page access.
+- [x] Design decisions are explained in code comments.
+- [x] `README.md` describes the animation files and how an animation is defined.
 
 ## Scope guard
-- [ ] No victim character, spine joint, props, replay, pause, data model, or page layout.
-- [ ] No new dependencies in `web/package.json`, no `AnimationMixer`, and no imported animation or model files.
+- [x] No victim character, spine joint, props, replay, pause, data model, or page layout.
+- [x] No new dependencies in `web/package.json`, no `AnimationMixer`, and no imported animation or model files.
 - [ ] Root `package.json` is unchanged, and no root `package-lock.json` is committed.
-- [ ] Tests cover feature logic only: none for `App.tsx` or `main.tsx`.
+- [x] Tests cover feature logic only: none for `App.tsx` or `main.tsx`.
 
 ## Merge readiness
 - [ ] Work is on `phase-5-first-animation`, with a clean `git status` after commit.
