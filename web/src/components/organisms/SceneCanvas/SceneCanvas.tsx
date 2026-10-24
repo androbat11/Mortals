@@ -2,6 +2,7 @@ import { useRef } from 'react'
 import { useThreeScene } from '../../../hooks/useThreeScene'
 
 type SceneCanvasProps = {
+  label: string
   className?: string
 }
 
@@ -11,14 +12,18 @@ type SceneCanvasProps = {
 // the sizing is in CSS (it fills its parent), so the parent decides the size.
 // It accepts a `className` so a page or template can position or size it,
 // which keeps it composable instead of tied to one layout. If WebGL is not
-// available it shows a short message rather than an empty box.
-function SceneCanvas({ className }: SceneCanvasProps) {
+// available it shows a short message rather than an empty box. A canvas has no
+// text, so `label` gives it an accessible name; it is a required prop so every
+// screen has to describe what the 3D view shows.
+function SceneCanvas({ label, className }: SceneCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const { failed } = useThreeScene(containerRef)
 
   return (
     <div
       ref={containerRef}
+      role="img"
+      aria-label={label}
       className={className ? `scene-canvas ${className}` : 'scene-canvas'}
     >
       {failed && <p role="alert">The 3D view is not available on this device.</p>}

@@ -33,7 +33,7 @@ afterEach(() => {
 describe('SceneCanvas', () => {
   it('appends a canvas and starts the animation loop on mount', () => {
     stubResizeObserver()
-    const { container } = render(<SceneCanvas />)
+    const { container } = render(<SceneCanvas label="Test scene" />)
     expect(container.querySelectorAll('canvas')).toHaveLength(1)
     expect(renderers[0].setAnimationLoop).toHaveBeenCalledWith(
       expect.any(Function),
@@ -53,7 +53,7 @@ describe('SceneCanvas', () => {
     })
     // A 5 second delta (a tab returning from the background) must be clamped.
     vi.spyOn(Timer.prototype, 'getDelta').mockReturnValue(5)
-    render(<SceneCanvas />)
+    render(<SceneCanvas label="Test scene" />)
 
     getLoop()()
 
@@ -66,7 +66,7 @@ describe('SceneCanvas', () => {
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(800)
     vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(400)
     vi.stubGlobal('devicePixelRatio', 3)
-    render(<SceneCanvas />)
+    render(<SceneCanvas label="Test scene" />)
     renderers[0].setSize.mockClear()
     renderers[0].setPixelRatio.mockClear()
 
@@ -76,9 +76,15 @@ describe('SceneCanvas', () => {
     expect(renderers[0].setPixelRatio).toHaveBeenCalledWith(2)
   })
 
+  it('gives the 3D view an accessible name', () => {
+    stubResizeObserver()
+    render(<SceneCanvas label="Spinning 3D cube" />)
+    expect(screen.getByRole('img', { name: 'Spinning 3D cube' })).toBeInTheDocument()
+  })
+
   it('accepts a className from its parent', () => {
     stubResizeObserver()
-    const { container } = render(<SceneCanvas className="custom" />)
+    const { container } = render(<SceneCanvas label="Test scene" className="custom" />)
     expect(container.firstElementChild).toHaveClass('scene-canvas', 'custom')
   })
 
@@ -87,7 +93,7 @@ describe('SceneCanvas', () => {
     // Make the next `new WebGLRenderer()` throw, as it does without WebGL.
     mockThree.failNextRenderer()
 
-    const { container } = render(<SceneCanvas />)
+    const { container } = render(<SceneCanvas label="Test scene" />)
 
     expect(screen.getByRole('alert')).toHaveTextContent('not available')
     expect(container.querySelector('canvas')).toBeNull()
@@ -98,7 +104,7 @@ describe('SceneCanvas', () => {
     const { observers } = stubResizeObserver()
     const geometry = vi.spyOn(BoxGeometry.prototype, 'dispose')
     const material = vi.spyOn(MeshBasicMaterial.prototype, 'dispose')
-    const { container, unmount } = render(<SceneCanvas />)
+    const { container, unmount } = render(<SceneCanvas label="Test scene" />)
 
     unmount()
 
@@ -115,7 +121,7 @@ describe('SceneCanvas', () => {
     stubResizeObserver()
     const { container } = render(
       <StrictMode>
-        <SceneCanvas />
+        <SceneCanvas label="Test scene" />
       </StrictMode>,
     )
     expect(container.querySelectorAll('canvas')).toHaveLength(1)

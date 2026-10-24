@@ -8,7 +8,7 @@ In scope:
 - Factory functions for every object the scene creates (scene, camera, cube, renderer, timer in `three/factories.ts`; the `ResizeObserver` factory in `hooks/browserFactories.ts`, because it is a browser API), and a generic `createRepository` function that creates those objects by key. `createSceneRepository` registers them. The hook creates all its objects through the repository, never with `new`.
 - Single-purpose helper functions in `three/` for sizing, pixel ratio, frame delta, disposal, and rotation, with no module-level state.
 - A `useThreeScene` hook that only wires the objects together: creation, the animation loop, resizing, and cleanup.
-- A `SceneCanvas` organism (composable through an optional `className`) and a `ScenePage` page, with `App` rendering the page.
+- A `SceneCanvas` organism (composable through an optional `className`, and labelled for assistive tech through a required `label` prop) and a `ScenePage` page, with `App` rendering the page.
 - Responsive behaviour: the canvas fills the viewport and resizes on phone, tablet, and desktop; no horizontal scroll.
 - Vitest tests for the scene logic, the helpers, and the component's mount, loop, resize, and unmount behaviour.
 
@@ -33,6 +33,8 @@ Out of scope:
 - **Frame delta:** clamped, so the cube does not jump when a hidden tab becomes visible again.
 - **TypeScript strict mode:** set explicitly in both tsconfig files, so the type-first rule does not depend on a compiler default.
 - **Bundle size:** the build warns that the JavaScript bundle is over 500 kB because Three.js is large. Accepted for now; code splitting and loading states belong to Phase 12 (Polish).
+- **Accessible name:** the 3D view has `role="img"` and an `aria-label` taken from the required `label` prop, because a canvas has no text. `ScenePage` passes "Spinning 3D cube"; later phases describe the fatality being shown.
+- **Overflow:** `overflow: hidden` is scoped to `.scene-page`, not to `html`, `body`, and `#root`, so later screens with long content can scroll.
 - **Responsive CSS:** the canvas is fluid (percentages and `dvh`), so it adapts to every width without media queries. Media queries arrive with real layout in later phases.
 
 ## Context

@@ -4,12 +4,14 @@ body,
   margin: 0;
   width: 100%;
   height: 100%;
-  overflow: hidden;
 }
 
 .scene-page {
   width: 100%;
   height: 100dvh;
+  /* Clipping is scoped to this full-viewport page, so later screens with long
+     content (tutorial text) can still scroll. */
+  overflow: hidden;
 }
 
 .scene-canvas {

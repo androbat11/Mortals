@@ -3,7 +3,7 @@ import SceneCanvas from '../components/organisms/SceneCanvas/SceneCanvas'
 function ScenePage() {
   return (
     <main className="scene-page">
-      <SceneCanvas />
+      <SceneCanvas label="Spinning 3D cube" />
     </main>
   )
 }

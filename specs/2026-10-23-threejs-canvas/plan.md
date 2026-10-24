@@ -26,7 +26,7 @@
 4. On unmount, stop the loop, disconnect the observer, dispose the scene, force the WebGL context loss, dispose the renderer, and remove the canvas.
 
 ## 4. Components
-1. Create the organism `web/src/components/organisms/SceneCanvas/`: a functional component that renders a container `div`, calls the hook, and accepts an optional `className` so a parent can position or size it.
+1. Create the organism `web/src/components/organisms/SceneCanvas/`: a functional component that renders a container `div`, calls the hook, and accepts an optional `className` so a parent can position or size it, and a required `label` that becomes the accessible name.
 2. Create the page `web/src/pages/ScenePage.tsx`, a thin component that renders `SceneCanvas` in a viewport-sized container.
 3. Update `App.tsx` to render `ScenePage` and remove the "Mortals" placeholder div.
 4. Add minimal global styles so the page has no margin or scrollbars and the canvas fills the viewport on phone, tablet, and desktop.
@@ -34,7 +34,7 @@
 ## 5. Tests (Vitest, feature logic only)
 1. Test `createRepository`: creates by key, passes arguments through, and creates a new object on each call.
 2. Test the factories (scene, camera, cube, timer, and the renderer with a mocked `WebGLRenderer`) and each helper: `clampPixelRatio`, `clampDelta`, `toSafeSize`, `applySize`, `disposeScene` (including material arrays and textures), and `rotateCube`.
-3. Test `SceneCanvas` with a mocked `WebGLRenderer` and a `ResizeObserver` stub that records callbacks: mount; the loop renders and rotates the cube by the clamped delta; a resize uses the container size and re-applies the capped pixel ratio; a failing renderer shows a message; unmount disconnects, disposes, and releases the context; StrictMode leaves one canvas.
+3. Test `SceneCanvas` with a mocked `WebGLRenderer` and a `ResizeObserver` stub that records callbacks: mount; the accessible name; the loop renders and rotates the cube by the clamped delta; a resize uses the container size and re-applies the capped pixel ratio; a failing renderer shows a message; unmount disconnects, disposes, and releases the context; StrictMode leaves one canvas.
 4. Write test helpers as functions with per-test state (no classes, no module-level arrays).
 5. Run `npm test` and fix failures. Do not add tests for `App.tsx` or `main.tsx`.
 
