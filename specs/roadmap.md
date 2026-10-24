@@ -2,6 +2,8 @@
 
 Each phase is small and independently verifiable. Finish and verify one before starting the next.
 
+**Responsive design applies to every phase:** each screen or component added must work at phone, tablet, and desktop widths and be checked at those sizes before the phase is done.
+
 1. **Scaffold (done):** Vite + React + TypeScript project runs and shows a minimal page.
 2. **Three.js canvas:** A React component renders a Three.js scene with a spinning cube.
 3. **Camera and lighting:** Add orbit controls, lights, and a ground plane.
@@ -13,5 +15,5 @@ Each phase is small and independently verifiable. Finish and verify one before s
 9. **Fatality list:** Add a list screen that links to each fatality page.
 10. **Second and third fatalities:** Add more animations and data entries to reach the MVP set.
 11. **Game filter:** Filter or group the list by game.
-12. **Polish:** Responsive layout, styling, and loading states.
+12. **Polish:** Styling refinements and loading states, plus a final responsive review across all screens.
 13. **Deploy:** Publish to a static host.

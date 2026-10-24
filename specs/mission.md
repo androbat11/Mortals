@@ -17,5 +17,6 @@ A small MVP set of iconic fatalities from one or two games, enough to prove the 
 
 ## Principles
 - Watching and learning come first; no accounts, no clutter.
+- Responsive by default: every screen works on phones, tablets, and desktops.
 - Original stylized low-poly visuals; no copyrighted game assets.
 - Content is easy to add: a new fatality is data plus an animation.

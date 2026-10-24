@@ -5,6 +5,7 @@ Create a Vite + React + TypeScript project that runs and shows a minimal page. N
 
 In scope:
 - Vite react-ts app in a subdirectory (`web/`), with its own `package.json` and npm lockfile.
+- Responsive foundation: `index.html` keeps the viewport meta tag, and `App` introduces no fixed widths or horizontal overflow, so later screens inherit a responsive base.
 - Functional components only (no class components); small, single-purpose components.
 - Atomic design folder structure under `web/src/components/` so later phases have a home: `atoms/`, `molecules/`, `organisms/`, `templates/`, plus `pages/`.
 - `App` renders a single `<div>` with the text "Mortals": no Vite or React demo content, no logo, no counter, no default CSS.
@@ -12,7 +13,7 @@ In scope:
 
 Out of scope:
 - Three.js or any 3D code (Phase 2).
-- Test runner, Prettier, or other extras. Add them when a phase needs them.
+- Prettier or other extras beyond Vitest. Add them when a phase needs them.
 - Styling, layout, deployment (Phases 12 and 13).
 
 ## Decisions

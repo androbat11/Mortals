@@ -14,6 +14,7 @@ The phase is done and can be merged when every item below passes.
 - [ ] The browser console shows no errors or warnings.
 - [x] The browser tab title is "Mortals".
 - [x] The DOM contains the mounted root element with a single child div containing "Mortals".
+- [ ] The page has no horizontal scroll at phone (~375px), tablet (~768px), and desktop (~1280px) widths, and `index.html` has the viewport meta tag.
 
 ## Structure and conventions
 - [x] `web/src/components/` contains `atoms/`, `molecules/`, `organisms/`, `templates/`; `web/src/pages/` exists.
@@ -23,7 +24,7 @@ The phase is done and can be merged when every item below passes.
 - [x] The tsconfig strict mode from the template is still enabled.
 
 ## Scope guard
-- [x] No Three.js, routing, test runner, or other out-of-scope dependencies in `web/package.json`.
+- [x] No Three.js, routing, or other out-of-scope dependencies in `web/package.json` (Vitest is the only test tooling).
 - [x] Root `package.json` is unchanged.
 - [x] `README.md` documents how to install and run the app.
 
