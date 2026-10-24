@@ -10,16 +10,19 @@ type SceneCanvasProps = {
 // controls. It renders only a container: the logic is in `useThreeScene`, and
 // the sizing is in CSS (it fills its parent), so the parent decides the size.
 // It accepts a `className` so a page or template can position or size it,
-// which keeps it composable instead of tied to one layout.
+// which keeps it composable instead of tied to one layout. If WebGL is not
+// available it shows a short message rather than an empty box.
 function SceneCanvas({ className }: SceneCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  useThreeScene(containerRef)
+  const { failed } = useThreeScene(containerRef)
 
   return (
     <div
       ref={containerRef}
       className={className ? `scene-canvas ${className}` : 'scene-canvas'}
-    />
+    >
+      {failed && <p role="alert">The 3D view is not available on this device.</p>}
+    </div>
   )
 }
 

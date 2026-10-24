@@ -1,10 +1,10 @@
 import {
   BoxGeometry,
-  Clock,
   Mesh,
   MeshBasicMaterial,
   PerspectiveCamera,
   Scene,
+  Timer,
   WebGLRenderer,
 } from 'three'
 import { clampPixelRatio } from './clampPixelRatio'
@@ -53,6 +53,8 @@ export function createRenderer(
   return renderer
 }
 
-export function createClock() {
-  return new Clock()
+// `Clock` is deprecated in current three.js; `Timer` replaces it. Call
+// `update()` once per frame, then read `getDelta()`.
+export function createTimer() {
+  return new Timer()
 }

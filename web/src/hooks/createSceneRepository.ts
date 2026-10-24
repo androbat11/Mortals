@@ -1,7 +1,7 @@
 import { createRepository } from '../three/createRepository'
 import {
   createCamera,
-  createClock,
+  createTimer,
   createCube,
   createRenderer,
   createSceneObject,
@@ -19,7 +19,7 @@ export function createSceneRepository() {
     camera: createCamera,
     cube: createCube,
     renderer: createRenderer,
-    clock: createClock,
+    timer: createTimer,
     resizeObserver: createResizeObserver,
   })
 }

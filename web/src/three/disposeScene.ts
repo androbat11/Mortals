@@ -15,6 +15,11 @@ function disposeMaterial(material: Material) {
 // tested without WebGL. A mesh may hold one material or an array of them (the
 // planned character will), and lines and points hold geometry too, so all of
 // those cases are handled instead of only a single-material `Mesh`.
+//
+// Known limits, to extend when the character lands: textures held in
+// `ShaderMaterial` uniforms, `InstancedMesh` buffers, and skeleton bone
+// textures are not disposed, and a texture shared by several materials is
+// disposed even if something else still uses it.
 export function disposeScene(scene: Object3D) {
   scene.traverse((object) => {
     if (

@@ -1,11 +1,20 @@
-import { Clock, Mesh, PerspectiveCamera, Scene } from 'three'
-import { describe, expect, it } from 'vitest'
+import { Mesh, PerspectiveCamera, Scene, Timer } from 'three'
+import { describe, expect, it, vi } from 'vitest'
 import {
   createCamera,
-  createClock,
   createCube,
+  createRenderer,
   createSceneObject,
+  createTimer,
 } from './factories'
+
+const mockThree = await vi.hoisted(async () =>
+  (await import('../test/mockThree')).createMockThree(),
+)
+
+vi.mock('three', async (importOriginal) =>
+  mockThree.withMockRenderer(await importOriginal()),
+)
 
 describe('factories', () => {
   it('createSceneObject returns an empty scene', () => {
@@ -27,9 +36,15 @@ describe('factories', () => {
     expect(createCube()).not.toBe(cube)
   })
 
-  it('createClock returns a new clock each time', () => {
-    const clock = createClock()
-    expect(clock).toBeInstanceOf(Clock)
-    expect(createClock()).not.toBe(clock)
+  it('createTimer returns a new timer each time', () => {
+    const timer = createTimer()
+    expect(timer).toBeInstanceOf(Timer)
+    expect(createTimer()).not.toBe(timer)
+  })
+
+  it('createRenderer sizes the renderer and caps the pixel ratio at 2', () => {
+    const renderer = createRenderer(800, 400, 3)
+    expect(renderer.setSize).toHaveBeenCalledWith(800, 400)
+    expect(renderer.setPixelRatio).toHaveBeenCalledWith(2)
   })
 })
