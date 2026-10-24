@@ -1,4 +1,5 @@
 import type { AnimationId } from '../three/animation/animationTypes'
+import type { PlaybackControl } from '../three/animation/playbackControl'
 import { startRenderLoop } from '../three/animation/startRenderLoop'
 import { applySize } from '../three/rendering/applySize'
 import type { createRenderer } from '../three/rendering/createRenderer'
@@ -22,6 +23,7 @@ export function setupScene(
   container: HTMLElement,
   renderer: Renderer,
   animationId: AnimationId,
+  playback: PlaybackControl,
 ) {
   const parts: CleanupTargets = { renderer }
 
@@ -31,6 +33,7 @@ export function setupScene(
       repository,
       width / height,
       animationId,
+      playback,
     )
     parts.scene = scene
     container.appendChild(renderer.domElement)

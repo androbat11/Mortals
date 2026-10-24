@@ -1,5 +1,6 @@
 import { useEffect, useState, type RefObject } from 'react'
 import type { AnimationId } from '../three/animation/animationTypes'
+import type { PlaybackControl } from '../three/animation/playbackControl'
 import { tryCreate } from '../three/core/tryCreate'
 import { createSceneRepository } from './createSceneRepository'
 import { readContainerSize } from './readContainerSize'
@@ -17,6 +18,7 @@ type ThreeSceneState = {
 export function useThreeScene(
   containerRef: RefObject<HTMLDivElement | null>,
   animationId: AnimationId,
+  playback: PlaybackControl,
 ): ThreeSceneState {
   const [failed, setFailed] = useState(false)
 
@@ -40,7 +42,7 @@ export function useThreeScene(
     )
     const cleanup =
       renderer && tryCreate(() =>
-        setupScene(repository, container, renderer, animationId),
+        setupScene(repository, container, renderer, animationId, playback),
       )
 
     if (!cleanup) {
@@ -48,7 +50,7 @@ export function useThreeScene(
       return
     }
     return cleanup
-  }, [containerRef, animationId])
+  }, [containerRef, animationId, playback])
 
   return { failed }
 }

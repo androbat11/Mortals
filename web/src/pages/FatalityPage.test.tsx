@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createFatality } from '../data/createFatality'
 import { stubResizeObserver } from '../test/stubResizeObserver'
@@ -51,5 +51,26 @@ describe('FatalityPage', () => {
   it('is a single main landmark', () => {
     render(<FatalityPage fatalityId="sample-uppercut" />)
     expect(screen.getAllByRole('main')).toHaveLength(1)
+  })
+
+  it('pauses and resumes from the buttons without rebuilding the scene', () => {
+    render(<FatalityPage fatalityId="sample-uppercut" />)
+    expect(mockThree.renderers).toHaveLength(1)
+
+    fireEvent.click(screen.getByRole('button', { name: 'Pause' }))
+    expect(screen.getByRole('button', { name: 'Play' })).toBeInTheDocument()
+
+    fireEvent.click(screen.getByRole('button', { name: 'Play' }))
+    expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
+    expect(mockThree.renderers).toHaveLength(1)
+  })
+
+  it('has a replay button', () => {
+    render(<FatalityPage fatalityId="sample-uppercut" />)
+    fireEvent.click(screen.getByRole('button', { name: 'Pause' }))
+
+    fireEvent.click(screen.getByRole('button', { name: 'Replay' }))
+
+    expect(screen.getByRole('button', { name: 'Pause' })).toBeInTheDocument()
   })
 })

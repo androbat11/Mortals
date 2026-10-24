@@ -9,8 +9,26 @@
 }
 
 .scene {
+  position: relative;
   height: 55dvh;
   min-height: 18rem;
+}
+
+/* Over the bottom of the scene, centred, so the buttons are reachable without
+   scrolling. The strip itself lets touches through to the scene; only the
+   buttons catch them. */
+.controls {
+  position: absolute;
+  right: 0;
+  bottom: 0.75rem;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.controls > * {
+  pointer-events: auto;
 }
 
 .details {

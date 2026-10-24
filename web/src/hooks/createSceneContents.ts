@@ -1,5 +1,6 @@
 import type { AnimationId } from '../three/animation/animationTypes'
 import type { FrameUpdater } from '../three/animation/frameUpdater'
+import type { PlaybackControl } from '../three/animation/playbackControl'
 import type { SceneRepository } from './createSceneRepository'
 
 // Design: building the scene's contents (the character, the ground, the lights,
@@ -11,6 +12,7 @@ export function createSceneContents(
   repository: SceneRepository,
   aspect: number,
   animationId: AnimationId,
+  playback: PlaybackControl,
 ) {
   const scene = repository.create('scene')
   scene.background = repository.create('background')
@@ -30,7 +32,7 @@ export function createSceneContents(
   // played by a player that owns its time, and that player is one such updater.
   const animation = repository.create('animation', animationId)
   const updaters: FrameUpdater[] = [
-    repository.create('animationPlayer', character, animation),
+    repository.create('animationPlayer', character, animation, playback),
   ]
 
   return { scene, camera, character, updaters }
