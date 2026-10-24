@@ -58,7 +58,7 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R2 | should-fix | Components are short and single-purpose (split long ones), and live at the right atomic level (`atoms`, `molecules`, `organisms`, `templates`, `pages`). | Keeps the structure predictable for later phases. |
 | R3 | blocking | Hooks follow the Rules of Hooks (top level only, called from components or custom hooks). | Prevents broken state and effects. |
 | R4 | blocking | Effects that create resources (renderers, observers, listeners, timers, animation loops) clean them up on unmount. | Avoids leaks, especially with `StrictMode` double-mounting. |
-| R5 | should-fix | Reusable logic is extracted into custom hooks, and non-React logic (such as Three.js scene building) lives outside components. | Keeps components thin and logic testable. |
+| R5 | blocking | Components render UI only: state, effects, and event logic live in custom hooks, and non-React logic (such as Three.js scene building) lives in plain modules. | CLAUDE.md: UI and logic are separate. |
 | R6 | should-fix | No derived state kept in `useState` or synced by effects when it can be computed during render. | Avoids stale or duplicated state. |
 | R7 | should-fix | Effect dependency arrays are complete and correct. | Prevents stale closures and missed updates. |
 | R8 | should-fix | Lists render with stable, unique `key`s (not array indexes for dynamic lists). | Correct reconciliation. |
@@ -66,8 +66,9 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R10 | should-fix | Interactive elements use semantic HTML and are keyboard accessible, with labels or alt text where needed. | Accessibility and low-friction use. |
 | R11 | should-fix | Types are defined first: props, data, and function signatures are explicit types, and strict mode stays on. | CLAUDE.md: type-first development. |
 | R12 | blocking | Application objects are created through factory functions and the repository (`createRepository`), not inline `new` calls in hooks or components. | CLAUDE.md: factory functions for object creation. |
-| R13 | should-fix | Every function, module, hook, and component serves one purpose; `web/src/three/` has no React or DOM code. | CLAUDE.md: separation of concerns. |
+| R13 | should-fix | Every function, module, hook, and component serves one purpose, and each function does only one thing (flag functions that mix steps such as fetching, transforming, and rendering); `web/src/three/` has no React or DOM code. | CLAUDE.md: separation of concerns. |
 | R14 | blocking | Every new screen or component is responsive: mobile-first CSS, no fixed widths, no horizontal scroll at phone, tablet, and desktop widths. | CLAUDE.md and mission: responsive by default. |
+| R15 | should-fix | Components are composable: they take props and `children`, are combined into larger components, and do not hard-code content or duplicate markup. | CLAUDE.md: composable components. |
 
 ### Spec and quality
 - Compare the change to the phase's `requirements.md` and `validation.md`. List validation items that the diff does not satisfy or that look unchecked.

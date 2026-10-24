@@ -17,6 +17,8 @@ These rules apply for the whole development life cycle: planning, specs, impleme
 
 - **Atomic design.** UI lives in `web/src/components/{atoms,molecules,organisms,templates}/` and `web/src/pages/`. Build screens by composing small components from these levels.
 - **No long components.** A component does one thing and stays short. When it grows, split it into smaller components at the right atomic level, and move logic into hooks or plain modules.
+- **Composable components.** Build components that compose: they take props and `children` and are combined into larger ones, rather than hard-coding content or duplicating markup.
+- **UI and logic are separate.** Components only render UI. State, effects, and event logic go in custom hooks (`web/src/hooks/`), and non-React logic goes in plain modules.
 - **Responsive design is required for every screen and component.** Build mobile-first with media queries, no fixed widths, and no horizontal scroll. Check phone (~375px), tablet (~768px), and desktop (~1280px) widths before calling a screen done.
 
 ## Code style
@@ -24,7 +26,7 @@ These rules apply for the whole development life cycle: planning, specs, impleme
 - **Type-first.** Define the TypeScript types (props, data, function signatures) before writing the implementation. Keep strict mode on, and never use `any`.
 - **Functions over classes.** Write functions and function components. Do not write classes or class components.
 - **Factory functions for object creation.** Do not call `new` for application objects inline. Create objects through factory functions, and use a repository (`createRepository`) to create them by key. See `web/src/three/factories.ts` and `web/src/hooks/sceneRepository.ts`.
-- **Separation of concerns.** Every function, module, hook, and component has one and only one purpose. Keep Three.js and other non-React logic out of components, and keep `web/src/three/` free of React and DOM code.
+- **Separation of concerns.** Every function, module, hook, and component has one and only one purpose, and a function does only one thing. Keep Three.js and other non-React logic out of components, and keep `web/src/three/` free of React and DOM code.
 
 ## Testing
 
