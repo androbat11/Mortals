@@ -64,3 +64,19 @@ Run `npm test` in `web/` (Vitest). The Three.js renderer is mocked in tests beca
 
 - `CLAUDE.md` holds the development rules (atomic design, type-first, functions over classes, factory functions, small modules grouped by purpose, responsive design, no globals). `specs/` holds the mission, roadmap, tech stack, and one directory per feature.
 - Claude Code skills in `.claude/skills/`: `/feature` creates a spec directory, `/pr-review` reviews a GitHub pull request and posts inline comments, and `/changelog` updates `changelog.md` before merging.
+
+## Deployment
+
+The app is static files only: no server, no backend, and no rewrite rules.
+
+```bash
+cd web
+npm install
+npm run build   # type-checks, then writes the site to web/dist
+```
+
+Upload the contents of `web/dist` to any static host (GitHub Pages, Netlify, Cloudflare Pages, Vercel, or a plain file server). It works at the root of a domain or under a sub-path, because the build uses relative paths, and deep links work because the routes live in the URL hash (`#/fatality/...`). To try the production build locally, run `npm run preview`, or serve `web/dist` with any static file server.
+
+The first load is small (the list page is under 250 kB of script); the 3D code (Three.js, about 560 kB) is downloaded only when a fatality page opens.
+
+Nothing is published from this repository yet: the host is the project owner's choice, and the three fatalities are still clearly-labelled sample data that should be replaced by real, verified content first. For GitHub Pages, add a workflow that builds `web/` and publishes `web/dist`, and turn Pages on in the repository settings.
