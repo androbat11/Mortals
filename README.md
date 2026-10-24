@@ -37,8 +37,8 @@ The app lives in `web/` and follows atomic design with functional components onl
 
 Three.js code is split out of the components:
 
-- `web/src/three/`: plain TypeScript that builds the scene and cube (no React or DOM code).
-- `web/src/hooks/`: `useThreeScene`, which owns the renderer, animation loop, resizing, and cleanup.
+- `web/src/three/`: plain TypeScript: factory functions that create the scene objects (`factories.ts`) and a generic `createRepository` that creates them by key (no React or DOM code).
+- `web/src/hooks/`: `useThreeScene` and `sceneRepository` (the repository of everything the scene creates); the hook owns the renderer, animation loop, resizing, and cleanup.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
 - `web/src/pages/ScenePage.tsx`: the page `App` renders; the canvas fills the viewport.
 

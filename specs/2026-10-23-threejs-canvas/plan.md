@@ -6,14 +6,16 @@
 3. Confirm the root `package.json` is unchanged.
 
 ## 2. Scene module (plain TypeScript)
-1. Create `web/src/three/createScene.ts` exporting a function that returns the `Scene`, a `PerspectiveCamera`, and the cube `Mesh` (a `BoxGeometry` with a `MeshBasicMaterial`, so no lights are needed).
-2. Place the camera so the whole cube is visible at the default aspect ratio.
-3. Create `web/src/three/rotateCube.ts` exporting a small function that advances the cube rotation by a time delta.
-4. Keep this folder free of React and DOM code.
+1. Create `web/src/three/factories.ts` with one factory function per object: scene, camera, cube (a `BoxGeometry` with a `MeshBasicMaterial`, so no lights are needed), renderer, and clock.
+2. Create `web/src/three/createRepository.ts`, a generic function that takes a map of factories and returns `create(key, ...args)`.
+3. Create `web/src/hooks/sceneRepository.ts` registering those factories plus a `ResizeObserver` factory.
+4. Place the camera so the whole cube is visible at the default aspect ratio.
+5. Create `web/src/three/rotateCube.ts` exporting a small function that advances the cube rotation by a time delta.
+6. Keep `web/src/three/` free of React and DOM code.
 
 ## 3. `useThreeScene` hook
 1. Create `web/src/hooks/useThreeScene.ts`, taking a container ref.
-2. On mount, create a `WebGLRenderer`, set its pixel ratio (capped at 2), append its canvas to the container, and start the animation loop with `renderer.setAnimationLoop`.
+2. On mount, create every object through `sceneRepository.create(...)`: the renderer (pixel ratio capped at 2, in its factory), then append its canvas to the container, and start the animation loop with `renderer.setAnimationLoop`.
 3. Size the renderer and camera from the container's dimensions, and update both with a `ResizeObserver` on the container.
 4. On unmount, stop the loop, disconnect the observer, dispose the geometry, material, and renderer, and remove the canvas.
 
@@ -24,7 +26,8 @@
 4. Add minimal global styles so the page has no margin or scrollbars and the canvas fills the viewport on phone, tablet, and desktop.
 
 ## 5. Tests (Vitest)
-1. Test `createScene`: it returns a scene containing one cube mesh and a camera with a positive aspect ratio.
+1. Test `createRepository`: creates by key, passes arguments through, and creates a new object on each call.
+2. Test the factories: scene, camera aspect and position, and cube.
 2. Test `rotateCube`: rotation increases by the expected amount for a given delta.
 3. Test `SceneCanvas` with a mocked `WebGLRenderer`: it appends a canvas on mount and disposes the renderer and removes the canvas on unmount.
 4. Run `npm test` and fix failures.

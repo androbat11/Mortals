@@ -1,9 +1,7 @@
 import { useEffect, type RefObject } from 'react'
-import { Clock, Mesh, WebGLRenderer } from 'three'
-import { createScene } from '../three/createScene'
+import { Mesh } from 'three'
 import { rotateCube } from '../three/rotateCube'
-
-const MAX_PIXEL_RATIO = 2
+import { sceneRepository } from './sceneRepository'
 
 export function useThreeScene(containerRef: RefObject<HTMLDivElement | null>) {
   useEffect(() => {
@@ -12,24 +10,30 @@ export function useThreeScene(containerRef: RefObject<HTMLDivElement | null>) {
 
     const width = container.clientWidth || 1
     const height = container.clientHeight || 1
-    const { scene, camera, cube } = createScene(width / height)
 
-    const renderer = new WebGLRenderer({ antialias: true })
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, MAX_PIXEL_RATIO))
-    renderer.setSize(width, height)
+    const scene = sceneRepository.create('scene')
+    const camera = sceneRepository.create('camera', width / height)
+    const cube = sceneRepository.create('cube')
+    scene.add(cube)
+
+    const renderer = sceneRepository.create(
+      'renderer',
+      width,
+      height,
+      window.devicePixelRatio,
+    )
     container.appendChild(renderer.domElement)
 
-    const resize = () => {
+    const observer = sceneRepository.create('resizeObserver', () => {
       const w = container.clientWidth || 1
       const h = container.clientHeight || 1
       renderer.setSize(w, h)
       camera.aspect = w / h
       camera.updateProjectionMatrix()
-    }
-    const observer = new ResizeObserver(resize)
+    })
     observer.observe(container)
 
-    const clock = new Clock()
+    const clock = sceneRepository.create('clock')
     renderer.setAnimationLoop(() => {
       rotateCube(cube, clock.getDelta())
       renderer.render(scene, camera)

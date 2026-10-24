@@ -5,7 +5,8 @@ A React component renders a Three.js scene with a spinning cube, filling its con
 
 In scope:
 - `three` and `@types/three` added to `web/`.
-- A scene module that builds the scene, camera, and cube, with no React or DOM code.
+- Factory functions for every object the scene creates (scene, camera, cube, renderer, clock, resize observer), and a generic `createRepository` function that creates those objects by key. The hook creates all its objects through the repository, never with `new`.
+- A scene module with no React or DOM code.
 - A `useThreeScene` hook that owns the renderer, animation loop, resize handling, and cleanup.
 - A `SceneCanvas` organism and a `ScenePage` page, with `App` rendering the page.
 - Responsive behaviour: the canvas fills the viewport and resizes on phone, tablet, and desktop; no horizontal scroll.
