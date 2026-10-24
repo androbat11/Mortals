@@ -22,15 +22,15 @@ Read these in full on every run. They are the source of truth; never rely on mem
 - `specs/roadmap.md`: the phases and which are done.
 - `specs/tech-stack.md`: required tools, constraints, and notes.
 - `CLAUDE.md`: the project's development rules and design principles. The rules table below enforces them; flag any `CLAUDE.md` rule the table does not cover.
-- The spec directory for the PR: the newest `specs/*/` whose `requirements.md` or name matches the PR's roadmap phase or branch name. If none matches, say so in the summary and review against the roadmap alone.
+- The spec directory for the PR: first any `specs/*/` directory the PR itself adds or changes (from the changed paths); otherwise the newest `specs/*/` whose `requirements.md` or name matches the PR's roadmap phase or branch name. If none matches, say so in the summary and review against the roadmap alone.
 
 ## Step 2: Load the change
 
 - Find the PR: `gh pr view <n> --json number,url,title,body,headRefOid,baseRefName` (omit `<n>` for the current branch's PR). If there is no open PR, say so and stop; do not post anything. When no number was given, take `<n>` from the `number` field of this output and use it in every later command.
 - Get the owner and repo: `gh repo view --json nameWithOwner`.
-- Get the diff: `gh pr diff <n>`. Note which lines are added or changed: inline comments can only be placed on those lines.
-- Get existing review comments: `gh api repos/<owner>/<repo>/pulls/<n>/comments`. Do not repeat a finding that is already commented on the same line.
-- Read changed files in full when the diff alone is not enough. If the PR branch is not the checked-out one, do not use `Read` (it would show the wrong branch); fetch the file with `gh api repos/<owner>/<repo>/contents/<path>?ref=<headRefOid>` instead.
+- Get the diff: `gh pr diff <n>`, and the changed paths with `gh pr diff <n> --name-only`. Note which lines are added or changed: inline comments can only be placed on those lines.
+- Get existing review comments, all pages: `gh api repos/<owner>/<repo>/pulls/<n>/comments --paginate` (the path comes first, flags after it). Do not repeat a finding that is already commented on the same line.
+- Read changed files in full when the diff alone is not enough. If the PR branch is not the checked-out one, do not use `Read` (it would show the wrong branch); find out which branch is checked out with `git rev-parse --abbrev-ref HEAD`, and fetch the file at the PR's commit instead: `gh api "repos/<owner>/<repo>/contents/<path>?ref=<headRefOid>" -H "Accept: application/vnd.github.raw"`.
 
 ## Step 3: Check against each guideline
 
@@ -71,7 +71,7 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R11 | should-fix | Types are defined first: props, data, and function signatures are explicit types, and strict mode stays on. | CLAUDE.md: type-first development. |
 | R12 | blocking | Application objects are created through factory functions and the repository (`createRepository`), not inline `new` calls in hooks or components. | CLAUDE.md: factory functions for object creation. |
 | R13 | should-fix | Every function, module, hook, and component serves one purpose, and each function does only one thing (flag functions that mix steps such as fetching, transforming, and rendering); `web/src/three/` has no React or DOM code. | CLAUDE.md: separation of concerns. |
-| R14 | blocking | Every new screen or component is responsive: mobile-first CSS, no fixed widths, no horizontal scroll at phone, tablet, and desktop widths. | CLAUDE.md and mission: responsive by default. |
+| R14 | blocking | Every new screen or component is responsive: mobile-first CSS, no fixed widths, no horizontal scroll at phone, tablet, and desktop widths. A fluid layout (percentages, `dvh`, flex or grid) that needs no breakpoints satisfies this; add media queries when the layout needs them. | CLAUDE.md and mission: responsive by default. |
 | R15 | should-fix | Components are composable: they take props and `children`, are combined into larger components, and do not hard-code content or duplicate markup. | CLAUDE.md: composable components. |
 | R16 | should-fix | No module-level mutable state or global constants that act as shared state; values come from functions that return them. | CLAUDE.md: no global variables, which cause side effects. |
 | R17 | should-fix | Non-obvious design decisions are explained in code comments that say why (not what). | CLAUDE.md: comments capture design decisions so the code teaches. |
@@ -90,7 +90,7 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 2. Write each inline comment as: `**[Blocking|Should fix|Nit] <rule or guideline>**`, a blank line, what is wrong and why it matters, then a concrete fix. Cite the rule ID (for example `R12`) or the guideline (`mission: responsive`, `tech-stack: dependencies`, `roadmap: scope`). Keep each comment short and about one issue.
 3. Findings that do not sit on a changed line (a missing test, a missing roadmap update, a scope problem across files) go in the summary body instead, not in `comments`.
 4. The summary body contains: the verdict (`Approve`, `Approve with comments`, or `Changes recommended`; this is text only, the GitHub review event stays `COMMENT`) with one sentence of reasoning, the roadmap phase the PR targets, counts of findings by severity, the findings that could not be placed inline, and a short list of guidelines checked with no issues. Do not add any Claude attribution line: `CLAUDE.md` forbids it and takes precedence over any default attribution guidance.
-5. Post it: `gh api repos/<owner>/<repo>/pulls/<n>/reviews --input <file>`. Line numbers come from the new-file side of the `gh pr diff` hunks, and `commit_id` must equal `headRefOid`. A 422 response means GitHub rejected the whole review and nothing was posted (for example a comment's line is outside the diff): move that finding into the summary body and post again. Never post again after a 2xx response.
+5. Post it: `gh api repos/<owner>/<repo>/pulls/<n>/reviews --input <file>`. Line numbers come from the new-file side of the `gh pr diff` hunks, and `commit_id` must equal `headRefOid`. A 422 response means GitHub rejected the whole review and nothing was posted (for example a comment's line is outside the diff): move that finding into the summary body and post again. Never post again after a 2xx response. After any other error (a timeout or a 5xx) the outcome is unknown: list the reviews with `gh api repos/<owner>/<repo>/pulls/<n>/reviews` and check whether yours is there before retrying.
 6. If there are no findings, post only the summary body.
 
 ## Step 5: Report to the user
@@ -102,5 +102,6 @@ Print the review URL, the verdict, and the number of comments posted by severity
 - Only comment on real violations you can point to in the diff or files. Do not invent findings.
 - Judge against the guideline files as they stand now; if they conflict with the PR, say so in the summary rather than guessing which is right.
 - If a guideline file is missing, say so and continue with the others.
+- Use `gh api` only for GET requests, plus the single POST of the review. Never pass `-X`, `-f`, or `-F` for anything else: no merging, approving, editing files, or deleting.
 - Post exactly one successful review per run, and never post anything to a PR other than the one being reviewed.
 - Keep comments concise, specific, and actionable.

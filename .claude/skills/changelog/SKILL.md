@@ -32,7 +32,7 @@ Keep `changelog.md` in the project root: one `## YYYY-MM-DD` heading per date, n
 
 1. Run `git status --short` and `git rev-parse --abbrev-ref HEAD`. If the tree is dirty, tell the user: uncommitted work will not appear.
 2. Check whether `changelog.md` exists.
-3. **No changelog:** run `git log --no-merges --reverse --date=short --pretty=format:'%ad|%H|%s'`, group by date, and read a commit's body with `git show -s --format=%b <hash>` only when its subject is unclear, and write a new `changelog.md` covering the whole history.
+3. **No changelog:** run `git log --no-merges --reverse --date=short --pretty=format:'%ad|%H|%s'`, group by date, and write a new `changelog.md` covering the whole history. Read a commit's body with `git show -s --format=%b <hash>` only when its subject is unclear.
 4. **Changelog exists:** read it and collect every hash already listed. Run the same `git log` and keep only commits whose full hash does not start with a listed hash. Add them under their date heading, creating the heading in the right place if it is missing and appending to it if it exists. Do not rewrite or reorder existing entries.
 5. If there is nothing new, say so and change nothing.
 6. Show the user the result: the output of `git diff -- changelog.md` if the file is tracked, otherwise the new file's contents.

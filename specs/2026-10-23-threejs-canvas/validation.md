@@ -21,7 +21,7 @@ The phase is done and can be merged when every item below passes.
 
 ## Structure and conventions
 - [x] `web/src/three/` holds plain TypeScript with no React imports and no page access.
-- [x] No module-level constants or mutable state, and no classes (including test helpers); application objects are created only through factories and the repository.
+- [x] No module-level constants or mutable state, and no classes (including test helpers); application objects are created only through factories and the repository. The one exception is the handle each test file keeps from `createMockThree()`, which `vi.mock` needs before imports run.
 - [x] `useThreeScene` only wires objects together; sizing, disposal, rotation, and clamping are separate functions in `three/`.
 - [x] `useThreeScene` lives in `web/src/hooks/`; `SceneCanvas` is in `components/organisms/`; `ScenePage` is in `pages/`.
 - [x] All components are functional; no class components.
@@ -30,6 +30,7 @@ The phase is done and can be merged when every item below passes.
 - [x] `"strict": true` is set explicitly in the tsconfig files.
 - [x] Design decisions are explained in code comments.
 - [x] `README.md` describes the new folders.
+- [x] The app shows a message, not a blank page, when WebGL is unavailable (covered by a test).
 
 ## Scope guard
 - [x] The only new dependencies in `web/package.json` are `three` and `@types/three`.
@@ -39,6 +40,6 @@ The phase is done and can be merged when every item below passes.
 
 ## Merge readiness
 - [ ] Work is on the feature branch (planned `phase-2-threejs-canvas`; currently `add-pr-review-skill`), with a clean `git status` after commit.
-- [ ] `/pr-review` has been run on the PR and its blocking findings are fixed.
-- [ ] `changelog.md` is updated, and `specs/roadmap.md` marks Phase 2 as done once every manual check above passes.
+- [ ] The PR is open, `/pr-review` has been run on it, and its blocking findings are fixed.
+- [ ] `changelog.md` is updated and committed last, and `specs/roadmap.md` marks Phase 2 as done once every manual check above passes.
 - [ ] A fresh clone passes the automated checks above.

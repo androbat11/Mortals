@@ -5,7 +5,7 @@ A React component renders a Three.js scene with a spinning cube, filling its con
 
 In scope:
 - `three` and `@types/three` added to `web/`.
-- Factory functions for every object the scene creates (scene, camera, cube, renderer, clock in `three/factories.ts`; the `ResizeObserver` factory in `hooks/browserFactories.ts`, because it is a browser API), and a generic `createRepository` function that creates those objects by key. `createSceneRepository` registers them. The hook creates all its objects through the repository, never with `new`.
+- Factory functions for every object the scene creates (scene, camera, cube, renderer, timer in `three/factories.ts`; the `ResizeObserver` factory in `hooks/browserFactories.ts`, because it is a browser API), and a generic `createRepository` function that creates those objects by key. `createSceneRepository` registers them. The hook creates all its objects through the repository, never with `new`.
 - Single-purpose helper functions in `three/` for sizing, pixel ratio, frame delta, disposal, and rotation, with no module-level state.
 - A `useThreeScene` hook that only wires the objects together: creation, the animation loop, resizing, and cleanup.
 - A `SceneCanvas` organism (composable through an optional `className`) and a `ScenePage` page, with `App` rendering the page.
@@ -28,6 +28,8 @@ Out of scope:
 - **Cleanup:** the hook must dispose of the renderer and, through `disposeScene`, every geometry, material (single or array), and texture, and remove its canvas on unmount, so React `StrictMode` double-mounting leaves no leaked canvases or loops.
 - **Pixel ratio:** capped at 2 (in `clampPixelRatio`) to keep rendering light on high-density phones, and re-applied on every resize so moving between monitors works.
 - **No globals:** no module-level constants or state. Values come from functions or default parameters (`createSceneRepository`, `clampDelta`'s maximum, `rotateCube`'s speed). Globals cause side effects and are shared by every importer.
+- **WebGL failure:** creating the renderer is wrapped in `tryCreate`; when WebGL is unavailable `SceneCanvas` shows a short message instead of the whole app going blank. On cleanup the WebGL context is released with `forceContextLoss`, because browsers limit live contexts and StrictMode or hot reload would otherwise exhaust them.
+- **Timer, not Clock:** `THREE.Clock` is deprecated in the pinned Three.js version, so the loop uses `THREE.Timer`.
 - **Frame delta:** clamped, so the cube does not jump when a hidden tab becomes visible again.
 - **TypeScript strict mode:** set explicitly in both tsconfig files, so the type-first rule does not depend on a compiler default.
 - **Bundle size:** the build warns that the JavaScript bundle is over 500 kB because Three.js is large. Accepted for now; code splitting and loading states belong to Phase 12 (Polish).
@@ -38,4 +40,4 @@ Out of scope:
 - `specs/tech-stack.md`: Vite, React with TypeScript, Three.js used directly, Vitest for validation, npm.
 - `specs/roadmap.md`: Phase 2 builds on the Phase 1 scaffold; Phase 3 adds controls, lights, and ground to this scene.
 - Repo state at start: Phase 1 and the Vitest setup are merged to `main`; `App` renders a placeholder "Mortals" div; `web/src/components/organisms/` and `web/src/pages/` hold only `.gitkeep`.
-- A deep review (three reviewers: correctness, guideline compliance, docs) led to the helper functions, `createSceneRepository`, stricter disposal, stronger tests, and explicit strict mode described above.
+- Two rounds of deep review (three reviewers each: correctness, guideline compliance, docs) led to the helper functions, `createSceneRepository`, stricter disposal, stronger tests, and explicit strict mode described above.

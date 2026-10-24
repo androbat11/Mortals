@@ -27,7 +27,7 @@ npm install
 npm run dev
 ```
 
-Other scripts: `npm test`, `npm run build`, `npm run lint`, `npm run preview`.
+Run every npm command inside `web/`; the root `package.json` has no scripts of its own. Other scripts: `npm test`, `npm run build`, `npm run lint`, `npm run preview`.
 
 ## Project Structure
 
