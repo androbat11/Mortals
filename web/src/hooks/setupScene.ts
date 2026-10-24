@@ -25,7 +25,7 @@ export function setupScene(
 
   try {
     const { width, height } = readContainerSize(container)
-    const { scene, camera, cube } = createSceneContents(
+    const { scene, camera, updaters } = createSceneContents(
       repository,
       width / height,
     )
@@ -54,9 +54,9 @@ export function setupScene(
       renderer,
       scene,
       camera,
-      cube,
       controls,
       timer: repository.create('timer'),
+      updaters,
     })
   } catch (error) {
     createSceneCleanup(parts)()

@@ -7,16 +7,16 @@ import {
 } from 'three'
 import { describe, expect, it, vi } from 'vitest'
 import { disposeScene } from './disposeScene'
-import { createCube } from '../objects/createCube'
+import { createGround } from '../objects/createGround'
 import { createSceneObject } from '../objects/createSceneObject'
 
 describe('disposeScene', () => {
   it('disposes the geometry and material of a mesh', () => {
     const scene = createSceneObject()
-    const cube = createCube()
-    scene.add(cube)
-    const geometry = vi.spyOn(cube.geometry, 'dispose')
-    const material = vi.spyOn(cube.material, 'dispose')
+    const ground = createGround()
+    scene.add(ground)
+    const geometry = vi.spyOn(ground.geometry, 'dispose')
+    const material = vi.spyOn(ground.material, 'dispose')
 
     disposeScene(scene)
 

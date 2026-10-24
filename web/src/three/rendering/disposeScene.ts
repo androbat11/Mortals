@@ -12,14 +12,15 @@ function disposeMaterial(material: Material) {
 // Design: WebGL memory is not garbage collected, so everything a scene created
 // must be disposed by hand. This lives in `three/` (not in the React hook)
 // because it is Three.js logic, and it is a function of its input, so it can be
-// tested without WebGL. A mesh may hold one material or an array of them (the
-// planned character will), and lines and points hold geometry too, so all of
+// tested without WebGL. A mesh may hold one material or an array of them, and lines and points hold geometry too, so all of
 // those cases are handled instead of only a single-material `Mesh`.
 //
-// Known limits, to extend when the character lands: textures held in
+// Known limits, to extend if the scene ever needs them: textures held in
 // `ShaderMaterial` uniforms, `InstancedMesh` buffers, and skeleton bone
 // textures are not disposed, and a texture shared by several materials is
-// disposed even if something else still uses it.
+// disposed even if something else still uses it. The character's three shared
+// materials are disposed once per mesh that uses them, which is harmless
+// because `Material.dispose` can be called repeatedly.
 export function disposeScene(scene: Object3D) {
   scene.traverse((object) => {
     if (

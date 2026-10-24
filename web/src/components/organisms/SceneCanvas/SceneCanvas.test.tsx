@@ -1,14 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import { StrictMode } from 'react'
-import {
-  BoxGeometry,
-  Mesh,
-  MeshStandardMaterial,
-  PlaneGeometry,
-  Scene,
-  Timer,
-} from 'three'
-import type { Object3D } from 'three'
+import { BoxGeometry, MeshStandardMaterial, PlaneGeometry } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { createControlLimits } from '../../../three/controls/controlLimits'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -49,30 +41,13 @@ describe('SceneCanvas', () => {
     )
   })
 
-  it('renders each frame and rotates the cube by the clamped delta', () => {
+  it('renders each frame from the animation loop', () => {
     stubResizeObserver()
-    let cube: Object3D | undefined
-    const add = Scene.prototype.add
-    vi.spyOn(Scene.prototype, 'add').mockImplementation(function (
-      this: Scene,
-      ...objects: Object3D[]
-    ) {
-      // `add` calls itself once per object, so only keep a match.
-      cube =
-        objects.find(
-          (object) =>
-            object instanceof Mesh && object.geometry instanceof BoxGeometry,
-        ) ?? cube
-      return add.apply(this, objects)
-    })
-    // A 5 second delta (a tab returning from the background) must be clamped.
-    vi.spyOn(Timer.prototype, 'getDelta').mockReturnValue(5)
     render(<SceneCanvas label="Test scene" />)
 
     getLoop()()
 
     expect(renderers[0].render).toHaveBeenCalledTimes(1)
-    expect(cube?.rotation.y).toBeCloseTo(0.1)
   })
 
   it('resizes the renderer from the container size and re-applies the capped pixel ratio', () => {
@@ -92,8 +67,8 @@ describe('SceneCanvas', () => {
 
   it('gives the 3D view an accessible name', () => {
     stubResizeObserver()
-    render(<SceneCanvas label="Spinning 3D cube" />)
-    expect(screen.getByRole('img', { name: 'Spinning 3D cube' })).toBeInTheDocument()
+    render(<SceneCanvas label="A low-poly fighter" />)
+    expect(screen.getByRole('img', { name: 'A low-poly fighter' })).toBeInTheDocument()
   })
 
   it('applies the control limits and updates the controls every frame', () => {
@@ -173,7 +148,8 @@ describe('SceneCanvas', () => {
     expect(screen.getByRole('alert')).toHaveTextContent('not available')
     expect(container.querySelector('canvas')).toBeNull()
     expect(controlsDispose).toHaveBeenCalledTimes(1)
-    expect(geometry).toHaveBeenCalledTimes(1)
+    // The character's 11 boxes were already created when the observer failed.
+    expect(geometry).toHaveBeenCalledTimes(11)
     expect(renderers[0].forceContextLoss).toHaveBeenCalledTimes(1)
     expect(renderers[0].dispose).toHaveBeenCalledTimes(1)
     expect(log).toHaveBeenCalled()
@@ -181,7 +157,7 @@ describe('SceneCanvas', () => {
 
   it('stops the loop, disconnects, disposes everything, releases the context and removes the canvas on unmount', () => {
     const { observers } = stubResizeObserver()
-    const cubeGeometry = vi.spyOn(BoxGeometry.prototype, 'dispose')
+    const partGeometry = vi.spyOn(BoxGeometry.prototype, 'dispose')
     const groundGeometry = vi.spyOn(PlaneGeometry.prototype, 'dispose')
     const material = vi.spyOn(MeshStandardMaterial.prototype, 'dispose')
     const controls = vi.spyOn(OrbitControls.prototype, 'dispose')
@@ -191,10 +167,11 @@ describe('SceneCanvas', () => {
 
     expect(renderers[0].setAnimationLoop).toHaveBeenLastCalledWith(null)
     expect(observers[0].disconnect).toHaveBeenCalledTimes(1)
-    // The cube and the ground each have one geometry and one material.
-    expect(cubeGeometry).toHaveBeenCalledTimes(1)
+    // The character is 11 boxes (sharing 3 materials) and the ground is one
+    // plane with its own material.
+    expect(partGeometry).toHaveBeenCalledTimes(11)
     expect(groundGeometry).toHaveBeenCalledTimes(1)
-    expect(material).toHaveBeenCalledTimes(2)
+    expect(material).toHaveBeenCalledTimes(12)
     expect(controls).toHaveBeenCalledTimes(1)
     expect(renderers[0].forceContextLoss).toHaveBeenCalledTimes(1)
     expect(renderers[0].dispose).toHaveBeenCalledTimes(1)

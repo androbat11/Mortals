@@ -1,7 +1,6 @@
 import {
   AmbientLight,
   Box3,
-  BoxGeometry,
   Color,
   DirectionalLight,
   Fog,
@@ -15,14 +14,12 @@ import { createSceneContents } from './createSceneContents'
 import { createSceneRepository } from './createSceneRepository'
 
 describe('createSceneContents', () => {
-  it('adds the cube, the ground, and both lights to the scene', () => {
-    const { scene, cube } = createSceneContents(createSceneRepository(), 1.5)
+  it('adds the character, the ground, and both lights to the scene', () => {
+    const { scene, character } = createSceneContents(createSceneRepository(), 1.5)
     const meshes = scene.children.filter((child) => child instanceof Mesh)
 
-    expect(scene.children).toContain(cube)
-    expect(meshes.map((mesh) => mesh.geometry.constructor)).toEqual(
-      expect.arrayContaining([BoxGeometry, PlaneGeometry]),
-    )
+    expect(scene.children).toContain(character.root)
+    expect(meshes.map((mesh) => mesh.geometry.constructor)).toEqual([PlaneGeometry])
     expect(scene.children.some((c) => c instanceof AmbientLight)).toBe(true)
     expect(scene.children.some((c) => c instanceof DirectionalLight)).toBe(true)
   })
@@ -46,6 +43,22 @@ describe('createSceneContents', () => {
     const { maxDistance } = createControlLimits()
 
     expect(halfSize - maxDistance).toBeGreaterThanOrEqual(far)
+  })
+
+  it('returns a list of frame updaters for the render loop', () => {
+    const { updaters } = createSceneContents(createSceneRepository(), 1)
+    expect(Array.isArray(updaters)).toBe(true)
+  })
+
+  it('has no cube left in the scene', () => {
+    const { scene } = createSceneContents(createSceneRepository(), 1)
+    let boxesOutsideTheCharacter = 0
+    scene.children.forEach((child) => {
+      if (child instanceof Mesh && child.geometry.type === 'BoxGeometry') {
+        boxesOutsideTheCharacter += 1
+      }
+    })
+    expect(boxesOutsideTheCharacter).toBe(0)
   })
 
   it('creates a camera with the given aspect ratio', () => {

@@ -12,7 +12,7 @@ export type ControlLimits = Pick<
 // state is shared between importers. They suit casual fans on a phone (mission:
 // simple, low friction):
 // - pan is off, so a two-finger drag cannot push the scene out of view;
-// - zoom is clamped, so the cube can neither vanish nor fill the screen;
+// - zoom is clamped, so the character can neither vanish nor fill the screen;
 // - the vertical angle stops just above the horizon, so the camera can never
 //   go under the ground plane;
 // - damping makes the motion feel smooth (it needs `controls.update()` every

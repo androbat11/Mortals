@@ -1,4 +1,4 @@
-import { Object3D, Scene } from 'three'
+import { Scene } from 'three'
 import { describe, expect, it, vi } from 'vitest'
 import { createCamera } from '../objects/createCamera'
 import { startRenderLoop } from './startRenderLoop'
@@ -9,8 +9,8 @@ function createTargets(delta = 0.5) {
   const timer = { update: vi.fn(), getDelta: vi.fn(() => delta) }
   const scene = new Scene()
   const camera = createCamera(1)
-  const cube = new Object3D()
-  return { renderer, controls, timer, scene, camera, cube }
+  const updaters = [vi.fn(), vi.fn()]
+  return { renderer, controls, timer, scene, camera, updaters }
 }
 
 function getFrame(renderer: { setAnimationLoop: ReturnType<typeof vi.fn> }) {
@@ -27,7 +27,7 @@ describe('startRenderLoop', () => {
     expect(targets.renderer.render).not.toHaveBeenCalled()
   })
 
-  it('each frame updates timer and controls, rotates the cube, and renders', () => {
+  it('each frame updates timer and controls, runs the updaters, and renders', () => {
     const targets = createTargets(0.05)
     startRenderLoop(targets)
 
@@ -35,14 +35,16 @@ describe('startRenderLoop', () => {
 
     expect(targets.timer.update).toHaveBeenCalledTimes(1)
     expect(targets.controls.update).toHaveBeenCalledTimes(1)
-    expect(targets.cube.rotation.y).toBeCloseTo(0.05)
+    targets.updaters.forEach((update) =>
+      expect(update).toHaveBeenCalledWith(0.05),
+    )
     expect(targets.renderer.render).toHaveBeenCalledWith(
       targets.scene,
       targets.camera,
     )
   })
 
-  it('runs each frame in order: timer, controls, then render', () => {
+  it('runs each frame in order: timer, controls, updaters, then render', () => {
     const calls: string[] = []
     const targets = createTargets()
     targets.timer.update.mockImplementation(() => void calls.push('timer.update'))
@@ -53,6 +55,8 @@ describe('startRenderLoop', () => {
     targets.controls.update.mockImplementation(
       () => void calls.push('controls.update'),
     )
+    targets.updaters[0].mockImplementation(() => void calls.push('updater 1'))
+    targets.updaters[1].mockImplementation(() => void calls.push('updater 2'))
     targets.renderer.render.mockImplementation(() => void calls.push('render'))
     startRenderLoop(targets)
 
@@ -62,30 +66,30 @@ describe('startRenderLoop', () => {
       'timer.update',
       'controls.update',
       'timer.getDelta',
+      'updater 1',
+      'updater 2',
       'render',
     ])
   })
 
-  it('rotates the cube before rendering it', () => {
-    const targets = createTargets(0.05)
-    let rotationAtRender = 0
-    targets.renderer.render.mockImplementation(() => {
-      rotationAtRender = targets.cube.rotation.y
-    })
-    startRenderLoop(targets)
-
-    getFrame(targets.renderer)()
-
-    expect(rotationAtRender).toBeCloseTo(0.05)
-  })
-
-  it('clamps a long frame delta', () => {
+  it('clamps a long frame delta before passing it to the updaters', () => {
     const targets = createTargets(5)
     startRenderLoop(targets)
 
     getFrame(targets.renderer)()
 
-    expect(targets.cube.rotation.y).toBeCloseTo(0.1)
+    targets.updaters.forEach((update) =>
+      expect(update).toHaveBeenCalledWith(0.1),
+    )
+  })
+
+  it('works with no updaters', () => {
+    const targets = { ...createTargets(), updaters: [] }
+    startRenderLoop(targets)
+
+    getFrame(targets.renderer)()
+
+    expect(targets.renderer.render).toHaveBeenCalledTimes(1)
   })
 
   it('returns a function that stops the loop', () => {
