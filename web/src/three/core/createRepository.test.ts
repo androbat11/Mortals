@@ -2,6 +2,11 @@ import { describe, expect, it, vi } from 'vitest'
 import { createRepository } from './createRepository'
 
 describe('createRepository', () => {
+  it('lists its keys', () => {
+    const repository = createRepository({ a: () => 1, b: () => 2 })
+    expect(repository.keys()).toEqual(['a', 'b'])
+  })
+
   it('creates an object by key using its factory', () => {
     const repository = createRepository({ greeting: () => 'hello' })
     expect(repository.create('greeting')).toBe('hello')

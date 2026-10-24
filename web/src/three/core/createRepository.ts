@@ -20,5 +20,11 @@ export function createRepository<F extends Factories>(factories: F) {
       // is kept here, once, instead of being spread across callers.
       return factories[key](...args) as ReturnType<F[K]>
     },
+    // The registered keys, so a list of everything comes from the registry
+    // itself and cannot drift from it. `Object.keys` loses the key type, so
+    // the cast is kept here, once.
+    keys() {
+      return Object.keys(factories) as (keyof F)[]
+    },
   }
 }

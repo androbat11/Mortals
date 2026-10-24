@@ -1,7 +1,7 @@
-import FatalityPage from './pages/FatalityPage'
+import AppRoutes from './pages/AppRoutes'
 
 function App() {
-  return <FatalityPage fatalityId="sample-uppercut" />
+  return <AppRoutes />
 }
 
 export default App

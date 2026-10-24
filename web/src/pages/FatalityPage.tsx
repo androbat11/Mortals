@@ -3,6 +3,8 @@ import FatalityDetails from '../components/organisms/FatalityDetails/FatalityDet
 import FatalityPageTemplate from '../components/templates/FatalityPageTemplate/FatalityPageTemplate'
 import type { FatalityId } from '../data/fatality'
 import PlaybackControls from '../components/molecules/PlaybackControls/PlaybackControls'
+import BackLink from '../components/atoms/BackLink/BackLink'
+import { listHref } from '../routing/hrefs'
 import { useFatality } from '../hooks/useFatality'
 import { usePlayback } from '../hooks/usePlayback'
 
@@ -35,7 +37,12 @@ function FatalityPage({ fatalityId }: FatalityPageProps) {
           onReplay={replay}
         />
       }
-      details={<FatalityDetails fatality={fatality} />}
+      details={
+        <>
+          <BackLink href={listHref()}>All fatalities</BackLink>
+          <FatalityDetails fatality={fatality} />
+        </>
+      }
     />
   )
 }
