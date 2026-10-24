@@ -49,6 +49,7 @@ Three.js code is split out of the components:
   - `core/`: generic tools (`createRepository`, `tryCreate`).
 - `web/src/hooks/`: `useThreeScene`, a thin hook that creates the renderer and reports whether it failed; `setupScene`, which assembles the scene around it and undoes a half-finished setup if a step throws; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
+- `web/src/data/`: the fatality content, kept apart from the 3D code and the UI. `fatality.ts` defines the typed `Fatality` (id, name, game, description, non-empty tutorial steps, and the `animationId` of the animation that plays), `fatalities/` holds one factory per entry (today a clearly-labelled sample, not a real fatality), and `createFatalityRepository` plus `createFatality(id)` look an entry up by id. To add a fatality: add its id to `FatalityId`, write its factory, and add one line to the repository; the compiler reports whichever step is missing.
 - `web/src/pages/ScenePage.tsx`: the page `App` renders; the canvas fills the viewport.
 
 ## Testing
