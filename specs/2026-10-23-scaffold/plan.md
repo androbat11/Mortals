@@ -12,7 +12,7 @@
 
 ## 3. Atomic design structure
 1. Create `web/src/components/{atoms,molecules,organisms,templates}/` and `web/src/pages/`, each with a `.gitkeep`.
-2. Write `App` as a small functional component that renders an empty page (no content).
+2. Write `App` as a small functional component that renders a single `<div>` with the text "Mortals" (never `null`).
 3. Keep `main.tsx` limited to mounting `App` in `StrictMode`.
 
 ## 4. Scripts and checks

@@ -10,10 +10,10 @@ The phase is done and can be merged when every item below passes.
 
 ## Manual checks
 - [ ] `npm run dev` starts and the page loads at the printed URL.
-- [ ] The page is visually blank: no Vite logo, React logo, counter, or demo text.
+- [ ] The page shows only a single div with the text "Mortals": no Vite logo, React logo, counter, or demo text.
 - [ ] The browser console shows no errors or warnings.
 - [ ] The browser tab title is "Mortals".
-- [ ] The DOM contains the mounted root element with no visible children.
+- [ ] The DOM contains the mounted root element with a single child div containing "Mortals".
 
 ## Structure and conventions
 - [ ] `web/src/components/` contains `atoms/`, `molecules/`, `organisms/`, `templates/`; `web/src/pages/` exists.

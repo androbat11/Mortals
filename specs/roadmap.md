@@ -2,7 +2,7 @@
 
 Each phase is small and independently verifiable. Finish and verify one before starting the next.
 
-1. **Scaffold:** Vite + React + TypeScript project runs and shows a blank page.
+1. **Scaffold:** Vite + React + TypeScript project runs and shows a minimal page.
 2. **Three.js canvas:** A React component renders a Three.js scene with a spinning cube.
 3. **Camera and lighting:** Add orbit controls, lights, and a ground plane.
 4. **Low-poly character:** Build one procedural low-poly character in the scene.
