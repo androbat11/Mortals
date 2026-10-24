@@ -29,6 +29,7 @@ The work can be merged when every item below passes.
 - [x] No classes, and `any` is not used; types are defined before the code that uses them.
 - [x] `useThreeScene` stays thin wiring; each piece of logic is a separate single-purpose function.
 - [x] The scene's accessible `label` describes what is shown, and the `img` role is not applied around the WebGL-failure message.
+- [x] The app shows a message, not a blank page, when WebGL is unavailable or a later setup step fails, and a half-finished setup is undone with no leaks (covered by tests).
 - [x] Design decisions are explained in code comments.
 - [x] `README.md` describes the new files.
 
