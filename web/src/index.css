@@ -1,19 +1,12 @@
-/* Design: mobile-first with no fixed widths. Everything is sized in percentages
-   and viewport units, so the same CSS fits phone, tablet, and desktop, and no
-   media query is needed yet. Phase 12 adds styling on top of this. */
 html,
 body,
 #root {
   margin: 0;
   width: 100%;
   height: 100%;
-  /* The canvas fills the screen exactly, so hiding overflow prevents
-     scrollbars and horizontal scroll. */
   overflow: hidden;
 }
 
-/* `dvh` follows the visible height on mobile browsers, where plain `vh`
-   includes the area behind the collapsing address bar and would overflow. */
 .scene-page {
   width: 100%;
   height: 100dvh;
@@ -24,8 +17,6 @@ body,
   height: 100%;
 }
 
-/* A canvas is inline by default and leaves a few pixels of space below it,
-   which would cause a scrollbar. */
 .scene-canvas canvas {
   display: block;
 }

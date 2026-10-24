@@ -3,10 +3,6 @@ import { Mesh } from 'three'
 import { rotateCube } from '../three/rotateCube'
 import { sceneRepository } from './sceneRepository'
 
-// Design: separation of UI and logic. All the imperative Three.js work (setup,
-// animation loop, resizing, cleanup) lives in this hook, so `SceneCanvas` only
-// renders a container. The hook takes a ref instead of creating the container,
-// so any component can host the scene.
 export function useThreeScene(containerRef: RefObject<HTMLDivElement | null>) {
   useEffect(() => {
     const container = containerRef.current
@@ -17,7 +13,6 @@ export function useThreeScene(containerRef: RefObject<HTMLDivElement | null>) {
     const width = container.clientWidth || 1
     const height = container.clientHeight || 1
 
-    // Every object comes from the repository, never from an inline `new`.
     const scene = sceneRepository.create('scene')
     const camera = sceneRepository.create('camera', width / height)
     const cube = sceneRepository.create('cube')
