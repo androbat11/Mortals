@@ -5,6 +5,7 @@ Create a Vite + React + TypeScript project that runs and shows a minimal page. N
 
 In scope:
 - Vite react-ts app in a subdirectory (`web/`), with its own `package.json` and npm lockfile.
+- Responsive foundation: `index.html` keeps the viewport meta tag, and `App` introduces no fixed widths or horizontal overflow, so later screens inherit a responsive base.
 - Functional components only (no class components); small, single-purpose components.
 - Atomic design folder structure under `web/src/components/` so later phases have a home: `atoms/`, `molecules/`, `organisms/`, `templates/`, plus `pages/`.
 - `App` renders a single `<div>` with the text "Mortals": no Vite or React demo content, no logo, no counter, no default CSS.
