@@ -1,8 +1,15 @@
 import type { Object3D } from 'three'
 
-const SPEED = 1
+type RotationConfig = {
+  speed: number
+}
+
+function createRotationConfig(): RotationConfig {
+  return { speed: 1 }
+}
 
 export function rotateCube(cube: Object3D, deltaSeconds: number) {
-  cube.rotation.x += SPEED * deltaSeconds
-  cube.rotation.y += SPEED * deltaSeconds
+  const { speed } = createRotationConfig()
+  cube.rotation.x += speed * deltaSeconds
+  cube.rotation.y += speed * deltaSeconds
 }
