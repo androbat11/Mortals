@@ -28,7 +28,7 @@
 
 ### Module layout
 1. When `factories.ts` grew, split it: one factory per file under `web/src/three/{objects,rendering,controls,animation,core}/` (done in commit `9c9a7e4`).
-2. Extract the per-frame work to `startRenderLoop`, the control setup to `createSceneControls`, and the cleanup to `createSceneCleanup`, so `useThreeScene` stays under about 70 lines of wiring.
+2. Extract the per-frame work to `startRenderLoop`, the control setup to `createSceneControls`, the cleanup to `createSceneCleanup`, and the assembly (with failure handling) to `setupScene`, so `useThreeScene` stays a thin hook.
 
 ## 5. Hook wiring
 1. Extract `createSceneContents`, which creates and adds the cube, ground, and lights, so `useThreeScene` stays thin wiring.

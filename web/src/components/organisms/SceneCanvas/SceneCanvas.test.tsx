@@ -125,6 +125,7 @@ describe('SceneCanvas', () => {
 
   it('shows a message instead of crashing when the renderer cannot be created', () => {
     const { observers } = stubResizeObserver()
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
     // Make the next `new WebGLRenderer()` throw, as it does without WebGL.
     mockThree.failNextRenderer()
 
@@ -135,6 +136,30 @@ describe('SceneCanvas', () => {
     expect(screen.queryByRole('img')).toBeNull()
     expect(container.querySelector('canvas')).toBeNull()
     expect(observers).toHaveLength(0)
+    expect(log).toHaveBeenCalled()
+  })
+
+  it('undoes a half-finished setup and shows the message when a later step fails', () => {
+    const log = vi.spyOn(console, 'error').mockImplementation(() => {})
+    const controlsDispose = vi.spyOn(OrbitControls.prototype, 'dispose')
+    const geometry = vi.spyOn(BoxGeometry.prototype, 'dispose')
+    // The controls are created before the resize observer, so this fails late.
+    vi.stubGlobal(
+      'ResizeObserver',
+      vi.fn(function () {
+        throw new Error('ResizeObserver is not supported')
+      }),
+    )
+
+    const { container } = render(<SceneCanvas label="Test scene" />)
+
+    expect(screen.getByRole('alert')).toHaveTextContent('not available')
+    expect(container.querySelector('canvas')).toBeNull()
+    expect(controlsDispose).toHaveBeenCalledTimes(1)
+    expect(geometry).toHaveBeenCalledTimes(1)
+    expect(renderers[0].forceContextLoss).toHaveBeenCalledTimes(1)
+    expect(renderers[0].dispose).toHaveBeenCalledTimes(1)
+    expect(log).toHaveBeenCalled()
   })
 
   it('stops the loop, disconnects, disposes everything, releases the context and removes the canvas on unmount', () => {

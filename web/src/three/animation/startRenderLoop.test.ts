@@ -66,6 +66,19 @@ describe('startRenderLoop', () => {
     ])
   })
 
+  it('rotates the cube before rendering it', () => {
+    const targets = createTargets(0.05)
+    let rotationAtRender = 0
+    targets.renderer.render.mockImplementation(() => {
+      rotationAtRender = targets.cube.rotation.y
+    })
+    startRenderLoop(targets)
+
+    getFrame(targets.renderer)()
+
+    expect(rotationAtRender).toBeCloseTo(0.05)
+  })
+
   it('clamps a long frame delta', () => {
     const targets = createTargets(5)
     startRenderLoop(targets)

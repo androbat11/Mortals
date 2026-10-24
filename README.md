@@ -47,7 +47,7 @@ Three.js code is split out of the components:
   - `controls/`: `createOrbitControls` and the control settings (`controlLimits`).
   - `animation/`: `rotateCube` and `startRenderLoop`.
   - `core/`: generic tools (`createRepository`, `tryCreate`).
-- `web/src/hooks/`: `useThreeScene`, which wires the objects together, starts the animation loop, and cleans up; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
+- `web/src/hooks/`: `useThreeScene`, a thin hook that creates the renderer and reports whether it failed; `setupScene`, which assembles the scene around it and undoes a half-finished setup if a step throws; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
 - `web/src/pages/ScenePage.tsx`: the page `App` renders; the canvas fills the viewport.
 

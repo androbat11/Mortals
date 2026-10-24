@@ -3,14 +3,16 @@ import type { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { disposeScene } from '../three/rendering/disposeScene'
 
 type CleanupTargets = {
-  stopLoop: () => void
-  observer: Pick<ResizeObserver, 'disconnect'>
-  controls: Pick<OrbitControls, 'dispose'>
-  scene: Object3D
+  stopLoop?: () => void
+  observer?: Pick<ResizeObserver, 'disconnect'>
+  controls?: Pick<OrbitControls, 'dispose'>
+  scene?: Object3D
   renderer: Pick<WebGLRenderer, 'forceContextLoss' | 'dispose' | 'domElement'>
 }
 
-// Design: undoing what the scene setup created is one job. The order matters:
+// Design: undoing what the scene setup created is one job. Every part except
+// the renderer is optional, so the same function also undoes a setup that failed
+// half way (`setupScene`). The order matters:
 // stop the loop first so nothing renders while resources are freed, remove the
 // listeners (observer and controls) while the canvas is still in the page, free
 // the GPU objects, then release the WebGL context and remove the canvas.
@@ -27,10 +29,10 @@ export function createSceneCleanup({
   renderer,
 }: CleanupTargets) {
   return () => {
-    stopLoop()
-    observer.disconnect()
-    controls.dispose()
-    disposeScene(scene)
+    stopLoop?.()
+    observer?.disconnect()
+    controls?.dispose()
+    if (scene) disposeScene(scene)
     renderer.forceContextLoss()
     renderer.dispose()
     renderer.domElement.remove()
