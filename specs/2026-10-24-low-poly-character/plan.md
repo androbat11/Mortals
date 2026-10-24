@@ -21,20 +21,21 @@
 
 ## 5. Character factories (`web/src/three/objects/character/`)
 1. Create `createCharacterPalette()`, a function that returns the colours (skin, outfit, accent). No module-level constants.
-2. Create `createBodyPart(size, color)`, a flat-shaded box mesh whose origin is at its top, so it hangs from its joint.
-3. Create `createJoint(position)`, a group that marks a pivot the animation will rotate.
-4. Create `createCharacter()`, which assembles the head, torso, pelvis, two upper arms, two forearms, two upper legs, and two lower legs under named joints, standing with its feet on the ground at y = 0, and returns the `CharacterRig`.
-5. Keep each file one purpose and under about 100 lines. Comment the design decisions (why a top origin, why named joints, why flat shading).
+2. Create `createCharacterDimensions()` (all measurements, in one function) and `createBodyMaterial(color)` (a flat-shaded material, one per colour, shared by many parts).
+3. Create `createBodyPart(size, material)`, a box mesh whose origin is at its top, so it hangs from its joint.
+4. Create `createJoint(position)`, a group that marks a pivot the animation will rotate, and `createLimb(...)`, which builds an arm or a leg (an upper part, a child joint, and a lower part), so the four limbs are mirrored by construction.
+5. Create `createCharacter()`, which assembles the head, torso, pelvis, and the four limbs under named joints, standing with its feet on the ground at y = 0, and returns the `CharacterRig`.
+6. Keep each file one purpose and under about 100 lines. Comment the design decisions (why a top origin, why named joints, why flat shading).
 
 ## 6. Put the character in the scene
 1. Register `character` in `createSceneRepository`, and have `createSceneContents` add the character instead of the cube.
 2. Delete the cube: `createCube`, `rotateCube`, their tests, and the `cube` repository key.
-3. Frame the character: aim the camera and the orbit controls at the character's chest height instead of the ground origin, through a factory (no inline `new Vector3`), and check the zoom limits still frame a full-height character.
+3. Frame the character: `createViewTarget()` (a factory) gives the character's chest height, and both the camera and the orbit controls aim at it instead of the ground origin. A test checks the closest zoom still frames a full-height character.
 4. Update `ScenePage`'s `label` to describe the character.
 
 ## 7. Tests (Vitest, feature logic only)
 1. Test `createCharacterPalette`, `createBodyPart` (origin at the top, flat shading), and `createJoint`.
-2. Test `createCharacter`: all joint names exist, left and right parts mirror each other, the feet rest on the ground, the height is about 1.8, and the character is built from original procedural geometry only.
+2. Test `createCharacter`: all joint names exist, elbows and knees hang from their limbs, left and right mirror each other, the feet rest on the ground, the height is about 1.8, the character is centred, it is 11 boxes sharing 3 flat-shaded materials, and rotating a shoulder swings the whole arm. Also test `createLimb` and `createViewTarget`.
 3. Test the generic loop: updaters run in order each frame and the clamped delta is passed to them.
 4. Test `createSceneContents`: the scene holds the character, ground, lights, background, and fog, and no cube.
 5. Update the `SceneCanvas` disposal tests for the character's geometries and shared materials.

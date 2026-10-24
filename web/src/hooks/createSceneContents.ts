@@ -1,9 +1,8 @@
 import type { FrameUpdater } from '../three/animation/frameUpdater'
-import { rotateCube } from '../three/animation/rotateCube'
 import type { SceneRepository } from './createSceneRepository'
 
-// Design: building the scene's contents (objects, lights, and the background
-// and fog that frame them) is one job, separate from wiring the
+// Design: building the scene's contents (the character, the ground, the lights,
+// and the background and fog that frame them) is one job, separate from wiring the
 // renderer, loop and cleanup. Keeping it here means a later phase adds the
 // character in one place and `useThreeScene` stays thin. The repository is
 // passed in (not created here) so a test can supply its own.
@@ -15,10 +14,10 @@ export function createSceneContents(
   scene.background = repository.create('background')
   scene.fog = repository.create('fog')
   const camera = repository.create('camera', aspect)
-  const cube = repository.create('cube')
+  const character = repository.create('character')
 
   scene.add(
-    cube,
+    character.root,
     repository.create('ground'),
     repository.create('ambientLight'),
     repository.create('directionalLight'),
@@ -26,7 +25,9 @@ export function createSceneContents(
 
   // Everything that changes over time is a frame updater, so the render loop
   // does not know what is in the scene.
-  const updaters: FrameUpdater[] = [(delta) => rotateCube(cube, delta)]
+  // The character stands still in Phase 4, so there is nothing to update yet;
+  // Phase 5 adds its animation to this list.
+  const updaters: FrameUpdater[] = []
 
-  return { scene, camera, updaters }
+  return { scene, camera, character, updaters }
 }

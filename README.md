@@ -42,10 +42,10 @@ The app lives in `web/` and follows atomic design with functional components onl
 Three.js code is split out of the components:
 
 - `web/src/three/`: plain TypeScript with no React and no page access, organised by what each module does, in the spirit of atomic design (small single-purpose pieces that compose upward). One factory per file:
-  - `objects/`: the things in the scene (`createCube`, `createGround`, `createCamera`, the lights, `createSceneObject`).
+  - `objects/`: the things in the scene (`createGround`, `createCamera`, `createViewTarget`, the lights, the background and fog, `createSceneObject`), and `objects/character/`, the procedural low-poly character: small factories for the palette, measurements, materials, body parts, joints and limbs, assembled by `createCharacter` into a typed rig with nine named joints.
   - `rendering/`: the renderer, timer and per-frame helpers (`createRenderer`, `applySize`, `disposeScene`, `clampDelta`, `clampPixelRatio`, `toSafeSize`).
   - `controls/`: `createOrbitControls` and the control settings (`controlLimits`).
-  - `animation/`: `rotateCube` and `startRenderLoop`.
+  - `animation/`: `startRenderLoop`, which runs a list of per-frame updaters (`FrameUpdater`) and renders, so animation is one more entry in the list.
   - `core/`: generic tools (`createRepository`, `tryCreate`).
 - `web/src/hooks/`: `useThreeScene`, a thin hook that creates the renderer and reports whether it failed; `setupScene`, which assembles the scene around it and undoes a half-finished setup if a step throws; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.

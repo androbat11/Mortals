@@ -26,9 +26,10 @@ Out of scope:
 - **Body part origin:** each part's origin is at its top, so it hangs from its joint and rotates around it.
 - **Module layout:** the character lives in `web/src/three/objects/character/`, one factory per file, so `objects/` does not grow into one flat folder.
 - **Cube and pose:** the cube, its spin, and its tests are deleted. The character stands in a neutral pose on the ground. Animation arrives in Phase 5.
-- **Framing:** the camera and the orbit controls aim at the character's chest height, through a factory, and the control limits keep a full-height character in view.
+- **Framing:** the camera and the orbit controls aim at the character's chest height (`createViewTarget`, a factory shared by both), and the control limits keep a full-height character in view (a test checks the closest zoom).
+- **Body plan:** 11 boxes: head, torso, pelvis, two upper arms, two forearms, two upper legs, two lower legs, 1.8 tall. Measurements live in `createCharacterDimensions()`, and arms and legs are built by one `createLimb` function so they mirror by construction. The character faces +z; its left is +x.
 - **Palette:** colours come from `createCharacterPalette()`, a function, not module-level constants.
-- **Shared materials:** body parts share a few materials. `disposeScene` already disposes materials that are shared; disposing one twice is harmless, and a test confirms it.
+- **Shared materials:** body parts share three flat-shaded materials (one per palette colour). `disposeScene` already disposes materials that are shared; disposing one twice is harmless, and a test confirms it.
 - **Accessible name:** `ScenePage` gives the scene a `label` that describes the character, since the 3D view is the main content.
 - **Branch:** `phase-4-low-poly-character`, created from the updated `main` once the closeout PR is merged.
 - **Spec filenames:** `plan.md`, `requirements.md`, `validation.md`, matching earlier specs.

@@ -27,6 +27,14 @@ describe('createControlLimits', () => {
     expect(polarAngle).toBeLessThanOrEqual(maxPolarAngle)
   })
 
+  it('keeps a full-height character in view at the closest zoom', () => {
+    const { minDistance } = createControlLimits()
+    const { fov } = createCamera(1)
+    const visibleHeight = 2 * minDistance * Math.tan((fov / 2) * (Math.PI / 180))
+
+    expect(visibleHeight).toBeGreaterThan(1.8)
+  })
+
   it('returns a new object each time', () => {
     expect(createControlLimits()).not.toBe(createControlLimits())
   })
