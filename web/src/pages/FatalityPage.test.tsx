@@ -38,14 +38,20 @@ describe('FatalityPage', () => {
     )
   })
 
-  it('shows the animation next to it, named after the entry', () => {
+  it('shows a loading message first, then the animation, named after the entry', async () => {
     const { container } = render(<FatalityPage fatalityId="sample-uppercut" />)
+    expect(screen.getByRole('status')).toHaveTextContent('Loading the 3D view')
 
     expect(
-      screen.getByRole('img', { name: new RegExp(fatality.name) }),
+      await screen.findByRole('img', { name: new RegExp(fatality.name) }),
     ).toBeInTheDocument()
     expect(container.querySelectorAll('canvas')).toHaveLength(1)
     expect(mockThree.renderers).toHaveLength(1)
+  })
+
+  it('sets the page title to the fatality name', () => {
+    render(<FatalityPage fatalityId="sample-uppercut" />)
+    expect(document.title).toBe(`${fatality.name} - Mortals`)
   })
 
   it('is a single main landmark', () => {
@@ -53,8 +59,9 @@ describe('FatalityPage', () => {
     expect(screen.getAllByRole('main')).toHaveLength(1)
   })
 
-  it('pauses and resumes from the buttons without rebuilding the scene', () => {
+  it('pauses and resumes from the buttons without rebuilding the scene', async () => {
     render(<FatalityPage fatalityId="sample-uppercut" />)
+    await screen.findByRole('img', { name: new RegExp(fatality.name) })
     expect(mockThree.renderers).toHaveLength(1)
 
     fireEvent.click(screen.getByRole('button', { name: 'Pause' }))

@@ -11,6 +11,24 @@
   background: var(--color-background);
 }
 
+/* One focus ring for every interactive element, so keyboard users can always see
+   where they are. */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Gentle colour transitions, only for users who have not asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button {
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+}
+
 html,
 body {
   margin: 0;

@@ -36,7 +36,7 @@ describe('AppRoutes', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Sample Uppercut' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Back to/ })).toHaveAttribute(
+    expect(screen.getByRole('link', { name: /Back to the list/ })).toHaveAttribute(
       'href',
       '#/?game=Sample%20game%20(placeholder)',
     )

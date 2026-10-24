@@ -3,7 +3,7 @@ import type { AnimationId } from '../../../three/animation/animationTypes'
 import type { PlaybackControl } from '../../../three/animation/playbackControl'
 import { useThreeScene } from '../../../hooks/useThreeScene'
 
-type SceneCanvasProps = {
+export type SceneCanvasProps = {
   label: string
   animationId: AnimationId
   playback: PlaybackControl

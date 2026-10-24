@@ -1,6 +1,7 @@
 import FatalityList from '../components/organisms/FatalityList/FatalityList'
 import GameFilter from '../components/molecules/GameFilter/GameFilter'
 import ListPageTemplate from '../components/templates/ListPageTemplate/ListPageTemplate'
+import { useDocumentTitle } from '../hooks/useDocumentTitle'
 import { useFatalityList } from '../hooks/useFatalityList'
 import { fatalityHref, listHref } from '../routing/hrefs'
 
@@ -15,6 +16,7 @@ type FatalityListPageProps = {
 // is the page's one `h1`; the cards use `h2`.
 function FatalityListPage({ game }: FatalityListPageProps) {
   const { games, fatalities } = useFatalityList(game)
+  useDocumentTitle('Mortals')
   const count = `${fatalities.length} ${fatalities.length === 1 ? 'fatality' : 'fatalities'}`
 
   return (

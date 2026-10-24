@@ -5,7 +5,7 @@
 2. Run `npm test`, `npm run lint`, and `npm run build` in `web/` and note the bundle sizes: Three.js makes the build warn about one large chunk.
 
 ## 2. Loading states
-1. Load the 3D scene lazily: the list page no longer downloads Three.js, and the fatality page shows a loading message until the scene code arrives. The lazy component is created by a factory in a hook (no module-level state).
+1. Load the 3D scene lazily: the list page no longer downloads Three.js, and the fatality page shows a loading message until the scene code arrives. The lazy component is defined once at module level, which React requires (see `requirements.md`).
 2. Atom `LoadingIndicator`: a polite status message.
 3. If the scene code cannot be loaded (offline, a failed download), show a short error message instead of a blank scene. This uses a function component, because the project allows no class components for an error boundary.
 
