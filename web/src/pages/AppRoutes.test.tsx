@@ -36,7 +36,18 @@ describe('AppRoutes', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: 'Sample Uppercut' }),
     ).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /All fatalities/ })).toHaveAttribute('href', '#/')
+    expect(screen.getByRole('link', { name: /Back to/ })).toHaveAttribute(
+      'href',
+      '#/?game=Sample%20game%20(placeholder)',
+    )
+  })
+
+  it('shows the filtered list for an address with a game', () => {
+    window.location.hash = '#/?game=Second%20sample%20game%20(placeholder)'
+    render(<AppRoutes />)
+
+    expect(screen.getByRole('status')).toHaveTextContent('1 fatality in Second sample game')
+    expect(screen.queryByRole('link', { name: /Sample Uppercut/ })).toBeNull()
   })
 
   it('shows the list for an unknown fatality', () => {

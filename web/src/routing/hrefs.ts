@@ -1,9 +1,11 @@
 import type { FatalityId } from '../data/fatality'
 
 // The only places a link is written. The routes use the URL hash, which works on
-// any static host with no server rewrite rules and needs no dependency.
-export function listHref() {
-  return '#/'
+// any static host with no server rewrite rules and needs no dependency. The
+// chosen game is part of the address (`#/?game=...`), so a filtered list can be
+// shared and reloaded, and the back button works.
+export function listHref(game: string | null = null) {
+  return game === null ? '#/' : `#/?game=${encodeURIComponent(game)}`
 }
 
 export function fatalityHref(id: FatalityId) {

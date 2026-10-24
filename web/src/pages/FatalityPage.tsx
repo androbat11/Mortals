@@ -39,7 +39,9 @@ function FatalityPage({ fatalityId }: FatalityPageProps) {
       }
       details={
         <>
-          <BackLink href={listHref()}>All fatalities</BackLink>
+          <BackLink href={listHref(fatality.game)}>
+            Back to {fatality.game}
+          </BackLink>
           <FatalityDetails fatality={fatality} />
         </>
       }

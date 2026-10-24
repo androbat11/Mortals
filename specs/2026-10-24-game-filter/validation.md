@@ -3,13 +3,15 @@
 The work can be merged when every item below passes.
 
 ## Automated checks (run in `web/`)
-- [ ] `npm install` completes with no errors.
-- [ ] `npm test` exits 0, including the new data, routing, hook, and component tests.
-- [ ] `npm run lint` exits 0 with zero errors and zero warnings.
-- [ ] `npm run build` exits 0.
-- [ ] `npm run preview` serves the built output.
+- [x] `npm install` completes with no errors.
+- [x] `npm test` exits 0, including the new data, routing, hook, and component tests.
+- [x] `npm run lint` exits 0 with zero errors and zero warnings.
+- [x] `npm run build` exits 0.
+- [x] `npm run preview` serves the built output.
 
 ## Manual checks
+Not checked in a browser yet (the logic and the rendered markup are covered by tests).
+
 - [ ] **Earlier phases:** the manual checks for Phases 2 to 10 are run in a browser pass and ticked, and the roadmap statuses are updated.
 - [ ] The list has "All games" plus one link per game; choosing a game shows only its fatalities, and the status line updates.
 - [ ] The current choice is visibly marked, and a screen reader announces it as current.
@@ -18,15 +20,15 @@ The work can be merged when every item below passes.
 - [ ] The filter links wrap sensibly and are easy to tap at 375, 768, and 1280px, with no horizontal scroll, and have a visible keyboard focus.
 
 ## Structure and conventions
-- [ ] The list route type and the href builders were changed before the code that uses them; links are still written in one place.
-- [ ] Components contain no logic; filtering is in pure data helpers and the `useFatalityList` hook.
-- [ ] Every source file is under about 100 lines (tests exempt); no classes; `any` is not used; no module-level state.
-- [ ] Design decisions are explained in code comments; `README.md` is updated.
+- [x] The list route type and the href builders were changed before the code that uses them; links are still written in one place.
+- [x] Components contain no logic; filtering is in pure data helpers and the `useFatalityList` hook.
+- [x] Every source file is under about 100 lines (tests exempt); no classes; `any` is not used; no module-level state.
+- [x] Design decisions are explained in code comments; `README.md` is updated.
 
 ## Scope guard
-- [ ] No search, sorting, multi-select, grouping, loading states, or new fatalities.
-- [ ] No new dependencies. Root `package.json` is unchanged and no root `package-lock.json` is committed.
-- [ ] Tests cover feature logic only: none for `App.tsx` or `main.tsx`.
+- [x] No search, sorting, multi-select, grouping, loading states, or new fatalities.
+- [x] No new dependencies. Root `package.json` is unchanged and no root `package-lock.json` is committed.
+- [x] Tests cover feature logic only: none for `App.tsx` or `main.tsx`.
 
 ## Merge readiness
 - [ ] Work is on `phase-11-game-filter` with a clean `git status` after commit.

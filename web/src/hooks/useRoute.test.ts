@@ -15,7 +15,7 @@ describe('useRoute', () => {
 
   it('is the list for an empty hash', () => {
     const { result } = renderHook(() => useRoute())
-    expect(result.current).toEqual({ name: 'list' })
+    expect(result.current).toEqual({ name: 'list', game: null })
   })
 
   it('follows the hash when it changes', () => {

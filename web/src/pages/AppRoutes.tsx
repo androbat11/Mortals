@@ -14,7 +14,7 @@ function AppRoutes() {
   if (route.name === 'fatality') {
     return <FatalityPage key={route.id} fatalityId={route.id} />
   }
-  return <FatalityListPage />
+  return <FatalityListPage game={route.game} />
 }
 
 export default AppRoutes
