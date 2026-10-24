@@ -23,7 +23,7 @@ The phase is done and can be merged when every item below passes.
 - [x] The tsconfig strict mode from the template is still enabled.
 
 ## Scope guard
-- [x] No Three.js, routing, test runner, or other out-of-scope dependencies in `web/package.json`.
+- [x] No Three.js, routing, or other out-of-scope dependencies in `web/package.json` (Vitest is the only test tooling).
 - [x] Root `package.json` is unchanged.
 - [x] `README.md` documents how to install and run the app.
 

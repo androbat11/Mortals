@@ -12,7 +12,7 @@ In scope:
 
 Out of scope:
 - Three.js or any 3D code (Phase 2).
-- Test runner, Prettier, or other extras. Add them when a phase needs them.
+- Prettier or other extras beyond Vitest. Add them when a phase needs them.
 - Styling, layout, deployment (Phases 12 and 13).
 
 ## Decisions
