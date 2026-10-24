@@ -1,10 +1,12 @@
 import { useEffect, useState, type RefObject } from 'react'
 import { applySize } from '../three/applySize'
 import { clampDelta } from '../three/clampDelta'
+import { applyControlLimits, createControlLimits } from '../three/controlLimits'
 import { disposeScene } from '../three/disposeScene'
 import { rotateCube } from '../three/rotateCube'
 import { toSafeSize } from '../three/toSafeSize'
 import { tryCreate } from '../three/tryCreate'
+import { createSceneContents } from './createSceneContents'
 import { createSceneRepository } from './createSceneRepository'
 
 type ThreeSceneState = {
@@ -44,11 +46,17 @@ export function useThreeScene(
       return
     }
 
-    const scene = repository.create('scene')
-    const camera = repository.create('camera', width / height)
-    const cube = repository.create('cube')
-    scene.add(cube)
+    const { scene, camera, cube } = createSceneContents(
+      repository,
+      width / height,
+    )
     container.appendChild(renderer.domElement)
+
+    // Orbit controls let the user look around with mouse or touch. They attach
+    // listeners to the canvas, so they are created after it is in the page and
+    // disposed on cleanup.
+    const controls = repository.create('controls', camera, renderer.domElement)
+    applyControlLimits(controls, createControlLimits())
 
     // Responsive design: the canvas follows its container, not the window, so
     // it stays correct when the layout changes (rotating a phone, resizing a
@@ -63,18 +71,21 @@ export function useThreeScene(
     const timer = repository.create('timer')
     renderer.setAnimationLoop(() => {
       timer.update()
+      controls.update()
       rotateCube(cube, clampDelta(timer.getDelta()))
       renderer.render(scene, camera)
     })
 
     // Cleanup undoes everything the effect created. React StrictMode mounts,
     // unmounts and mounts again in development, so without this there would be
-    // two canvases and two running loops. `forceContextLoss` releases the WebGL
-    // context right away: browsers allow only a limited number of live
-    // contexts, and repeated remounts (StrictMode, hot reload) would hit it.
+    // two canvases, two running loops, and two sets of control listeners.
+    // `forceContextLoss` releases the WebGL context right away: browsers allow
+    // only a limited number of live contexts, and repeated remounts
+    // (StrictMode, hot reload) would hit it.
     return () => {
       renderer.setAnimationLoop(null)
       observer.disconnect()
+      controls.dispose()
       disposeScene(scene)
       renderer.forceContextLoss()
       renderer.dispose()
