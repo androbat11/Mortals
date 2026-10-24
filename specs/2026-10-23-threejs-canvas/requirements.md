@@ -1,5 +1,7 @@
 # Requirements: Three.js Canvas (Roadmap Phase 2)
 
+> Historical spec. File paths and details below describe Phase 2 as built then. In `specs/2026-10-24-camera-and-lighting/` the factories were split into `web/src/three/{objects,rendering,controls,animation,core}/` (no more `three/factories.ts`), the cube became a lit solid, and `SceneCanvas`'s label changed. Its manual checks are covered again by the Phase 3 manual checks.
+
 ## Scope
 A React component renders a Three.js scene with a spinning cube, filling its container and staying correct as the screen size changes.
 

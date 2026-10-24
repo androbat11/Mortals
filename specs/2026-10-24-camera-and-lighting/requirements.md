@@ -29,10 +29,16 @@ Out of scope:
 - **Scene contents:** building the cube, ground, and lights lives in `createSceneContents`, so `useThreeScene` stays thin wiring and the character is added in the same place in Phase 4.
 - **Module layout:** `factories.ts` was growing, so every factory now has its own file, grouped by what it does under `web/src/three/`: `objects/`, `rendering/`, `controls/`, `animation/`, and `core/`. This follows separation of concerns and atomic design's idea of small pieces composed upward. The per-frame work moved out of the hook into `startRenderLoop`. The rule is recorded in `CLAUDE.md` and in `pr-review` (R18).
 - **Cleanup:** the controls are disposed on unmount, because they add event listeners to the canvas; StrictMode would otherwise leave duplicates.
-- **Accessible name:** `ScenePage` updates its `label` so it describes the interactive scene, since the 3D view is still the main content.
+- **Background and fog:** the scene has a dark blue-gray background (not the default black) and fog of the same colour, and the ground is 100 x 100. The fog hides the ground's edge from every allowed camera position (a test checks the sizes), so the ground never looks like a floating slab. A full palette and styling are Phase 12.
+- **Accessible name:** `ScenePage`'s `label` describes what is shown, since the 3D view is the main content. The `img` role is applied only while the scene is showing, so the WebGL-failure message is not inside an element exposed as an image.
 - **Responsive:** the canvas already follows its container. Controls must not make the page scroll or zoom while the user rotates on touch (`OrbitControls` sets `touch-action: none` on the canvas itself).
 - **Branch:** `phase-3-camera-lighting`, created from the updated `main` when implementation starts (not created while writing this spec).
 - **Spec filenames:** `plan.md`, `requirements.md`, `validation.md`, matching earlier specs.
+
+## Future notes (deliberately not in this phase)
+- **Touch and scrolling (Phase 7):** a full-viewport canvas that captures one-finger drags leaves no scroll surface on a phone. The fatality page puts text and buttons below the animation, so it needs a bounded canvas height or a different touch mapping.
+- **Keyboard orbit and reduced motion:** neither is required by the mission or roadmap. Reduced motion fits the Phase 8 pause control. Keyboard orbit needs `listenToKeyEvents`, a focusable canvas, and a visible focus ring.
+- **Phase 4 and 5:** `startRenderLoop` and `rotateCube` are cube-specific, and `objects/` is flat. Revisit both when the character arrives.
 
 ## Context
 - `specs/mission.md`: simple, low friction; responsive by default; original stylized low-poly visuals; watching and learning come first.

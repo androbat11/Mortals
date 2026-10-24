@@ -75,7 +75,7 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R15 | should-fix | Components are composable: they take props and `children`, are combined into larger components, and do not hard-code content or duplicate markup. | CLAUDE.md: composable components. |
 | R16 | should-fix | No module-level mutable state or global constants that act as shared state; values come from functions that return them. | CLAUDE.md: no global variables, which cause side effects. |
 | R17 | should-fix | Non-obvious design decisions are explained in code comments that say why (not what). | CLAUDE.md: comments capture design decisions so the code teaches. |
-| R18 | should-fix | Modules are small and grouped by purpose: one factory or helper per file, files roughly under 100 lines, placed in the folder for what they do (`web/src/three/objects`, `rendering`, `controls`, `animation`, `core`). | CLAUDE.md: small modules, grouped by purpose. |
+| R18 | should-fix | Modules are small and grouped by purpose: one factory or helper per file (a type and its create and apply functions may share a file), source files under about 100 lines (tests exempt), placed in the folder for what they do (`web/src/three/objects`, `rendering`, `controls`, `animation`, `core`). | CLAUDE.md: small modules, grouped by purpose. |
 
 ### Spec and quality
 - Compare the change to the phase's `requirements.md` and `validation.md`. List validation items that the diff does not satisfy or that look unchecked.

@@ -1,23 +1,22 @@
 import { useEffect, useState, type RefObject } from 'react'
-import { applySize } from '../three/rendering/applySize'
-import { applyControlLimits, createControlLimits } from '../three/controls/controlLimits'
-import { disposeScene } from '../three/rendering/disposeScene'
 import { startRenderLoop } from '../three/animation/startRenderLoop'
-import { toSafeSize } from '../three/rendering/toSafeSize'
 import { tryCreate } from '../three/core/tryCreate'
+import { applySize } from '../three/rendering/applySize'
+import { toSafeSize } from '../three/rendering/toSafeSize'
+import { createSceneCleanup } from './createSceneCleanup'
 import { createSceneContents } from './createSceneContents'
+import { createSceneControls } from './createSceneControls'
 import { createSceneRepository } from './createSceneRepository'
 
 type ThreeSceneState = {
   failed: boolean
 }
 
-// Design: separation of UI and logic. This hook only wires things together:
-// it creates the objects, starts the loop, and undoes it all on cleanup. Each
-// piece of real logic (sizing, disposal, rotation) is a small function in
-// `three/`. The hook takes a ref instead of creating the container, so any
-// component can host the scene. It reports `failed` so the component can show
-// a message instead of the whole app going blank.
+// Design: separation of UI and logic. This hook only wires things together; each
+// piece of real work is a small function (contents, controls, sizing, the
+// per-frame loop, cleanup). The hook takes a ref instead of creating the
+// container, so any component can host the scene. It reports `failed` so the
+// component can show a message instead of the whole app going blank.
 export function useThreeScene(
   containerRef: RefObject<HTMLDivElement | null>,
 ): ThreeSceneState {
@@ -51,11 +50,9 @@ export function useThreeScene(
     )
     container.appendChild(renderer.domElement)
 
-    // Orbit controls let the user look around with mouse or touch. They attach
-    // listeners to the canvas, so they are created after it is in the page and
-    // disposed on cleanup.
-    const controls = repository.create('controls', camera, renderer.domElement)
-    applyControlLimits(controls, createControlLimits())
+    // The controls attach listeners to the canvas, so they are created after
+    // it is in the page.
+    const controls = createSceneControls(repository, camera, renderer.domElement)
 
     // Responsive design: the canvas follows its container, not the window, so
     // it stays correct when the layout changes (rotating a phone, resizing a
@@ -65,31 +62,16 @@ export function useThreeScene(
     )
     observer.observe(container)
 
-    const timer = repository.create('timer')
     const stopLoop = startRenderLoop({
       renderer,
       scene,
       camera,
       cube,
       controls,
-      timer,
+      timer: repository.create('timer'),
     })
 
-    // Cleanup undoes everything the effect created. React StrictMode mounts,
-    // unmounts and mounts again in development, so without this there would be
-    // two canvases, two running loops, and two sets of control listeners.
-    // `forceContextLoss` releases the WebGL context right away: browsers allow
-    // only a limited number of live contexts, and repeated remounts
-    // (StrictMode, hot reload) would hit it.
-    return () => {
-      stopLoop()
-      observer.disconnect()
-      controls.dispose()
-      disposeScene(scene)
-      renderer.forceContextLoss()
-      renderer.dispose()
-      renderer.domElement.remove()
-    }
+    return createSceneCleanup({ stopLoop, observer, controls, scene, renderer })
   }, [containerRef])
 
   return { failed }

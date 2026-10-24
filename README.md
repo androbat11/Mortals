@@ -47,7 +47,7 @@ Three.js code is split out of the components:
   - `controls/`: `createOrbitControls` and the control settings (`controlLimits`).
   - `animation/`: `rotateCube` and `startRenderLoop`.
   - `core/`: generic tools (`createRepository`, `tryCreate`).
-- `web/src/hooks/`: `useThreeScene`, which wires the objects together, starts the animation loop, and cleans up; `createSceneContents`, which composes the objects into a scene; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
+- `web/src/hooks/`: `useThreeScene`, which wires the objects together, starts the animation loop, and cleans up; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
 - `web/src/pages/ScenePage.tsx`: the page `App` renders; the canvas fills the viewport.
 
@@ -57,5 +57,5 @@ Run `npm test` in `web/` (Vitest). The Three.js renderer is mocked in tests beca
 
 ## Workflow
 
-- `CLAUDE.md` holds the development rules (atomic design, type-first, functions over classes, factory functions, responsive design, no globals). `specs/` holds the mission, roadmap, tech stack, and one directory per feature.
+- `CLAUDE.md` holds the development rules (atomic design, type-first, functions over classes, factory functions, small modules grouped by purpose, responsive design, no globals). `specs/` holds the mission, roadmap, tech stack, and one directory per feature.
 - Claude Code skills in `.claude/skills/`: `/feature` creates a spec directory, `/pr-review` reviews a GitHub pull request and posts inline comments, and `/changelog` updates `changelog.md` before merging.

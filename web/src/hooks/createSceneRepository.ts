@@ -1,9 +1,11 @@
 import { createRepository } from '../three/core/createRepository'
 import { createOrbitControls } from '../three/controls/createOrbitControls'
 import { createAmbientLight } from '../three/objects/createAmbientLight'
+import { createBackground } from '../three/objects/createBackground'
 import { createCamera } from '../three/objects/createCamera'
 import { createCube } from '../three/objects/createCube'
 import { createDirectionalLight } from '../three/objects/createDirectionalLight'
+import { createFog } from '../three/objects/createFog'
 import { createGround } from '../three/objects/createGround'
 import { createSceneObject } from '../three/objects/createSceneObject'
 import { createRenderer } from '../three/rendering/createRenderer'
@@ -22,6 +24,8 @@ export function createSceneRepository() {
     camera: createCamera,
     cube: createCube,
     ground: createGround,
+    background: createBackground,
+    fog: createFog,
     ambientLight: createAmbientLight,
     directionalLight: createDirectionalLight,
     controls: createOrbitControls,
@@ -30,3 +34,5 @@ export function createSceneRepository() {
     resizeObserver: createResizeObserver,
   })
 }
+
+export type SceneRepository = ReturnType<typeof createSceneRepository>

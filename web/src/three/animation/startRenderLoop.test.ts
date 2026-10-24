@@ -42,6 +42,30 @@ describe('startRenderLoop', () => {
     )
   })
 
+  it('runs each frame in order: timer, controls, then render', () => {
+    const calls: string[] = []
+    const targets = createTargets()
+    targets.timer.update.mockImplementation(() => void calls.push('timer.update'))
+    targets.timer.getDelta.mockImplementation(() => {
+      calls.push('timer.getDelta')
+      return 0.01
+    })
+    targets.controls.update.mockImplementation(
+      () => void calls.push('controls.update'),
+    )
+    targets.renderer.render.mockImplementation(() => void calls.push('render'))
+    startRenderLoop(targets)
+
+    getFrame(targets.renderer)()
+
+    expect(calls).toEqual([
+      'timer.update',
+      'controls.update',
+      'timer.getDelta',
+      'render',
+    ])
+  })
+
   it('clamps a long frame delta', () => {
     const targets = createTargets(5)
     startRenderLoop(targets)

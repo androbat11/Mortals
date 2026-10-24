@@ -12,7 +12,7 @@ The work can be merged when every item below passes.
 ## Manual checks
 - [ ] **Phase 2 closeout:** every manual item in `specs/2026-10-23-threejs-canvas/validation.md` is run and ticked, and Phase 2 is marked done in `specs/roadmap.md`.
 - [ ] `npm run dev` starts and the page loads; the browser console shows no errors or warnings.
-- [ ] A solid cube rests on a ground plane and is visibly shaded by the lights.
+- [ ] A solid cube rests on a ground plane and is visibly shaded by the lights, and at maximum zoom and a low angle the ground fades into the background with no visible edge.
 - [ ] Mouse drag rotates the view and the scroll wheel zooms; right-click drag does not pan.
 - [ ] The camera cannot go below the ground, and zoom stops at its minimum and maximum distance.
 - [ ] **Touch (emulation or a real phone):** one-finger drag rotates, pinch zooms, two-finger drag does not pan, and the page does not scroll or zoom while interacting with the scene.
@@ -22,13 +22,13 @@ The work can be merged when every item below passes.
 - [ ] Unmounting leaves no canvas, no running loop, and no leftover event listeners on the canvas.
 
 ## Structure and conventions
-- [x] `web/src/three/` is split by purpose (`objects`, `rendering`, `controls`, `animation`, `core`) with one factory per file and no long files.
+- [x] `web/src/three/` is split by purpose (`objects`, `rendering`, `controls`, `animation`, `core`) with one factory per file, and every source file is under about 100 lines (tests exempt; check with `wc -l`).
 - [x] `web/src/three/` holds plain TypeScript with no React imports and no page access; the controls factory receives its element as a parameter.
 - [x] All new objects (lights, ground, controls) are created through factories and the repository, with no inline `new` in hooks or components.
 - [x] No module-level constants or mutable state; the control limits come from a function.
 - [x] No classes, and `any` is not used; types are defined before the code that uses them.
 - [x] `useThreeScene` stays thin wiring; each piece of logic is a separate single-purpose function.
-- [x] The scene's accessible `label` describes the interactive scene.
+- [x] The scene's accessible `label` describes what is shown, and the `img` role is not applied around the WebGL-failure message.
 - [x] Design decisions are explained in code comments.
 - [x] `README.md` describes the new files.
 

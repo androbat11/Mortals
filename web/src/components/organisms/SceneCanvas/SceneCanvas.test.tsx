@@ -10,6 +10,7 @@ import {
 } from 'three'
 import type { Object3D } from 'three'
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js'
+import { createControlLimits } from '../../../three/controls/controlLimits'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { stubResizeObserver } from '../../../test/stubResizeObserver'
 import SceneCanvas from './SceneCanvas'
@@ -113,8 +114,7 @@ describe('SceneCanvas', () => {
     unmount()
 
     expect(update).toHaveBeenCalledTimes(1)
-    expect(controls[0].enablePan).toBe(false)
-    expect(controls[0].maxPolarAngle).toBeLessThan(Math.PI / 2)
+    expect(controls[0]).toMatchObject(createControlLimits())
   })
 
   it('accepts a className from its parent', () => {
@@ -131,6 +131,8 @@ describe('SceneCanvas', () => {
     const { container } = render(<SceneCanvas label="Test scene" />)
 
     expect(screen.getByRole('alert')).toHaveTextContent('not available')
+    // The message must not sit inside an element exposed as an image.
+    expect(screen.queryByRole('img')).toBeNull()
     expect(container.querySelector('canvas')).toBeNull()
     expect(observers).toHaveLength(0)
   })
@@ -159,6 +161,7 @@ describe('SceneCanvas', () => {
 
   it('leaves a single canvas and a stopped first loop after a StrictMode double mount', () => {
     stubResizeObserver()
+    const controlsDispose = vi.spyOn(OrbitControls.prototype, 'dispose')
     const { container } = render(
       <StrictMode>
         <SceneCanvas label="Test scene" />
@@ -166,6 +169,8 @@ describe('SceneCanvas', () => {
     )
     expect(container.querySelectorAll('canvas')).toHaveLength(1)
     expect(renderers).toHaveLength(2)
+    // The first mount's controls (and their listeners) must be disposed too.
+    expect(controlsDispose).toHaveBeenCalledTimes(1)
     expect(renderers[0].setAnimationLoop).toHaveBeenLastCalledWith(null)
     expect(renderers[0].dispose).toHaveBeenCalled()
   })
