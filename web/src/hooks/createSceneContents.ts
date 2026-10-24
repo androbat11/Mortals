@@ -1,3 +1,5 @@
+import type { FrameUpdater } from '../three/animation/frameUpdater'
+import { rotateCube } from '../three/animation/rotateCube'
 import type { SceneRepository } from './createSceneRepository'
 
 // Design: building the scene's contents (objects, lights, and the background
@@ -22,5 +24,9 @@ export function createSceneContents(
     repository.create('directionalLight'),
   )
 
-  return { scene, camera, cube }
+  // Everything that changes over time is a frame updater, so the render loop
+  // does not know what is in the scene.
+  const updaters: FrameUpdater[] = [(delta) => rotateCube(cube, delta)]
+
+  return { scene, camera, updaters }
 }

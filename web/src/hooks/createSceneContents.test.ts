@@ -16,10 +16,9 @@ import { createSceneRepository } from './createSceneRepository'
 
 describe('createSceneContents', () => {
   it('adds the cube, the ground, and both lights to the scene', () => {
-    const { scene, cube } = createSceneContents(createSceneRepository(), 1.5)
+    const { scene } = createSceneContents(createSceneRepository(), 1.5)
     const meshes = scene.children.filter((child) => child instanceof Mesh)
 
-    expect(scene.children).toContain(cube)
     expect(meshes.map((mesh) => mesh.geometry.constructor)).toEqual(
       expect.arrayContaining([BoxGeometry, PlaneGeometry]),
     )
@@ -46,6 +45,12 @@ describe('createSceneContents', () => {
     const { maxDistance } = createControlLimits()
 
     expect(halfSize - maxDistance).toBeGreaterThanOrEqual(far)
+  })
+
+  it('returns the frame updaters that drive the scene, not the objects themselves', () => {
+    const contents = createSceneContents(createSceneRepository(), 1)
+    expect(contents.updaters.length).toBeGreaterThan(0)
+    contents.updaters.forEach((update) => expect(() => update(0.1)).not.toThrow())
   })
 
   it('creates a camera with the given aspect ratio', () => {
