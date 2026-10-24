@@ -1,3 +1,4 @@
+import type { AnimationId } from '../three/animation/animationTypes'
 import { startRenderLoop } from '../three/animation/startRenderLoop'
 import { applySize } from '../three/rendering/applySize'
 import type { createRenderer } from '../three/rendering/createRenderer'
@@ -20,6 +21,7 @@ export function setupScene(
   repository: SceneRepository,
   container: HTMLElement,
   renderer: Renderer,
+  animationId: AnimationId,
 ) {
   const parts: CleanupTargets = { renderer }
 
@@ -28,6 +30,7 @@ export function setupScene(
     const { scene, camera, updaters } = createSceneContents(
       repository,
       width / height,
+      animationId,
     )
     parts.scene = scene
     container.appendChild(renderer.domElement)

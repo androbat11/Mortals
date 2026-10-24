@@ -34,7 +34,7 @@ afterEach(() => {
 describe('SceneCanvas', () => {
   it('appends a canvas and starts the animation loop on mount', () => {
     stubResizeObserver()
-    const { container } = render(<SceneCanvas label="Test scene" />)
+    const { container } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
     expect(container.querySelectorAll('canvas')).toHaveLength(1)
     expect(renderers[0].setAnimationLoop).toHaveBeenCalledWith(
       expect.any(Function),
@@ -43,7 +43,7 @@ describe('SceneCanvas', () => {
 
   it('renders each frame from the animation loop', () => {
     stubResizeObserver()
-    render(<SceneCanvas label="Test scene" />)
+    render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
 
     getLoop()()
 
@@ -55,7 +55,7 @@ describe('SceneCanvas', () => {
     vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(800)
     vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(400)
     vi.stubGlobal('devicePixelRatio', 3)
-    render(<SceneCanvas label="Test scene" />)
+    render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
     renderers[0].setSize.mockClear()
     renderers[0].setPixelRatio.mockClear()
 
@@ -67,7 +67,7 @@ describe('SceneCanvas', () => {
 
   it('gives the 3D view an accessible name', () => {
     stubResizeObserver()
-    render(<SceneCanvas label="A low-poly fighter" />)
+    render(<SceneCanvas label="A low-poly fighter" animationId="uppercut-finisher" />)
     expect(screen.getByRole('img', { name: 'A low-poly fighter' })).toBeInTheDocument()
   })
 
@@ -82,7 +82,7 @@ describe('SceneCanvas', () => {
       controls.push(this)
       dispose.call(this)
     })
-    const { unmount } = render(<SceneCanvas label="Test scene" />)
+    const { unmount } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
     update.mockClear()
 
     getLoop()()
@@ -94,7 +94,7 @@ describe('SceneCanvas', () => {
 
   it('accepts a className from its parent', () => {
     stubResizeObserver()
-    const { container } = render(<SceneCanvas label="Test scene" className="custom" />)
+    const { container } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" className="custom" />)
     expect(container.firstElementChild).toHaveClass('scene-canvas', 'custom')
   })
 
@@ -104,7 +104,7 @@ describe('SceneCanvas', () => {
     // Make the next `new WebGLRenderer()` throw, as it does without WebGL.
     mockThree.failNextRenderer()
 
-    const { container } = render(<SceneCanvas label="Test scene" />)
+    const { container } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
 
     expect(screen.getByRole('alert')).toHaveTextContent('not available')
     // The message must not sit inside an element exposed as an image.
@@ -122,7 +122,7 @@ describe('SceneCanvas', () => {
 
     const { container } = render(
       <StrictMode>
-        <SceneCanvas label="Test scene" />
+        <SceneCanvas label="Test scene" animationId="uppercut-finisher" />
       </StrictMode>,
     )
 
@@ -143,7 +143,7 @@ describe('SceneCanvas', () => {
       }),
     )
 
-    const { container } = render(<SceneCanvas label="Test scene" />)
+    const { container } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
 
     expect(screen.getByRole('alert')).toHaveTextContent('not available')
     expect(container.querySelector('canvas')).toBeNull()
@@ -161,7 +161,7 @@ describe('SceneCanvas', () => {
     const groundGeometry = vi.spyOn(PlaneGeometry.prototype, 'dispose')
     const material = vi.spyOn(MeshStandardMaterial.prototype, 'dispose')
     const controls = vi.spyOn(OrbitControls.prototype, 'dispose')
-    const { container, unmount } = render(<SceneCanvas label="Test scene" />)
+    const { container, unmount } = render(<SceneCanvas label="Test scene" animationId="uppercut-finisher" />)
 
     unmount()
 
@@ -183,7 +183,7 @@ describe('SceneCanvas', () => {
     const controlsDispose = vi.spyOn(OrbitControls.prototype, 'dispose')
     const { container } = render(
       <StrictMode>
-        <SceneCanvas label="Test scene" />
+        <SceneCanvas label="Test scene" animationId="uppercut-finisher" />
       </StrictMode>,
     )
     expect(container.querySelectorAll('canvas')).toHaveLength(1)

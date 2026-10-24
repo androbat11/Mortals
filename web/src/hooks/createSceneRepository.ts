@@ -1,3 +1,5 @@
+import { createAnimation } from '../three/animation/animations/createAnimation'
+import { createAnimationPlayer } from '../three/animation/createAnimationPlayer'
 import { createRepository } from '../three/core/createRepository'
 import { createOrbitControls } from '../three/controls/createOrbitControls'
 import { createAmbientLight } from '../three/objects/createAmbientLight'
@@ -24,6 +26,8 @@ export function createSceneRepository() {
     scene: createSceneObject,
     camera: createCamera,
     character: createCharacter,
+    animation: createAnimation,
+    animationPlayer: createAnimationPlayer,
     ground: createGround,
     background: createBackground,
     fog: createFog,

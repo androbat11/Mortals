@@ -1,8 +1,10 @@
 import { useRef } from 'react'
+import type { AnimationId } from '../../../three/animation/animationTypes'
 import { useThreeScene } from '../../../hooks/useThreeScene'
 
 type SceneCanvasProps = {
   label: string
+  animationId: AnimationId
   className?: string
 }
 
@@ -10,15 +12,16 @@ type SceneCanvasProps = {
 // of the screen (the 3D view: the character, the ground, the controls). It renders only a container: the logic is in `useThreeScene`, and
 // the sizing is in CSS (it fills its parent), so the parent decides the size.
 // It accepts a `className` so a page or template can position or size it,
-// which keeps it composable instead of tied to one layout.
+// which keeps it composable instead of tied to one layout. The `animationId`
+// says which animation the character plays; changing it rebuilds the scene.
 // A canvas has no text, so `label` gives it an accessible name; it is a
 // required prop so every screen has to describe what the 3D view shows. The
 // `img` role applies only while the scene is showing: if WebGL is not available
 // the container holds a plain message instead, which must not sit inside an
 // element that screen readers treat as an image.
-function SceneCanvas({ label, className }: SceneCanvasProps) {
+function SceneCanvas({ label, animationId, className }: SceneCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null)
-  const { failed } = useThreeScene(containerRef)
+  const { failed } = useThreeScene(containerRef, animationId)
 
   return (
     <div
