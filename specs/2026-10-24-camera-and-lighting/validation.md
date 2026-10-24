@@ -22,6 +22,7 @@ The work can be merged when every item below passes.
 - [ ] Unmounting leaves no canvas, no running loop, and no leftover event listeners on the canvas.
 
 ## Structure and conventions
+- [x] `web/src/three/` is split by purpose (`objects`, `rendering`, `controls`, `animation`, `core`) with one factory per file and no long files.
 - [x] `web/src/three/` holds plain TypeScript with no React imports and no page access; the controls factory receives its element as a parameter.
 - [x] All new objects (lights, ground, controls) are created through factories and the repository, with no inline `new` in hooks or components.
 - [x] No module-level constants or mutable state; the control limits come from a function.

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createCube } from './factories'
+import { createCube } from '../objects/createCube'
 import { rotateCube } from './rotateCube'
 
 describe('rotateCube', () => {

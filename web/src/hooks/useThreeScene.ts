@@ -1,11 +1,10 @@
 import { useEffect, useState, type RefObject } from 'react'
-import { applySize } from '../three/applySize'
-import { clampDelta } from '../three/clampDelta'
-import { applyControlLimits, createControlLimits } from '../three/controlLimits'
-import { disposeScene } from '../three/disposeScene'
-import { rotateCube } from '../three/rotateCube'
-import { toSafeSize } from '../three/toSafeSize'
-import { tryCreate } from '../three/tryCreate'
+import { applySize } from '../three/rendering/applySize'
+import { applyControlLimits, createControlLimits } from '../three/controls/controlLimits'
+import { disposeScene } from '../three/rendering/disposeScene'
+import { startRenderLoop } from '../three/animation/startRenderLoop'
+import { toSafeSize } from '../three/rendering/toSafeSize'
+import { tryCreate } from '../three/core/tryCreate'
 import { createSceneContents } from './createSceneContents'
 import { createSceneRepository } from './createSceneRepository'
 
@@ -66,14 +65,14 @@ export function useThreeScene(
     )
     observer.observe(container)
 
-    // `setAnimationLoop` is used instead of `requestAnimationFrame` because
-    // three.js pauses it in hidden tabs and can later switch it to XR frames.
     const timer = repository.create('timer')
-    renderer.setAnimationLoop(() => {
-      timer.update()
-      controls.update()
-      rotateCube(cube, clampDelta(timer.getDelta()))
-      renderer.render(scene, camera)
+    const stopLoop = startRenderLoop({
+      renderer,
+      scene,
+      camera,
+      cube,
+      controls,
+      timer,
     })
 
     // Cleanup undoes everything the effect created. React StrictMode mounts,
@@ -83,7 +82,7 @@ export function useThreeScene(
     // only a limited number of live contexts, and repeated remounts
     // (StrictMode, hot reload) would hit it.
     return () => {
-      renderer.setAnimationLoop(null)
+      stopLoop()
       observer.disconnect()
       controls.dispose()
       disposeScene(scene)

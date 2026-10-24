@@ -12,11 +12,11 @@
 2. Confirm the root `package.json` is unchanged and that no new dependency is needed: `OrbitControls` ships inside `three` (`three/addons/controls/OrbitControls.js`) and `@types/three` already types it.
 
 ## 3. Types and settings (types first)
-1. Define the `ControlLimits` type in `web/src/three/` (minimum and maximum zoom distance, maximum polar angle, damping, pan on or off).
+1. Define the `ControlLimits` type in `web/src/three/controls/` (minimum and maximum zoom distance, maximum polar angle, damping, pan on or off).
 2. Create `createControlLimits()`, a function that returns the limits (no module-level constant): pan off, zoom distance clamped, polar angle just below horizontal so the camera cannot go under the ground.
 3. Create `applyControlLimits(controls, limits)`, a function that copies the limits onto a controls object.
 
-## 4. Scene objects (factories in `web/src/three/factories.ts`)
+## 4. Scene objects (one factory per file, grouped by purpose under `web/src/three/`)
 1. Change `createCube` to use a solid, lit material (`MeshStandardMaterial`) and move the cube so it rests on the ground.
 2. Add `createAmbientLight` and `createDirectionalLight` (no shadows).
 3. Add `createGround`, a horizontal plane (`PlaneGeometry` rotated to lie flat, `MeshStandardMaterial`) sized larger than the visible area.

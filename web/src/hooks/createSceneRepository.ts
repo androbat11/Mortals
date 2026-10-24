@@ -1,15 +1,13 @@
-import { createRepository } from '../three/createRepository'
-import {
-  createAmbientLight,
-  createCamera,
-  createCube,
-  createDirectionalLight,
-  createGround,
-  createOrbitControls,
-  createRenderer,
-  createSceneObject,
-  createTimer,
-} from '../three/factories'
+import { createRepository } from '../three/core/createRepository'
+import { createOrbitControls } from '../three/controls/createOrbitControls'
+import { createAmbientLight } from '../three/objects/createAmbientLight'
+import { createCamera } from '../three/objects/createCamera'
+import { createCube } from '../three/objects/createCube'
+import { createDirectionalLight } from '../three/objects/createDirectionalLight'
+import { createGround } from '../three/objects/createGround'
+import { createSceneObject } from '../three/objects/createSceneObject'
+import { createRenderer } from '../three/rendering/createRenderer'
+import { createTimer } from '../three/rendering/createTimer'
 import { createResizeObserver } from './browserFactories'
 
 // Design: this is the single registry of everything the scene creates. The keys

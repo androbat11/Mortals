@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { applySize } from './applySize'
-import { createCamera } from './factories'
+import { createCamera } from '../objects/createCamera'
 
 describe('applySize', () => {
   it('resizes the renderer and updates the camera aspect', () => {

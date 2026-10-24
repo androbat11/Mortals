@@ -7,7 +7,8 @@ import {
 } from 'three'
 import { describe, expect, it, vi } from 'vitest'
 import { disposeScene } from './disposeScene'
-import { createCube, createSceneObject } from './factories'
+import { createCube } from '../objects/createCube'
+import { createSceneObject } from '../objects/createSceneObject'
 
 describe('disposeScene', () => {
   it('disposes the geometry and material of a mesh', () => {

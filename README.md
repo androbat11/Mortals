@@ -41,8 +41,13 @@ The app lives in `web/` and follows atomic design with functional components onl
 
 Three.js code is split out of the components:
 
-- `web/src/three/`: plain TypeScript with no React and no page access: factory functions that create the scene objects, lights, ground and orbit controls (`factories.ts`), a generic `createRepository`, the orbit control settings (`controlLimits.ts`), and small single-purpose helpers (`applySize`, `disposeScene`, `rotateCube`, and others).
-- `web/src/hooks/`: `useThreeScene`, which wires the objects together, starts the animation loop, and cleans up; `createSceneContents`, which builds the cube, ground, and lights; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
+- `web/src/three/`: plain TypeScript with no React and no page access, organised by what each module does, in the spirit of atomic design (small single-purpose pieces that compose upward). One factory per file:
+  - `objects/`: the things in the scene (`createCube`, `createGround`, `createCamera`, the lights, `createSceneObject`).
+  - `rendering/`: the renderer, timer and per-frame helpers (`createRenderer`, `applySize`, `disposeScene`, `clampDelta`, `clampPixelRatio`, `toSafeSize`).
+  - `controls/`: `createOrbitControls` and the control settings (`controlLimits`).
+  - `animation/`: `rotateCube` and `startRenderLoop`.
+  - `core/`: generic tools (`createRepository`, `tryCreate`).
+- `web/src/hooks/`: `useThreeScene`, which wires the objects together, starts the animation loop, and cleans up; `createSceneContents`, which composes the objects into a scene; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
 - `web/src/pages/ScenePage.tsx`: the page `App` renders; the canvas fills the viewport.
 
