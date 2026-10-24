@@ -22,7 +22,12 @@ export function sampleTrack(keyframes: Keyframe[], time: number): Rotation {
   if (time <= first.time) return toRotation(first.rotation)
   if (time >= last.time) return toRotation(last.rotation)
 
+  // `findIndex` returns -1 when no keyframe is later than the time, which only
+  // happens with unordered keyframes or a NaN time; holding the last value then
+  // is safer than throwing inside the render loop on every frame.
   const nextIndex = keyframes.findIndex((keyframe) => keyframe.time > time)
+  if (nextIndex <= 0) return toRotation(last.rotation)
+
   const before = keyframes[nextIndex - 1]
   const after = keyframes[nextIndex]
   const amount = (time - before.time) / (after.time - before.time)

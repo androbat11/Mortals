@@ -26,9 +26,8 @@ export function createSceneContents(
   )
 
   // Everything that changes over time is a frame updater, so the render loop
-  // does not know what is in the scene.
-  // The animation is looked up by id and played by a player that owns its time;
-  // the player is a frame updater, so the render loop does not know about it.
+  // does not know what is in the scene. The animation is looked up by id and
+  // played by a player that owns its time, and that player is one such updater.
   const animation = repository.create('animation', animationId)
   const updaters: FrameUpdater[] = [
     repository.create('animationPlayer', character, animation),

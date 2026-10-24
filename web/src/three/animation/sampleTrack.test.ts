@@ -27,6 +27,17 @@ describe('sampleTrack', () => {
     expect(sampleTrack(keyframes, 99)).toEqual({ x: 2, y: 0, z: 0 })
   })
 
+  it('holds the last value instead of throwing for unordered keyframes or a NaN time', () => {
+    const unordered: Keyframe[] = [
+      { time: 0, rotation: { x: 0 } },
+      { time: 2, rotation: { x: 5 } },
+      { time: 1, rotation: { x: 9 } },
+    ]
+    expect(() => sampleTrack(unordered, 1.5)).not.toThrow()
+    expect(() => sampleTrack(keyframes, Number.NaN)).not.toThrow()
+    expect(sampleTrack(keyframes, Number.NaN)).toEqual({ x: 2, y: 0, z: 0 })
+  })
+
   it('handles a track with one keyframe and an empty track', () => {
     expect(sampleTrack([{ time: 1, rotation: { z: 3 } }], 7)).toEqual({ x: 0, y: 0, z: 3 })
     expect(sampleTrack([], 1)).toEqual({ x: 0, y: 0, z: 0 })

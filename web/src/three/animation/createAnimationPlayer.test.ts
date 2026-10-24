@@ -60,6 +60,17 @@ describe('createAnimationPlayer', () => {
     expect(rig.joints.shoulderR.rotation.x).toBeCloseTo(-0.25)
   })
 
+  it('ignores a non-finite delta and keeps playing afterwards', () => {
+    const rig = createCharacter()
+    const update = createAnimationPlayer(rig, animation)
+    update(0.5)
+
+    update(Number.NaN)
+    update(0.5)
+
+    expect(rig.joints.shoulderR.rotation.x).toBeCloseTo(-1)
+  })
+
   it('does not break on an animation with no duration', () => {
     const rig = createCharacter()
     const update = createAnimationPlayer(rig, { ...animation, duration: 0 })

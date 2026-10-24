@@ -37,7 +37,7 @@ The work can be merged when every item below passes.
 ## Scope guard
 - [x] No victim character, spine joint, props, replay, pause, data model, or page layout.
 - [x] No new dependencies in `web/package.json`, no `AnimationMixer`, and no imported animation or model files.
-- [ ] Root `package.json` is unchanged, and no root `package-lock.json` is committed.
+- [x] Root `package.json` is unchanged, and no root `package-lock.json` is committed.
 - [x] Tests cover feature logic only: none for `App.tsx` or `main.tsx`.
 
 ## Merge readiness

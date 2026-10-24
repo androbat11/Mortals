@@ -24,7 +24,8 @@ Out of scope:
 - **Interpolation:** linear between keyframes, holding the first value before the first keyframe and the last after the last. It is simple and predictable; easing can be added later if the motion looks stiff.
 - **Registry:** animations are registered by id with `createRepository`, like every other object, so a data entry's `animationId` can select one. `createAnimation(id)` is the factory the scene repository exposes.
 - **Playback:** the move loops continuously. The player owns its elapsed time in a closure, so Phase 8 adds pause and restart there without touching the render loop. The player returns a plain frame updater for now, and its return type will grow when Phase 8 needs a handle.
-- **Delta:** the loop already clamps the frame delta, so a hidden tab does not make the move jump.
+- **Delta:** the loop already clamps the frame delta, so a hidden tab does not make the move jump, and the player ignores a non-finite delta so one bad frame cannot stop the move for good.
+- **Bad data:** the sampler holds the last value instead of throwing when keyframes are unordered or the time is NaN, and a registry test checks every registered animation's keyframe order.
 - **The animation id** flows from `ScenePage` as a typed prop through `SceneCanvas`, `useThreeScene`, and `setupScene` to `createSceneContents`, instead of a hard-coded constant (no globals). The scene is built once per mount; changing the animation without rebuilding the scene (and the WebGL context) is left for the fatality page.
 - **Motion design:** the move uses the documented sign convention (a negative x rotation swings a limb forward) and only the nine existing joints, so the body does not lean, because there is no spine joint yet. The values are tuned by eye in the manual checks.
 - **Crouch height:** with no root motion, bending the hips and knees lifts the feet slightly off the ground. The angles are kept small and a test keeps the feet within 0.1 of the ground during the crouch.
@@ -43,4 +44,5 @@ Out of scope:
 ## Future notes (deliberately not in this phase)
 - **Phase 6:** the data entry will hold an `animationId` that selects an animation from the registry.
 - **Phase 8:** the player will need to expose pause and restart.
+- **Accessibility:** the move autoplays and loops with no way to pause until playback controls exist; when pause is added, a user whose system asks for reduced motion should get the rest pose or start paused (WCAG 2.2.2).
 - **Later:** a spine joint, a victim character with its own palette, and easing or a smarter interpolation if the motion looks stiff.
