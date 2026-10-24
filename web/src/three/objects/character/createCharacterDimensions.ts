@@ -25,7 +25,9 @@ export function createCharacterDimensions() {
     neck: position(0, 1.54),
     torsoTop: position(0, 1.54),
     pelvisTop: position(0, 1.04),
-    shoulder: position(0.38, 1.5),
+    // The shoulder x puts the arm's inner face 0.005 inside the torso's side
+    // (0.27 + 0.085 - 0.005 = 0.35), so no background shows between arm and body.
+    shoulder: position(0.35, 1.5),
     hip: position(0.14, 0.84),
   }
 }

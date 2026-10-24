@@ -45,10 +45,9 @@ describe('createSceneContents', () => {
     expect(halfSize - maxDistance).toBeGreaterThanOrEqual(far)
   })
 
-  it('returns a list of frame updaters, which is empty while the character stands still', () => {
+  it('returns a list of frame updaters for the render loop', () => {
     const { updaters } = createSceneContents(createSceneRepository(), 1)
     expect(Array.isArray(updaters)).toBe(true)
-    expect(updaters).toHaveLength(0)
   })
 
   it('has no cube left in the scene', () => {

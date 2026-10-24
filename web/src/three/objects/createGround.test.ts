@@ -3,7 +3,7 @@ import { describe, expect, it } from 'vitest'
 import { createGround } from './createGround'
 
 describe('createGround', () => {
-  it('returns a flat plane larger than the cube', () => {
+  it('returns a flat plane much larger than the character', () => {
     const ground = createGround()
     ground.updateMatrixWorld()
     const size = new Box3().setFromObject(ground).getSize(new Vector3())

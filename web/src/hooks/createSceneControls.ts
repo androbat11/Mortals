@@ -14,7 +14,7 @@ export function createSceneControls(
   domElement: HTMLElement,
 ) {
   const controls = repository.create('controls', camera, domElement)
-  // Turn around the character's chest, the same point the camera looks at.
+  // Turn around the centre of the character, the same point the camera looks at.
   controls.target.copy(repository.create('viewTarget'))
   applyControlLimits(controls, createControlLimits())
   return controls

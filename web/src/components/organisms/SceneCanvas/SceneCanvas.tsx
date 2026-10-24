@@ -7,8 +7,7 @@ type SceneCanvasProps = {
 }
 
 // Design: an organism in atomic design, because it owns a self-contained part
-// of the screen (the 3D view) that later phases extend with a character and
-// controls. It renders only a container: the logic is in `useThreeScene`, and
+// of the screen (the 3D view: the character, the ground, the controls). It renders only a container: the logic is in `useThreeScene`, and
 // the sizing is in CSS (it fills its parent), so the parent decides the size.
 // It accepts a `className` so a page or template can position or size it,
 // which keeps it composable instead of tied to one layout.

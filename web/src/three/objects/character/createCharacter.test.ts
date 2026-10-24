@@ -51,6 +51,9 @@ describe('createCharacter', () => {
 
   it('is mirrored left to right', () => {
     const { joints } = createCharacter()
+    // The character's left is +x, so swapping the two sides would fail here.
+    expect(joints.shoulderL.position.x).toBeGreaterThan(0)
+    expect(joints.hipL.position.x).toBeGreaterThan(0)
     expect(joints.shoulderL.position.x).toBeCloseTo(-joints.shoulderR.position.x)
     expect(joints.hipL.position.x).toBeCloseTo(-joints.hipR.position.x)
     expect(joints.shoulderL.position.y).toBeCloseTo(joints.shoulderR.position.y)
@@ -84,7 +87,19 @@ describe('createCharacter', () => {
     expect(materials.size).toBe(3)
   })
 
-  it('moves a limb with its joint: rotating a shoulder swings the whole arm', () => {
+  it('swings the whole arm forward (toward +z) when the shoulder rotates by a negative x angle', () => {
+    const { root, joints } = createCharacter()
+    const before = getBounds(joints.shoulderL).getCenter(new Vector3())
+
+    joints.shoulderL.rotation.x = -Math.PI / 2
+    root.updateMatrixWorld(true)
+    const after = getBounds(joints.shoulderL).getCenter(new Vector3())
+
+    // The arm is about 0.6 long, so its centre moves roughly 0.3 forward.
+    expect(after.z).toBeGreaterThan(before.z + 0.2)
+  })
+
+  it('swings the whole arm backward when the shoulder rotates by a positive x angle', () => {
     const { root, joints } = createCharacter()
     const before = getBounds(joints.shoulderL).getCenter(new Vector3())
 
@@ -92,7 +107,7 @@ describe('createCharacter', () => {
     root.updateMatrixWorld(true)
     const after = getBounds(joints.shoulderL).getCenter(new Vector3())
 
-    expect(after.z).not.toBeCloseTo(before.z)
+    expect(after.z).toBeLessThan(before.z - 0.2)
   })
 
   it('returns a new character each time', () => {
