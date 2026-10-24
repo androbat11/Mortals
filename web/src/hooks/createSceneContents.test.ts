@@ -15,7 +15,11 @@ import { createSceneRepository } from './createSceneRepository'
 
 describe('createSceneContents', () => {
   it('adds the character, the ground, and both lights to the scene', () => {
-    const { scene, character } = createSceneContents(createSceneRepository(), 1.5)
+    const { scene, character } = createSceneContents(
+      createSceneRepository(),
+      1.5,
+      'uppercut-finisher',
+    )
     const meshes = scene.children.filter((child) => child instanceof Mesh)
 
     expect(scene.children).toContain(character.root)
@@ -25,14 +29,22 @@ describe('createSceneContents', () => {
   })
 
   it('frames the scene with a background and a fog of the same colour', () => {
-    const { scene } = createSceneContents(createSceneRepository(), 1)
+    const { scene } = createSceneContents(
+      createSceneRepository(),
+      1,
+      'uppercut-finisher',
+    )
     expect(scene.background).toBeInstanceOf(Color)
     expect(scene.fog).toBeInstanceOf(Fog)
     expect((scene.fog as Fog).color.equals(scene.background as Color)).toBe(true)
   })
 
   it('keeps the ground edge beyond the fog from every allowed camera position', () => {
-    const { scene } = createSceneContents(createSceneRepository(), 1)
+    const { scene } = createSceneContents(
+      createSceneRepository(),
+      1,
+      'uppercut-finisher',
+    )
     const ground = scene.children.find(
       (child): child is Mesh =>
         child instanceof Mesh && child.geometry instanceof PlaneGeometry,
@@ -45,13 +57,27 @@ describe('createSceneContents', () => {
     expect(halfSize - maxDistance).toBeGreaterThanOrEqual(far)
   })
 
-  it('returns a list of frame updaters for the render loop', () => {
-    const { updaters } = createSceneContents(createSceneRepository(), 1)
-    expect(Array.isArray(updaters)).toBe(true)
+  it('registers the animation as a frame updater that moves the character', () => {
+    const { updaters, character } = createSceneContents(
+      createSceneRepository(),
+      1,
+      'uppercut-finisher',
+    )
+    expect(updaters).toHaveLength(1)
+    expect(character.joints.shoulderR.rotation.x).toBe(0)
+
+    // 1.1 seconds into the move is the strike, with the right arm raised.
+    updaters.forEach((update) => update(1.1))
+
+    expect(character.joints.shoulderR.rotation.x).toBeLessThan(-2)
   })
 
   it('has no cube left in the scene', () => {
-    const { scene } = createSceneContents(createSceneRepository(), 1)
+    const { scene } = createSceneContents(
+      createSceneRepository(),
+      1,
+      'uppercut-finisher',
+    )
     let boxesOutsideTheCharacter = 0
     scene.children.forEach((child) => {
       if (child instanceof Mesh && child.geometry.type === 'BoxGeometry') {
@@ -62,7 +88,11 @@ describe('createSceneContents', () => {
   })
 
   it('creates a camera with the given aspect ratio', () => {
-    const { camera } = createSceneContents(createSceneRepository(), 1.5)
+    const { camera } = createSceneContents(
+      createSceneRepository(),
+      1.5,
+      'uppercut-finisher',
+    )
     expect(camera.aspect).toBe(1.5)
   })
 })

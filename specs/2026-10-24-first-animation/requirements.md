@@ -27,6 +27,7 @@ Out of scope:
 - **Delta:** the loop already clamps the frame delta, so a hidden tab does not make the move jump.
 - **The animation id** flows from `ScenePage` as a typed prop through `SceneCanvas`, `useThreeScene`, and `setupScene` to `createSceneContents`, instead of a hard-coded constant (no globals). The scene is built once per mount; changing the animation without rebuilding the scene (and the WebGL context) is left for the fatality page.
 - **Motion design:** the move uses the documented sign convention (a negative x rotation swings a limb forward) and only the nine existing joints, so the body does not lean, because there is no spine joint yet. The values are tuned by eye in the manual checks.
+- **Crouch height:** with no root motion, bending the hips and knees lifts the feet slightly off the ground. The angles are kept small and a test keeps the feet within 0.1 of the ground during the crouch.
 - **Module layout:** types, evaluator, pose application, and player are separate files in `web/src/three/animation/`; the data lives in `web/src/three/animation/animations/`.
 - **Branch:** `phase-5-first-animation`, from `main`.
 - **Spec filenames:** `plan.md`, `requirements.md`, `validation.md`, matching earlier specs.
