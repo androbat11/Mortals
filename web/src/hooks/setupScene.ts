@@ -1,7 +1,7 @@
 import { startRenderLoop } from '../three/animation/startRenderLoop'
 import { applySize } from '../three/rendering/applySize'
 import type { createRenderer } from '../three/rendering/createRenderer'
-import { createSceneCleanup } from './createSceneCleanup'
+import { createSceneCleanup, type CleanupTargets } from './createSceneCleanup'
 import { createSceneContents } from './createSceneContents'
 import { createSceneControls } from './createSceneControls'
 import type { SceneRepository } from './createSceneRepository'
@@ -21,7 +21,7 @@ export function setupScene(
   container: HTMLElement,
   renderer: Renderer,
 ) {
-  const parts: Parameters<typeof createSceneCleanup>[0] = { renderer }
+  const parts: CleanupTargets = { renderer }
 
   try {
     const { width, height } = readContainerSize(container)

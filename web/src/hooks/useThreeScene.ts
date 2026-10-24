@@ -22,6 +22,10 @@ export function useThreeScene(
     const container = containerRef.current
     if (!container) return
 
+    // `failed` follows the latest attempt: StrictMode and any re-run start the
+    // effect again, and an earlier failure must not outlive a later success.
+    setFailed(false)
+
     // Every object comes from the repository, never from an inline `new`.
     const repository = createSceneRepository()
     const { width, height } = readContainerSize(container)

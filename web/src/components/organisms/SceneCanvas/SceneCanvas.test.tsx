@@ -139,6 +139,23 @@ describe('SceneCanvas', () => {
     expect(log).toHaveBeenCalled()
   })
 
+  it('shows the scene again when a failed first attempt is followed by a successful one', () => {
+    stubResizeObserver()
+    vi.spyOn(console, 'error').mockImplementation(() => {})
+    // StrictMode runs the effect twice; only the first renderer fails.
+    mockThree.failNextRenderer()
+
+    const { container } = render(
+      <StrictMode>
+        <SceneCanvas label="Test scene" />
+      </StrictMode>,
+    )
+
+    expect(container.querySelectorAll('canvas')).toHaveLength(1)
+    expect(screen.queryByRole('alert')).toBeNull()
+    expect(screen.getByRole('img', { name: 'Test scene' })).toBeInTheDocument()
+  })
+
   it('undoes a half-finished setup and shows the message when a later step fails', () => {
     const log = vi.spyOn(console, 'error').mockImplementation(() => {})
     const controlsDispose = vi.spyOn(OrbitControls.prototype, 'dispose')

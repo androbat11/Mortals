@@ -2,7 +2,7 @@ import type { Object3D, WebGLRenderer } from 'three'
 import type { OrbitControls } from 'three/addons/controls/OrbitControls.js'
 import { disposeScene } from '../three/rendering/disposeScene'
 
-type CleanupTargets = {
+export type CleanupTargets = {
   stopLoop?: () => void
   observer?: Pick<ResizeObserver, 'disconnect'>
   controls?: Pick<OrbitControls, 'dispose'>
