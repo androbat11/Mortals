@@ -27,8 +27,7 @@
 1. Test `createScene`: it returns a scene containing one cube mesh and a camera with a positive aspect ratio.
 2. Test `rotateCube`: rotation increases by the expected amount for a given delta.
 3. Test `SceneCanvas` with a mocked `WebGLRenderer`: it appends a canvas on mount and disposes the renderer and removes the canvas on unmount.
-4. Update `App.test.tsx` and `main.test.tsx` for the new App content.
-5. Run `npm test` and fix failures.
+4. Run `npm test` and fix failures.
 
 ## 6. Documentation
 1. Update `README.md`: describe `web/src/three/`, `web/src/hooks/`, and the scene page in the project structure section.
