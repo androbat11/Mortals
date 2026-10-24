@@ -7,13 +7,13 @@ import {
   Scene,
   WebGLRenderer,
 } from 'three'
-
-const MAX_PIXEL_RATIO = 2
+import { clampPixelRatio } from './clampPixelRatio'
 
 // Design: every object the scene needs is created by one small factory
-// function that does one thing. Nothing here touches React or the DOM tree, so
-// the factories can be unit-tested and reused by later phases (character,
-// lights) without moving code.
+// function that does one thing. Nothing here uses React or reads the page:
+// `WebGLRenderer` creates its own canvas element, but attaching it is the
+// caller's job. The factories can be unit-tested and reused by later phases
+// (character, lights) without moving code.
 
 // The factory is named `createSceneObject` because `createScene` would read as
 // "build the whole scene". This only creates the empty container.
@@ -47,10 +47,8 @@ export function createRenderer(
 ) {
   const renderer = new WebGLRenderer({ antialias: true })
   // The pixel ratio is a parameter (the caller passes `devicePixelRatio`) so
-  // this factory stays free of globals. It is capped at 2: phones report 3 or
-  // more, which would render several times more pixels for little visible gain
-  // and drain the battery. Mission: simple and low friction on every device.
-  renderer.setPixelRatio(Math.min(pixelRatio, MAX_PIXEL_RATIO))
+  // this factory stays free of globals; `clampPixelRatio` applies the cap.
+  renderer.setPixelRatio(clampPixelRatio(pixelRatio))
   renderer.setSize(width, height)
   return renderer
 }

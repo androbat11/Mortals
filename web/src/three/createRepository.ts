@@ -22,7 +22,3 @@ export function createRepository<F extends Factories>(factories: F) {
     },
   }
 }
-
-export type Repository<F extends Factories> = ReturnType<
-  typeof createRepository<F>
->

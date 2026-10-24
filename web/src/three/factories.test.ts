@@ -1,6 +1,11 @@
-import { Mesh, PerspectiveCamera, Scene } from 'three'
+import { Clock, Mesh, PerspectiveCamera, Scene } from 'three'
 import { describe, expect, it } from 'vitest'
-import { createCamera, createCube, createSceneObject } from './factories'
+import {
+  createCamera,
+  createClock,
+  createCube,
+  createSceneObject,
+} from './factories'
 
 describe('factories', () => {
   it('createSceneObject returns an empty scene', () => {
@@ -20,5 +25,11 @@ describe('factories', () => {
     const cube = createCube()
     expect(cube).toBeInstanceOf(Mesh)
     expect(createCube()).not.toBe(cube)
+  })
+
+  it('createClock returns a new clock each time', () => {
+    const clock = createClock()
+    expect(clock).toBeInstanceOf(Clock)
+    expect(createClock()).not.toBe(clock)
   })
 })
