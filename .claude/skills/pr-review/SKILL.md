@@ -19,6 +19,7 @@ Read these in full on every run. They are the source of truth; never rely on mem
 - `specs/mission.md`: purpose, audience, what the user sees, principles.
 - `specs/roadmap.md`: the phases and which are done.
 - `specs/tech-stack.md`: required tools, constraints, and notes.
+- `CLAUDE.md`: the project's development rules. The React rules table below enforces them; flag any CLAUDE.md rule the table does not cover.
 - The spec directory for the phase under review (`plan.md`, `requirements.md`, `validation.md` under `specs/`), if one exists.
 
 ## Step 2: Load the change
@@ -53,8 +54,8 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 
 | ID | Severity | Rule | Why |
 | --- | --- | --- | --- |
-| R1 | blocking | Components are functions; no class components. | Project convention; keeps components small and hook-friendly. |
-| R2 | should-fix | Components are small and single-purpose, and live at the right atomic level (`atoms`, `molecules`, `organisms`, `templates`, `pages`). | Keeps the structure predictable for later phases. |
+| R1 | blocking | All code is written as functions; no classes of any kind, including class components. | CLAUDE.md: functions over classes. |
+| R2 | should-fix | Components are short and single-purpose (split long ones), and live at the right atomic level (`atoms`, `molecules`, `organisms`, `templates`, `pages`). | Keeps the structure predictable for later phases. |
 | R3 | blocking | Hooks follow the Rules of Hooks (top level only, called from components or custom hooks). | Prevents broken state and effects. |
 | R4 | blocking | Effects that create resources (renderers, observers, listeners, timers, animation loops) clean them up on unmount. | Avoids leaks, especially with `StrictMode` double-mounting. |
 | R5 | should-fix | Reusable logic is extracted into custom hooks, and non-React logic (such as Three.js scene building) lives outside components. | Keeps components thin and logic testable. |
@@ -63,10 +64,14 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R8 | should-fix | Lists render with stable, unique `key`s (not array indexes for dynamic lists). | Correct reconciliation. |
 | R9 | should-fix | Props and state are typed with TypeScript; no `any`. | Type safety is part of the stack. |
 | R10 | should-fix | Interactive elements use semantic HTML and are keyboard accessible, with labels or alt text where needed. | Accessibility and low-friction use. |
+| R11 | should-fix | Types are defined first: props, data, and function signatures are explicit types, and strict mode stays on. | CLAUDE.md: type-first development. |
+| R12 | blocking | Application objects are created through factory functions and the repository (`createRepository`), not inline `new` calls in hooks or components. | CLAUDE.md: factory functions for object creation. |
+| R13 | should-fix | Every function, module, hook, and component serves one purpose; `web/src/three/` has no React or DOM code. | CLAUDE.md: separation of concerns. |
+| R14 | blocking | Every new screen or component is responsive: mobile-first CSS, no fixed widths, no horizontal scroll at phone, tablet, and desktop widths. | CLAUDE.md and mission: responsive by default. |
 
 ### Spec and quality
 - Compare the change to the phase's `requirements.md` and `validation.md`. List validation items that the diff does not satisfy or that look unchecked.
-- Do tests exist for new logic, and do `npm test`, `npm run lint`, and `npm run build` look likely to pass? Run them only if the user asks.
+- Are tests limited to the specific feature logic the PR adds, with none for `main.tsx`, `App.tsx`, or plain wiring? Do tests exist for new logic, and do `npm test`, `npm run lint`, and `npm run build` look likely to pass? Run them only if the user asks.
 
 ## Step 4: Report
 
