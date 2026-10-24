@@ -1,0 +1,21 @@
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.text {
+  margin: 0;
+  line-height: 1.6;
+}

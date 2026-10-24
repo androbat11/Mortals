@@ -1,7 +1,7 @@
-import ScenePage from './pages/ScenePage'
+import FatalityPage from './pages/FatalityPage'
 
 function App() {
-  return <ScenePage />
+  return <FatalityPage fatalityId="sample-uppercut" />
 }
 
 export default App

@@ -1,0 +1,40 @@
+/* Phone first: the scene on top at a bounded height, the details below, and the
+   page scrolls. The bounded height matters: the orbit controls take every touch
+   on the canvas, so a canvas that filled the screen would leave no way to
+   scroll to the tutorial. */
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.scene {
+  height: 55dvh;
+  min-height: 18rem;
+}
+
+.details {
+  padding: 1.25rem 1rem 2rem;
+  background: var(--color-panel);
+}
+
+/* Tablet and up: the scene beside the details, filling the viewport, with the
+   details scrolling inside their column if they are long. */
+@media (min-width: 48rem) {
+  .page {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    height: 100dvh;
+    min-height: 0;
+  }
+
+  .scene {
+    height: auto;
+    min-height: 0;
+  }
+
+  .details {
+    padding: 2rem 1.75rem;
+    overflow-y: auto;
+  }
+}

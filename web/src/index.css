@@ -1,17 +1,24 @@
-html,
-body,
-#root {
-  margin: 0;
-  width: 100%;
-  height: 100%;
+/* Shared colours and font. They match the 3D scene's dark background so the
+   page and the scene read as one; a full style pass is a later phase. */
+:root {
+  --color-background: #1f2937;
+  --color-panel: #111827;
+  --color-text: #e5e7eb;
+  --color-accent: #f59e0b;
+  font-family:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
 }
 
-.scene-page {
+html,
+body {
+  margin: 0;
   width: 100%;
-  height: 100dvh;
-  /* Clipping is scoped to this full-viewport page, so later screens with long
-     content (tutorial text) can still scroll. */
-  overflow: hidden;
+}
+
+body {
+  min-height: 100%;
 }
 
 .scene-canvas {
