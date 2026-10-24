@@ -7,7 +7,7 @@ Each phase is small and independently verifiable. Finish and verify one before s
 **Testing applies to every phase:** write Vitest tests only for the specific feature logic and behaviour a phase adds. Do not add tests for `main.tsx`, `App.tsx`, or other plain wiring.
 
 1. **Scaffold (done):** Vite + React + TypeScript project runs and shows a minimal page.
-2. **Three.js canvas (done):** A React component renders a Three.js scene with a spinning cube.
+2. **Three.js canvas:** A React component renders a Three.js scene with a spinning cube.
 3. **Camera and lighting:** Add orbit controls, lights, and a ground plane.
 4. **Low-poly character:** Build one procedural low-poly character in the scene.
 5. **First animation:** Animate that character through one simple fatality.

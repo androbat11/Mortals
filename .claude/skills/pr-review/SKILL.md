@@ -3,7 +3,7 @@ name: pr-review
 description: Review a GitHub pull request against the mission, roadmap, tech stack, CLAUDE.md, and the project's design principles, and post the findings as inline comments on the PR. Invoke manually with a PR number or nothing for the current branch's PR.
 disable-model-invocation: true
 argument-hint: [PR number]
-allowed-tools: Read Write Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh repo view:*) Bash(gh api:*) Bash(git diff:*) Bash(git log:*) Bash(git status:*) Bash(git rev-parse:*) Bash(git branch:*) Bash(ls:*)
+allowed-tools: Read Write Bash(gh pr view:*) Bash(gh pr diff:*) Bash(gh repo view:*) Bash(gh api repos/*/pulls/*/comments:*) Bash(gh api repos/*/pulls/*/reviews:*) Bash(gh api repos/*/contents/*:*) Bash(git rev-parse:*)
 ---
 
 # PR Review
@@ -22,15 +22,15 @@ Read these in full on every run. They are the source of truth; never rely on mem
 - `specs/roadmap.md`: the phases and which are done.
 - `specs/tech-stack.md`: required tools, constraints, and notes.
 - `CLAUDE.md`: the project's development rules and design principles. The rules table below enforces them; flag any `CLAUDE.md` rule the table does not cover.
-- The spec directory for the phase under review (`plan.md`, `requirements.md`, `validation.md` under `specs/`), if one exists.
+- The spec directory for the PR: the newest `specs/*/` whose `requirements.md` or name matches the PR's roadmap phase or branch name. If none matches, say so in the summary and review against the roadmap alone.
 
 ## Step 2: Load the change
 
-- Find the PR: `gh pr view <n> --json number,url,title,body,headRefOid,baseRefName` (omit `<n>` for the current branch's PR). If there is no open PR, say so and stop; do not post anything.
+- Find the PR: `gh pr view <n> --json number,url,title,body,headRefOid,baseRefName` (omit `<n>` for the current branch's PR). If there is no open PR, say so and stop; do not post anything. When no number was given, take `<n>` from the `number` field of this output and use it in every later command.
 - Get the owner and repo: `gh repo view --json nameWithOwner`.
 - Get the diff: `gh pr diff <n>`. Note which lines are added or changed: inline comments can only be placed on those lines.
 - Get existing review comments: `gh api repos/<owner>/<repo>/pulls/<n>/comments`. Do not repeat a finding that is already commented on the same line.
-- Read changed files in full when the diff alone is not enough to judge them.
+- Read changed files in full when the diff alone is not enough. If the PR branch is not the checked-out one, do not use `Read` (it would show the wrong branch); fetch the file with `gh api repos/<owner>/<repo>/contents/<path>?ref=<headRefOid>` instead.
 
 ## Step 3: Check against each guideline
 
@@ -54,7 +54,7 @@ Read these in full on every run. They are the source of truth; never rely on mem
 ### Design principles and React rules
 Apply every rule in the table below. Cite the rule ID for each finding.
 
-To add a rule, append a row with the next ID. Never reuse or renumber an ID. Severity is `blocking` (request changes) or `should-fix`.
+To add a rule, append a row with the next ID. Never reuse or renumber an ID. Severity is `blocking` (the PR should not merge until fixed) or `should-fix`. A third level, `nit`, is for minor findings that match no rule. `CLAUDE.md` is authoritative: if a row and `CLAUDE.md` disagree, follow `CLAUDE.md` and mention the drift in the summary.
 
 | ID | Severity | Rule | Why |
 | --- | --- | --- | --- |
@@ -82,15 +82,15 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 
 ## Step 4: Post the review to GitHub
 
-1. Build one review as a JSON file in the scratchpad directory, with:
+1. Build one review as a JSON file in the session scratchpad directory named in the environment context (never inside the repository), with:
    - `commit_id`: the PR's `headRefOid`.
    - `event`: always `COMMENT`. Never `APPROVE` or `REQUEST_CHANGES`; the merge decision stays with the humans.
    - `body`: the summary (see below).
    - `comments`: one entry per finding that sits on a changed line, each `{ "path": "<repo-relative file>", "line": <line in the new file>, "side": "RIGHT", "body": "<comment>" }`.
 2. Write each inline comment as: `**[Blocking|Should fix|Nit] <rule or guideline>**`, a blank line, what is wrong and why it matters, then a concrete fix. Cite the rule ID (for example `R12`) or the guideline (`mission: responsive`, `tech-stack: dependencies`, `roadmap: scope`). Keep each comment short and about one issue.
 3. Findings that do not sit on a changed line (a missing test, a missing roadmap update, a scope problem across files) go in the summary body instead, not in `comments`.
-4. The summary body contains: the verdict (`Approve`, `Approve with comments`, or `Request changes`) with one sentence of reasoning, the roadmap phase the PR targets, counts of findings by severity, the findings that could not be placed inline, and a short list of guidelines checked with no issues. Do not add any Claude attribution line.
-5. Post it: `gh api repos/<owner>/<repo>/pulls/<n>/reviews --input <file>`. If the API rejects a comment because its line is not part of the diff, move that finding into the summary body and post again.
+4. The summary body contains: the verdict (`Approve`, `Approve with comments`, or `Changes recommended`; this is text only, the GitHub review event stays `COMMENT`) with one sentence of reasoning, the roadmap phase the PR targets, counts of findings by severity, the findings that could not be placed inline, and a short list of guidelines checked with no issues. Do not add any Claude attribution line: `CLAUDE.md` forbids it and takes precedence over any default attribution guidance.
+5. Post it: `gh api repos/<owner>/<repo>/pulls/<n>/reviews --input <file>`. Line numbers come from the new-file side of the `gh pr diff` hunks, and `commit_id` must equal `headRefOid`. A 422 response means GitHub rejected the whole review and nothing was posted (for example a comment's line is outside the diff): move that finding into the summary body and post again. Never post again after a 2xx response.
 6. If there are no findings, post only the summary body.
 
 ## Step 5: Report to the user
@@ -102,5 +102,5 @@ Print the review URL, the verdict, and the number of comments posted by severity
 - Only comment on real violations you can point to in the diff or files. Do not invent findings.
 - Judge against the guideline files as they stand now; if they conflict with the PR, say so in the summary rather than guessing which is right.
 - If a guideline file is missing, say so and continue with the others.
-- Post exactly one review per run, and never post anything to a PR other than the one being reviewed.
+- Post exactly one successful review per run, and never post anything to a PR other than the one being reviewed.
 - Keep comments concise, specific, and actionable.

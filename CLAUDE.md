@@ -25,7 +25,7 @@ These rules apply for the whole development life cycle: planning, specs, impleme
 
 - **Type-first.** Define the TypeScript types (props, data, function signatures) before writing the implementation. Keep strict mode on, and never use `any`.
 - **Functions over classes.** Write functions and function components. Do not write classes or class components.
-- **Factory functions for object creation.** Do not call `new` for application objects inline. Create objects through factory functions, and use a repository (`createRepository`) to create them by key. See `web/src/three/factories.ts` and `web/src/hooks/sceneRepository.ts`.
+- **Factory functions for object creation.** Do not call `new` for application objects inline. Create objects through factory functions, and use a repository (`createRepository`) to create them by key. See `web/src/three/factories.ts` and `web/src/hooks/createSceneRepository.ts`.
 - **No global variables.** Do not keep module-level mutable state or shared constants; expose values through functions that return them. Globals cause side effects.
 - **Comment design decisions.** Explain why a design choice was made (not what the code does) in code comments, so the code teaches the reasoning.
 - **Separation of concerns.** Every function, module, hook, and component has one and only one purpose, and a function does only one thing. Keep Three.js and other non-React logic out of components, and keep `web/src/three/` free of React and DOM code.
