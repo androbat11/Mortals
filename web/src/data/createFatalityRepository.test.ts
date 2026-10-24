@@ -4,7 +4,11 @@ import { createFatality } from './createFatality'
 import { createFatalityRepository } from './createFatalityRepository'
 import type { FatalityId } from './fatality'
 
-const ids: FatalityId[] = ['sample-uppercut']
+const ids: FatalityId[] = [
+  'sample-uppercut',
+  'sample-sweep-kick',
+  'sample-overhead-smash',
+]
 
 describe('fatality registry', () => {
   it('returns an entry with the requested id for every registered id', () => {

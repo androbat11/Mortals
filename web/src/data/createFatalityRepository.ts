@@ -1,5 +1,7 @@
 import { createRepository } from '../three/core/createRepository'
 import type { Fatality, FatalityId } from './fatality'
+import { createSampleOverheadSmash } from './fatalities/createSampleOverheadSmash'
+import { createSampleSweepKick } from './fatalities/createSampleSweepKick'
 import { createSampleUppercut } from './fatalities/createSampleUppercut'
 
 // Design: the registry of fatalities, keyed by id and made with the same
@@ -11,5 +13,7 @@ import { createSampleUppercut } from './fatalities/createSampleUppercut'
 export function createFatalityRepository() {
   return createRepository<Record<FatalityId, () => Fatality>>({
     'sample-uppercut': createSampleUppercut,
+    'sample-sweep-kick': createSampleSweepKick,
+    'sample-overhead-smash': createSampleOverheadSmash,
   })
 }

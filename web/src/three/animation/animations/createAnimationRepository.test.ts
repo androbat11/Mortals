@@ -3,7 +3,11 @@ import type { AnimationId } from '../animationTypes'
 import { createAnimation } from './createAnimation'
 import { createAnimationRepository } from './createAnimationRepository'
 
-const ids: AnimationId[] = ['uppercut-finisher']
+const ids: AnimationId[] = [
+  'uppercut-finisher',
+  'sweep-kick-finisher',
+  'overhead-smash-finisher',
+]
 
 describe('animation registry', () => {
   it('returns an animation with the requested id for every registered id', () => {
