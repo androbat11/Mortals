@@ -1,18 +1,17 @@
-import { cleanup, render, screen } from '@testing-library/react'
-import { afterEach, describe, expect, it } from 'vitest'
+import { cleanup, render } from '@testing-library/react'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import App from './App.tsx'
+
+vi.mock('three', async (importOriginal) =>
+  (await import('./test/mockThree')).withMockRenderer(await importOriginal()),
+)
 
 afterEach(cleanup)
 
 describe('App', () => {
-  it('renders the Mortals text', () => {
-    render(<App />)
-    expect(screen.getByText('Mortals')).toBeInTheDocument()
-  })
-
-  it('renders a single div and not an empty page', () => {
+  it('renders the scene page with a canvas', () => {
     const { container } = render(<App />)
-    expect(container.childElementCount).toBe(1)
-    expect(container.firstElementChild?.tagName).toBe('DIV')
+    expect(container.querySelector('main.scene-page')).toBeInTheDocument()
+    expect(container.querySelector('canvas')).toBeInTheDocument()
   })
 })
