@@ -4,6 +4,8 @@ Each phase is small and independently verifiable. Finish and verify one before s
 
 **Responsive design applies to every phase:** each screen or component added must work at phone, tablet, and desktop widths and be checked at those sizes before the phase is done.
 
+**Testing applies to every phase:** write Vitest tests only for the specific feature logic and behaviour a phase adds. Do not add tests for `main.tsx`, `App.tsx`, or other plain wiring.
+
 1. **Scaffold (done):** Vite + React + TypeScript project runs and shows a minimal page.
 2. **Three.js canvas:** A React component renders a Three.js scene with a spinning cube.
 3. **Camera and lighting:** Add orbit controls, lights, and a ground plane.

@@ -1,5 +1,7 @@
+import ScenePage from './pages/ScenePage'
+
 function App() {
-  return <div>Mortals</div>
+  return <ScenePage />
 }
 
 export default App

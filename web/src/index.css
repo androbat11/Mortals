@@ -1,0 +1,24 @@
+html,
+body,
+#root {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.scene-page {
+  width: 100%;
+  height: 100dvh;
+  /* Clipping is scoped to this full-viewport page, so later screens with long
+     content (tutorial text) can still scroll. */
+  overflow: hidden;
+}
+
+.scene-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.scene-canvas canvas {
+  display: block;
+}
