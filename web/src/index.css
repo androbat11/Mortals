@@ -1,17 +1,48 @@
-html,
-body,
-#root {
-  margin: 0;
-  width: 100%;
-  height: 100%;
+/* Shared colours and font. They match the 3D scene's dark background so the
+   page and the scene read as one. */
+:root {
+  --color-background: #1f2937;
+  --color-panel: #111827;
+  --color-text: #e5e7eb;
+  --color-accent: #f59e0b;
+  font-family:
+    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: var(--color-text);
+  background: var(--color-background);
 }
 
-.scene-page {
+/* One focus ring for every interactive element, so keyboard users can always see
+   where they are. */
+:focus-visible {
+  outline: 3px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Gentle colour transitions, only for users who have not asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button {
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease;
+  }
+}
+
+/* A heading that only takes focus from the script (after a route change) is not a
+   control, so it does not need a ring around it. */
+h1[tabindex='-1']:focus {
+  outline: none;
+}
+
+html,
+body {
+  margin: 0;
   width: 100%;
-  height: 100dvh;
-  /* Clipping is scoped to this full-viewport page, so later screens with long
-     content (tutorial text) can still scroll. */
-  overflow: hidden;
+}
+
+body {
+  min-height: 100%;
 }
 
 .scene-canvas {

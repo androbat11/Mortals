@@ -1,7 +1,7 @@
-import ScenePage from './pages/ScenePage'
+import AppRoutes from './pages/AppRoutes'
 
 function App() {
-  return <ScenePage />
+  return <AppRoutes />
 }
 
 export default App

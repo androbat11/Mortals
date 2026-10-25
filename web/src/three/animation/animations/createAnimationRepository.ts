@@ -1,5 +1,7 @@
-import { createRepository } from '../../core/createRepository'
+import { createRepository } from '../../../core/createRepository'
 import type { Animation, AnimationId } from '../animationTypes'
+import { createOverheadSmashFinisher } from './createOverheadSmashFinisher'
+import { createSweepKickFinisher } from './createSweepKickFinisher'
 import { createUppercutFinisher } from './createUppercutFinisher'
 
 // Design: the registry of animations, keyed by animation id, made with the same
@@ -11,5 +13,7 @@ import { createUppercutFinisher } from './createUppercutFinisher'
 export function createAnimationRepository() {
   return createRepository<Record<AnimationId, () => Animation>>({
     'uppercut-finisher': createUppercutFinisher,
+    'sweep-kick-finisher': createSweepKickFinisher,
+    'overhead-smash-finisher': createOverheadSmashFinisher,
   })
 }

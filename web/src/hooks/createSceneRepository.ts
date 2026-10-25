@@ -1,6 +1,6 @@
 import { createAnimation } from '../three/animation/animations/createAnimation'
 import { createAnimationPlayer } from '../three/animation/createAnimationPlayer'
-import { createRepository } from '../three/core/createRepository'
+import { createRepository } from '../core/createRepository'
 import { createOrbitControls } from '../three/controls/createOrbitControls'
 import { createAmbientLight } from '../three/objects/createAmbientLight'
 import { createBackground } from '../three/objects/createBackground'

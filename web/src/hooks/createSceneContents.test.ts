@@ -9,6 +9,7 @@ import {
   Vector3,
 } from 'three'
 import { describe, expect, it } from 'vitest'
+import { createPlaybackControl } from '../three/animation/playbackControl'
 import { createControlLimits } from '../three/controls/controlLimits'
 import { createSceneContents } from './createSceneContents'
 import { createSceneRepository } from './createSceneRepository'
@@ -19,6 +20,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1.5,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     const meshes = scene.children.filter((child) => child instanceof Mesh)
 
@@ -33,6 +35,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     expect(scene.background).toBeInstanceOf(Color)
     expect(scene.fog).toBeInstanceOf(Fog)
@@ -44,6 +47,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     const ground = scene.children.find(
       (child): child is Mesh =>
@@ -62,6 +66,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     expect(updaters).toHaveLength(1)
     expect(character.joints.shoulderR.rotation.x).toBe(0)
@@ -77,6 +82,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     let boxesOutsideTheCharacter = 0
     scene.children.forEach((child) => {
@@ -92,6 +98,7 @@ describe('createSceneContents', () => {
       createSceneRepository(),
       1.5,
       'uppercut-finisher',
+      createPlaybackControl(),
     )
     expect(camera.aspect).toBe(1.5)
   })

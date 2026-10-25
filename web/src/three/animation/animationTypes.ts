@@ -24,7 +24,10 @@ export type JointTrack = {
 
 // The ids are a closed union so a typo cannot select a missing animation, and
 // so a future data entry's `animationId` is checked by the compiler.
-export type AnimationId = 'uppercut-finisher'
+export type AnimationId =
+  | 'uppercut-finisher'
+  | 'sweep-kick-finisher'
+  | 'overhead-smash-finisher'
 
 export type Animation = {
   id: AnimationId
