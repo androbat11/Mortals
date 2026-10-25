@@ -1,4 +1,4 @@
-import { createRepository } from '../three/core/createRepository'
+import { createRepository } from '../core/createRepository'
 import type { Fatality, FatalityId } from './fatality'
 import { createSampleOverheadSmash } from './fatalities/createSampleOverheadSmash'
 import { createSampleSweepKick } from './fatalities/createSampleSweepKick'

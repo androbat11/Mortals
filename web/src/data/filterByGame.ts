@@ -1,13 +1,12 @@
 import type { Fatality } from './fatality'
+import type { GameId } from './game'
 
-// `null` means no filter (everything); otherwise only that game's fatalities. An
-// unknown game gives an empty list, which callers avoid by only passing games
-// that exist.
+// `null` means no filter (everything); otherwise only that game's fatalities.
 export function filterByGame(
   fatalities: Fatality[],
-  game: string | null,
+  game: GameId | null,
 ): Fatality[] {
   return game === null
     ? fatalities
-    : fatalities.filter((fatality) => fatality.game === game)
+    : fatalities.filter((fatality) => fatality.game.id === game)
 }

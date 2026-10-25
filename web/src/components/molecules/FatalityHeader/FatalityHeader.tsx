@@ -12,7 +12,9 @@ function FatalityHeader({ name, game }: FatalityHeaderProps) {
   return (
     <header className={styles.header}>
       <GameBadge>{game}</GameBadge>
-      <h1 className={styles.title}>{name}</h1>
+      <h1 className={styles.title} tabIndex={-1}>
+        {name}
+      </h1>
     </header>
   )
 }

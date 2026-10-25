@@ -11,7 +11,8 @@ import { createLimb } from './createLimb'
 // plan: a pelvis and torso, a head on a neck joint, and two arms and two legs
 // under named joints. The character stands upright with its feet on the ground
 // at y = 0. It is a plain Three.js group built from boxes, with no imported
-// model. Here the character only stands still; animating it is a later step.
+// model. It stands still here; the animation player moves it by rotating its
+// named joints.
 export function createCharacter(): CharacterRig {
   const palette = createCharacterPalette()
   const dim = createCharacterDimensions()

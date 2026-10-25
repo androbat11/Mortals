@@ -14,7 +14,7 @@ type FatalityDetailsProps = {
 function FatalityDetails({ fatality }: FatalityDetailsProps) {
   return (
     <article className={styles.details}>
-      <FatalityHeader name={fatality.name} game={fatality.game} />
+      <FatalityHeader name={fatality.name} game={fatality.game.name} />
       <section className={styles.section}>
         <h2 className={styles.title}>What it does</h2>
         <p className={styles.text}>{fatality.description}</p>

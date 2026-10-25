@@ -1,10 +1,11 @@
+import type { Game, GameId } from '../../../data/game'
 import FilterLink from '../../atoms/FilterLink/FilterLink'
 import styles from './GameFilter.module.css'
 
 type GameFilterProps = {
-  games: string[]
-  selected: string | null
-  hrefFor: (game: string | null) => string
+  games: Game[]
+  selected: GameId | null
+  hrefFor: (game: GameId | null) => string
 }
 
 // Design: a molecule, the whole filter: "All games" first, then one choice per
@@ -21,9 +22,9 @@ function GameFilter({ games, selected, hrefFor }: GameFilterProps) {
           </FilterLink>
         </li>
         {games.map((game) => (
-          <li key={game}>
-            <FilterLink href={hrefFor(game)} current={selected === game}>
-              {game}
+          <li key={game.id}>
+            <FilterLink href={hrefFor(game.id)} current={selected === game.id}>
+              {game.name}
             </FilterLink>
           </li>
         ))}

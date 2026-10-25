@@ -1,7 +1,7 @@
 import { useEffect, useState, type RefObject } from 'react'
 import type { AnimationId } from '../three/animation/animationTypes'
 import type { PlaybackControl } from '../three/animation/playbackControl'
-import { tryCreate } from '../three/core/tryCreate'
+import { tryCreate } from '../core/tryCreate'
 import { createSceneRepository } from './createSceneRepository'
 import { readContainerSize } from './readContainerSize'
 import { setupScene } from './setupScene'

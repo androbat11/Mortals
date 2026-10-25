@@ -15,12 +15,12 @@ type FatalityPageProps = {
   fatalityId: FatalityId
 }
 
-// Design: a page only composes. It gets a fatality id (the list will supply it
-// from the route later), looks the entry up through a hook, and fills the
-// template's slots (the scene, its playback buttons, and the details). The scene
-// is loaded lazily, so a loading message shows until its code arrives. The entry drives the scene: its `animationId` selects
-// the animation and its name builds the accessible label, so showing another
-// fatality needs data and no page code.
+// Design: a page only composes. It gets a fatality id (`AppRoutes` supplies it
+// from the address), looks the entry up through a hook, and fills the template's
+// slots: the scene, its playback buttons, and the details. The scene is loaded
+// lazily, so a loading message shows until its code arrives. The entry drives
+// the scene: its `animationId` selects the animation and its name builds the
+// accessible label, so showing another fatality needs data and no page code.
 function FatalityPage({ fatalityId }: FatalityPageProps) {
   const fatality = useFatality(fatalityId)
   const { playback, playing, togglePlaying, replay } = usePlayback()
@@ -46,7 +46,7 @@ function FatalityPage({ fatalityId }: FatalityPageProps) {
       }
       details={
         <>
-          <BackLink href={listHref(fatality.game)}>Back to the list</BackLink>
+          <BackLink href={listHref(fatality.game.id)}>Back to the list</BackLink>
           <FatalityDetails fatality={fatality} />
         </>
       }

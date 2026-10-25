@@ -1,8 +1,9 @@
-import { createFatality } from './createFatality'
+import { createFatalityRepository } from './createFatalityRepository'
 import type { Fatality } from './fatality'
-import { listFatalityIds } from './listFatalityIds'
 
-// Every fatality, for the list page.
+// Every fatality, for the list page. The registry is built once and used for
+// every id, instead of once per entry.
 export function createFatalities(): Fatality[] {
-  return listFatalityIds().map(createFatality)
+  const repository = createFatalityRepository()
+  return repository.keys().map((id) => repository.create(id))
 }

@@ -9,9 +9,15 @@ import SceneLoadError from './SceneLoadError'
 // restarts loading every time (the linter flags that too), and it holds no
 // application state. If the download fails, the rejected import is caught and
 // the error message is used as the component, so the page shows a message
-// instead of a blank scene.
+// instead of a blank scene. The error is logged, so a real fault in the chunk
+// can be told apart from being offline. `lazy` caches the result for the whole
+// session, so after a failure the message stays until the page is reloaded,
+// which is what it tells the user to do.
 const LazySceneCanvas = lazy<ComponentType<SceneCanvasProps>>(() =>
-  import('./SceneCanvas').catch(() => ({ default: SceneLoadError })),
+  import('./SceneCanvas').catch((error) => {
+    console.error(error)
+    return { default: SceneLoadError }
+  }),
 )
 
 export default LazySceneCanvas

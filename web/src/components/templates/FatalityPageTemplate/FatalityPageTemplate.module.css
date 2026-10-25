@@ -39,9 +39,11 @@
   background: var(--color-panel);
 }
 
-/* Tablet and up: the scene beside the details, filling the viewport, with the
-   details scrolling inside their column if they are long. */
-@media (min-width: 48rem) {
+/* Wide screens (about 960px and up): the scene beside the details, filling the
+   viewport, with the details scrolling inside their column if they are long.
+   Below that, including a portrait tablet, the stacked layout is kept, because a
+   narrower split made the title and the game badge wrap awkwardly. */
+@media (min-width: 60rem) {
   .page {
     display: grid;
     grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);

@@ -1,6 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createFatalities } from '../data/createFatalities'
-import { listGames } from '../data/listGames'
+import { listGameIds } from '../data/listGameIds'
 import { fatalityHref, listHref } from './hrefs'
 import { parseRoute } from './parseRoute'
 
@@ -27,17 +26,18 @@ describe('parseRoute', () => {
 })
 
 describe('parseRoute with a game filter', () => {
-  const [game] = listGames(createFatalities())
+  const [game] = listGameIds()
 
-  it('reads a known game from the address', () => {
-    expect(parseRoute(`#/?game=${encodeURIComponent(game)}`)).toEqual({
+  it('reads a known game id from the address', () => {
+    expect(parseRoute(`#/?game=${game}`)).toEqual({
       name: 'list',
       game,
     })
   })
 
   it('ignores an unknown or empty game', () => {
-    expect(parseRoute('#/?game=No%20such%20game')).toEqual({ name: 'list', game: null })
+    expect(parseRoute('#/?game=no-such-game')).toEqual({ name: 'list', game: null })
+    expect(parseRoute('#/?game=Sample%20game%20(placeholder)')).toEqual({ name: 'list', game: null })
     expect(parseRoute('#/?game=')).toEqual({ name: 'list', game: null })
     expect(parseRoute('#/?other=1')).toEqual({ name: 'list', game: null })
   })
@@ -54,12 +54,13 @@ describe('hrefs', () => {
   it('writes the list with and without a game', () => {
     expect(listHref()).toBe('#/')
     expect(listHref(null)).toBe('#/')
-    expect(listHref('A & B')).toBe('#/?game=A%20%26%20B')
+    expect(listHref('sample-game')).toBe('#/?game=sample-game')
   })
 
-  it('round-trips a game with special characters through parseRoute', () => {
-    const [game] = listGames(createFatalities())
-    expect(parseRoute(listHref(game))).toEqual({ name: 'list', game })
+  it('round-trips every game id through parseRoute', () => {
+    listGameIds().forEach((game) =>
+      expect(parseRoute(listHref(game))).toEqual({ name: 'list', game }),
+    )
   })
 
   it('round-trips through parseRoute', () => {

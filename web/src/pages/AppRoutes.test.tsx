@@ -14,13 +14,14 @@ vi.mock('three', async (importOriginal) =>
 beforeEach(() => {
   mockThree.renderers.length = 0
   stubResizeObserver()
-  window.scrollTo = vi.fn()
+  vi.spyOn(window, 'scrollTo').mockImplementation(() => {})
 })
 
 afterEach(() => {
   cleanup()
   window.location.hash = ''
   vi.unstubAllGlobals()
+  vi.restoreAllMocks()
 })
 
 describe('AppRoutes', () => {
@@ -38,12 +39,12 @@ describe('AppRoutes', () => {
     ).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Back to the list/ })).toHaveAttribute(
       'href',
-      '#/?game=Sample%20game%20(placeholder)',
+      '#/?game=sample-game',
     )
   })
 
   it('shows the filtered list for an address with a game', () => {
-    window.location.hash = '#/?game=Second%20sample%20game%20(placeholder)'
+    window.location.hash = '#/?game=second-sample-game'
     render(<AppRoutes />)
 
     expect(screen.getByRole('status')).toHaveTextContent('1 fatality in Second sample game')
@@ -56,17 +57,30 @@ describe('AppRoutes', () => {
     expect(screen.getByRole('heading', { level: 1, name: 'Mortals' })).toBeInTheDocument()
   })
 
-  it('moves between pages when the hash changes and scrolls to the top', () => {
+  it('moves between pages when the hash changes, scrolls to the top, and focuses the heading', () => {
     render(<AppRoutes />)
+    expect(window.scrollTo).not.toHaveBeenCalled()
 
     act(() => {
       window.location.hash = '#/fatality/sample-uppercut'
       window.dispatchEvent(new HashChangeEvent('hashchange'))
     })
 
-    expect(
-      screen.getByRole('heading', { level: 1, name: 'Sample Uppercut' }),
-    ).toBeInTheDocument()
+    const heading = screen.getByRole('heading', { level: 1, name: 'Sample Uppercut' })
+    expect(window.scrollTo).toHaveBeenCalledTimes(1)
     expect(window.scrollTo).toHaveBeenCalledWith(0, 0)
+    expect(document.activeElement).toBe(heading)
+  })
+
+  it('does not scroll when only the game filter changes', () => {
+    render(<AppRoutes />)
+
+    act(() => {
+      window.location.hash = '#/?game=sample-game'
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+    })
+
+    expect(screen.getByRole('status')).toHaveTextContent('2 fatalities in Sample game')
+    expect(window.scrollTo).not.toHaveBeenCalled()
   })
 })

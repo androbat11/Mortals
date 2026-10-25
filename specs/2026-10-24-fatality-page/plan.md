@@ -12,7 +12,7 @@
 2. Molecule `FatalityHeader`: the name as the page's `h1` plus a `GameBadge`.
 3. Molecule `TutorialSteps`: a titled, ordered list of the tutorial steps, labelled for assistive technology.
 4. Organism `FatalityDetails`: the header, a "What it does" section with the description, and the `TutorialSteps`; it takes a `Fatality`.
-5. Template `FatalityPageTemplate`: a `main` with two slots, `scene` and `details`, and all the responsive layout; it knows nothing about fatalities.
+5. Template `FatalityPageTemplate`: a `main` with three slots, `scene`, `controls` (added in Phase 8), and `details`, and all the responsive layout; it knows nothing about fatalities.
 6. Each component has its own CSS Module, written mobile-first.
 
 ## 4. Page and wiring
@@ -22,7 +22,7 @@
 
 ## 5. Responsive layout (mobile-first, with media queries)
 1. Phone (default): a stacked layout. The scene sits on top with a bounded height (about 55% of the viewport, with a minimum), then the details below, and the page scrolls normally, so a finger on the text can always scroll.
-2. Tablet and up (from about 768px): two columns, the scene beside the details, filling the viewport height, with the details scrolling inside their column if they are long.
+2. Wide screens (from about 960px; changed from 768px in the PR #8 review, because the narrower split made the title and badge wrap): two columns, the scene beside the details, filling the viewport height, with the details scrolling inside their column if they are long.
 3. No fixed widths and no horizontal scroll at 375, 768, and 1280px.
 
 ## 6. Tests (Vitest, feature logic only)

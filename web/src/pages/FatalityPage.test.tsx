@@ -31,16 +31,18 @@ describe('FatalityPage', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: fatality.name }),
     ).toBeInTheDocument()
-    expect(screen.getByText(fatality.game)).toBeInTheDocument()
+    expect(screen.getByText(fatality.game.name)).toBeInTheDocument()
     expect(screen.getByText(fatality.description)).toBeInTheDocument()
     fatality.tutorialSteps.forEach((step) =>
       expect(screen.getByText(step)).toBeInTheDocument(),
     )
   })
 
-  it('shows a loading message first, then the animation, named after the entry', async () => {
+  // The loading message is tested in `LazySceneCanvas.test.tsx`: the lazy scene
+  // stays loaded after its first use, so asserting the fallback here would only
+  // pass when this test runs first.
+  it('shows the animation, named after the entry', async () => {
     const { container } = render(<FatalityPage fatalityId="sample-uppercut" />)
-    expect(screen.getByRole('status')).toHaveTextContent('Loading the 3D view')
 
     expect(
       await screen.findByRole('img', { name: new RegExp(fatality.name) }),

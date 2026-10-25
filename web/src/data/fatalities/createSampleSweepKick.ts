@@ -1,3 +1,4 @@
+import { createGame } from '../createGame'
 import type { Fatality } from '../fatality'
 
 // Clearly-labelled sample data, like the first entry: an original generic kick,
@@ -7,7 +8,7 @@ export function createSampleSweepKick(): Fatality {
   return {
     id: 'sample-sweep-kick',
     name: 'Sample Sweep Kick',
-    game: 'Sample game (placeholder)',
+    game: createGame('sample-game'),
     description:
       'Sample data: a short original kick finisher that shows a second kind of move. It is replaced by real fatalities later.',
     tutorialSteps: [

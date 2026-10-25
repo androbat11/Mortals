@@ -8,7 +8,7 @@ describe('every registered fatality', () => {
   it('is well formed: non-empty text and at least one non-empty tutorial step', () => {
     fatalities.forEach((fatality) => {
       expect(fatality.name.trim()).not.toBe('')
-      expect(fatality.game.trim()).not.toBe('')
+      expect(fatality.game.name.trim()).not.toBe('')
       expect(fatality.description.trim()).not.toBe('')
       expect(fatality.tutorialSteps.length).toBeGreaterThan(0)
       fatality.tutorialSteps.forEach((step) => expect(step.trim()).not.toBe(''))
@@ -17,7 +17,7 @@ describe('every registered fatality', () => {
 
   it('is labelled as sample data until real content replaces it', () => {
     fatalities.forEach((fatality) => {
-      expect(fatality.game.toLowerCase()).toContain('sample')
+      expect(fatality.game.name.toLowerCase()).toContain('sample')
       expect(fatality.description.toLowerCase()).toContain('sample')
     })
   })
@@ -36,6 +36,6 @@ describe('every registered fatality', () => {
   })
 
   it('covers at least two games, so there is something to filter by', () => {
-    expect(new Set(fatalities.map((fatality) => fatality.game)).size).toBeGreaterThanOrEqual(2)
+    expect(new Set(fatalities.map((fatality) => fatality.game.id)).size).toBeGreaterThanOrEqual(2)
   })
 })

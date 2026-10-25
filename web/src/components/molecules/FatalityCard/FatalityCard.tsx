@@ -14,7 +14,7 @@ type FatalityCardProps = {
 function FatalityCard({ fatality, href }: FatalityCardProps) {
   return (
     <a className={styles.card} href={href}>
-      <GameBadge>{fatality.game}</GameBadge>
+      <GameBadge>{fatality.game.name}</GameBadge>
       <h2 className={styles.title}>{fatality.name}</h2>
       <p className={styles.text}>{fatality.description}</p>
     </a>

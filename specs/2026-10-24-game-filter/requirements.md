@@ -19,7 +19,7 @@ Out of scope:
 These were chosen as the recommended defaults, because there was no time to ask.
 - **Base:** `phase-10-more-fatalities`, because earlier phases are not merged into `main` yet.
 - **Filter, not grouping:** the roadmap allows "filter or group"; filtering is simpler and works well on a phone. Grouping can be added later.
-- **State in the URL:** the chosen game is part of the route (`#/?game=...`), not React state, so a filtered list can be linked to, a reload keeps it, the back button works, and coming back from a fatality does not lose it. This is the same hash routing as Phase 9, so no dependency is needed.
+- **State in the URL:** the chosen game is part of the route (`#/?game=<game id>`, a stable id such as `sample-game`, not the display name), not React state, so a filtered list can be linked to, a reload keeps it, the back button works, and coming back from a fatality does not lose it. This is the same hash routing as Phase 9, so no dependency is needed.
 - **Links, not buttons:** each choice is an anchor to a route, so browser behaviour (new tab, copy link, keyboard) works and the "current" choice is `aria-current`, which screen readers announce.
 - **Unknown game is no filter:** a mistyped or stale game in the address shows the full list, never an empty or broken page, as in Phase 9.
 - **Games come from the data:** the filter lists the distinct games of the entries, in order of first appearance, so a new game appears when a fatality with that game is added.

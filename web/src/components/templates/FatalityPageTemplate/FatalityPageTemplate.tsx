@@ -7,10 +7,12 @@ type FatalityPageTemplateProps = {
   details: ReactNode
 }
 
-// Design: a template owns the layout and nothing else: two slots, the scene and
-// the details, so it knows nothing about fatalities and can hold any scene next
-// to any text, with the controls over the bottom of the scene. The layout is in the CSS Module, written mobile-first: stacked on
-// a phone, side by side from tablet width.
+// Design: a template owns the layout and nothing else: three slots, the scene,
+// the controls (shown over the bottom of the scene), and the details. It knows
+// nothing about fatalities, so it can hold any scene next to any text. The layout
+// is in the CSS Module, written mobile-first: stacked on a phone and a portrait
+// tablet, side by side from about 960px, where the details column is wide enough
+// for a title and a badge to sit comfortably.
 function FatalityPageTemplate({
   scene,
   controls,

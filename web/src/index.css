@@ -1,5 +1,5 @@
 /* Shared colours and font. They match the 3D scene's dark background so the
-   page and the scene read as one; a full style pass is a later phase. */
+   page and the scene read as one. */
 :root {
   --color-background: #1f2937;
   --color-panel: #111827;
@@ -27,6 +27,12 @@
       border-color 0.15s ease,
       color 0.15s ease;
   }
+}
+
+/* A heading that only takes focus from the script (after a route change) is not a
+   control, so it does not need a ring around it. */
+h1[tabindex='-1']:focus {
+  outline: none;
 }
 
 html,

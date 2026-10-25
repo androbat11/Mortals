@@ -30,6 +30,17 @@ These were chosen as the recommended defaults, because there was no time to ask.
 - `CLAUDE.md`: no new dependencies beyond the tech stack; verify with `npm test`, `npm run lint`, `npm run build`.
 - Repo state at start: Phases 1 to 12 are built on stacked branches that are not merged into `main` yet; the build output is `web/dist` (about 230 kB of app code and a 560 kB lazily loaded Three.js chunk).
 
+## Review follow-ups (PR #8)
+The deep review and `/pr-review` of this PR led to these changes, made on this branch:
+- **Stable game ids:** `Fatality.game` is a `Game` (`{ id: GameId, name }`) and the address carries the id (`#/?game=sample-game`), so renaming a game cannot break a shared link, and a typo is a compile error. `parseRoute` only checks ids against lists of ids (`isGameId`, `isFatalityId`), so parsing an address no longer builds every fatality; `createFatalities` builds the registry once.
+- **`web/src/core/`:** `createRepository` and `tryCreate` moved out of `three/core/`, so the fatality content no longer depends on the 3D folder.
+- **Route changes:** `useRouteChange` replaces `useScrollToTop`: it reacts to the page, not the route object, so a filter click or the first load does not scroll, and it moves focus to the new page's heading (`tabIndex={-1}`).
+- **Lazy scene:** a failed load is logged and tested; it stays failed until reload.
+- **Layout:** the two-column fatality page starts at about 960px (768px stayed cramped).
+- **Tests:** the order-dependent and vacuous tests were fixed, and a feet-near-the-ground check now runs over every registered animation.
+- **Comments and docs:** stale phase wording and the README claim that replacing content needs no code change were corrected.
+Not changed on purpose: button inputs, a victim character, character information, a favicon, and real content (they need the owner's decisions).
+
 ## Future notes
 - Replace the sample fatalities with real, verified content before publishing.
 - When a host is chosen, add its deploy step (for GitHub Pages, a workflow that builds `web/` and publishes `web/dist`).

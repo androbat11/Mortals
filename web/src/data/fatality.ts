@@ -1,4 +1,5 @@
 import type { AnimationId } from '../three/animation/animationTypes'
+import type { Game } from './game'
 
 // Design: type-first, and a fatality is plain data. The ids are a closed union
 // (like `AnimationId`), so a mistyped id is a compile error and the registry can
@@ -18,7 +19,7 @@ export type TutorialSteps = [string, ...string[]]
 export type Fatality = {
   id: FatalityId
   name: string
-  game: string
+  game: Game
   description: string
   tutorialSteps: TutorialSteps
   // Which animation plays for this fatality; the compiler checks it exists.

@@ -18,7 +18,7 @@ Checked so far with headless Chrome screenshots at 375x812, 768x1024, and 1280x8
 - [x] The sample content reads as clearly-labelled sample data, with nothing invented about a real game.
 - [x] **Phone (~375px) layout:** the scene is on top at a bounded height with the details below, and there is no horizontal scroll.
 - [ ] **Phone (~375px) touch:** dragging on the text scrolls the page, and dragging on the scene still rotates the camera.
-- [x] **Tablet (~768px) and desktop (~1280px) layout:** the scene is beside the details in two columns filling the viewport, with nothing overlapping.
+- [x] **Tablet (~768px) and desktop (~1280px) layout:** at 768px the layout is stacked and at 1280px the scene is beside the details in two columns (the split starts at about 960px), with nothing overlapping.
 - [ ] **Long details:** with long text the details scroll inside their column on tablet and desktop, and the page scrolls on a phone.
 - [ ] Text is readable (contrast and size) against the dark background at every width.
 - [ ] Rotating a device or resizing the window re-flows the layout and the canvas without a reload.

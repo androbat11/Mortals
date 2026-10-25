@@ -1,5 +1,5 @@
 import { useRoute } from '../hooks/useRoute'
-import { useScrollToTop } from '../hooks/useScrollToTop'
+import { useRouteChange } from '../hooks/useRouteChange'
 import FatalityListPage from './FatalityListPage'
 import FatalityPage from './FatalityPage'
 
@@ -9,7 +9,7 @@ import FatalityPage from './FatalityPage'
 // instead of reusing the old one.
 function AppRoutes() {
   const route = useRoute()
-  useScrollToTop(route)
+  useRouteChange(route)
 
   if (route.name === 'fatality') {
     return <FatalityPage key={route.id} fatalityId={route.id} />

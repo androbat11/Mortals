@@ -1,3 +1,4 @@
+import { createGame } from '../createGame'
 import type { Fatality } from '../fatality'
 
 // Design: this is clearly-labelled sample data, not a real Mortal Kombat
@@ -10,7 +11,7 @@ export function createSampleUppercut(): Fatality {
   return {
     id: 'sample-uppercut',
     name: 'Sample Uppercut',
-    game: 'Sample game (placeholder)',
+    game: createGame('sample-game'),
     description:
       'Sample data: a short original uppercut finisher that shows how a fatality is described. It is replaced by real fatalities later.',
     tutorialSteps: [

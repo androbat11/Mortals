@@ -7,7 +7,7 @@ describe('createSampleUppercut', () => {
 
   it('has a non-empty name, game, and description', () => {
     expect(fatality.name.trim()).not.toBe('')
-    expect(fatality.game.trim()).not.toBe('')
+    expect(fatality.game.name.trim()).not.toBe('')
     expect(fatality.description.trim()).not.toBe('')
   })
 
@@ -17,7 +17,7 @@ describe('createSampleUppercut', () => {
   })
 
   it('says it is sample data and claims no real game', () => {
-    expect(fatality.game.toLowerCase()).toContain('sample')
+    expect(fatality.game.name.toLowerCase()).toContain('sample')
     expect(fatality.description.toLowerCase()).toContain('sample')
   })
 

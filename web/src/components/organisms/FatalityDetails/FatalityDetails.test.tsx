@@ -14,7 +14,7 @@ describe('FatalityDetails', () => {
     expect(
       screen.getByRole('heading', { level: 1, name: fatality.name }),
     ).toBeInTheDocument()
-    expect(screen.getByText(fatality.game)).toBeInTheDocument()
+    expect(screen.getByText(fatality.game.name)).toBeInTheDocument()
   })
 
   it('shows what the fatality does under its own heading', () => {

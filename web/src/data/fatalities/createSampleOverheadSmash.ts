@@ -1,3 +1,4 @@
+import { createGame } from '../createGame'
 import type { Fatality } from '../fatality'
 
 // Clearly-labelled sample data, like the others: an original generic smash, not
@@ -7,7 +8,7 @@ export function createSampleOverheadSmash(): Fatality {
   return {
     id: 'sample-overhead-smash',
     name: 'Sample Overhead Smash',
-    game: 'Second sample game (placeholder)',
+    game: createGame('second-sample-game'),
     description:
       'Sample data: a short original smash finisher that shows a third kind of move, in a second sample game. It is replaced by real fatalities later.',
     tutorialSteps: [

@@ -22,7 +22,7 @@ describe('FatalityCard', () => {
     const link = screen.getByRole('link')
 
     expect(link).toHaveTextContent(fatality.name)
-    expect(link).toHaveTextContent(fatality.game)
+    expect(link).toHaveTextContent(fatality.game.name)
     expect(link).toHaveTextContent(fatality.description)
   })
 })
