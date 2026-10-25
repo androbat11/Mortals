@@ -1,3 +1,4 @@
+import ReticleIcon from '../../atoms/ReticleIcon/ReticleIcon'
 import styles from './MoveSearch.module.css'
 
 type MoveSearchProps = {
@@ -12,6 +13,9 @@ function MoveSearch({ value, onChange }: MoveSearchProps) {
   return (
     <label className={styles.field}>
       <span className={styles.name}>Search the archive</span>
+      <span className={styles.icon}>
+        <ReticleIcon />
+      </span>
       <input
         type="search"
         className={styles.input}
