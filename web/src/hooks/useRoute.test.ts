@@ -8,25 +8,25 @@ afterEach(() => {
 
 describe('useRoute', () => {
   it('reads the current hash', () => {
-    window.location.hash = '#/fatality/sample-uppercut'
+    window.location.hash = '#/brutalities'
     const { result } = renderHook(() => useRoute())
-    expect(result.current).toEqual({ name: 'fatality', id: 'sample-uppercut' })
+    expect(result.current).toEqual({ name: 'brutalities' })
   })
 
-  it('is the list for an empty hash', () => {
+  it('is the About page for an empty hash', () => {
     const { result } = renderHook(() => useRoute())
-    expect(result.current).toEqual({ name: 'list', game: null })
+    expect(result.current).toEqual({ name: 'about' })
   })
 
   it('follows the hash when it changes', () => {
     const { result } = renderHook(() => useRoute())
 
     act(() => {
-      window.location.hash = '#/fatality/sample-uppercut'
+      window.location.hash = '#/brutalities'
       window.dispatchEvent(new HashChangeEvent('hashchange'))
     })
 
-    expect(result.current).toEqual({ name: 'fatality', id: 'sample-uppercut' })
+    expect(result.current).toEqual({ name: 'brutalities' })
   })
 
   it('keeps the same route object while the hash does not change', () => {

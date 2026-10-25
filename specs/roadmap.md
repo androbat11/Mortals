@@ -22,6 +22,6 @@ Each phase is small and independently verifiable. Finish and verify one before s
 
 Phases 1 to 13 built the first version (a sample-content viewer). It is being redesigned to the Netherflame archive design on the `mvp` branch:
 
-14. **MVP redesign:** Rebuild the screens to the Netherflame design (header, footer, About, Fatalities, Brutalities), with a fighter-and-move data model (inputs, range, trigger), search and filters, and the video slots as animated 3D previews. Details are in `specs/2026-10-25-mvp-redesign/`.
+14. **MVP redesign (built, awaiting review):** Rebuild the screens to the Netherflame design (header, footer, About, Fatalities, Brutalities), with a fighter-and-move data model (inputs, range, trigger), search and filters, and the video slots as animated 3D previews. Details are in `specs/2026-10-25-mvp-redesign/`.
 15. **Content accuracy:** Verify every move (name, game, description, trigger, input) against the games and remove the "unverified" marking.
 16. **Publish:** Publish the verified site to a static host.

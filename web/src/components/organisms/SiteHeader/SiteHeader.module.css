@@ -1,0 +1,42 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-bottom: 1px solid var(--color-border);
+  background: rgb(10 10 12 / 92%);
+  backdrop-filter: blur(8px);
+}
+
+.inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs) var(--space-lg);
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-xs) var(--margin);
+}
+
+.brand {
+  color: var(--color-primary-glow);
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+/* On a phone the search drops to its own row under the brand and links. */
+.search {
+  flex: 1 1 100%;
+  padding-bottom: var(--space-xs);
+}
+
+@media (min-width: 48rem) {
+  .search {
+    flex: 1 1 14rem;
+    max-width: 24rem;
+    margin-left: auto;
+    padding-bottom: 0;
+  }
+}

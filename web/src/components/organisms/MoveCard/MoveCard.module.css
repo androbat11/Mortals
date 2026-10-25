@@ -1,0 +1,57 @@
+.card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: start;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  background: linear-gradient(160deg, var(--color-surface-raised), var(--color-surface) 40%);
+  box-shadow: var(--rim-inset);
+}
+
+.card:hover,
+.card:focus-within {
+  border-color: var(--color-primary);
+  box-shadow: var(--glow-fatality);
+}
+
+.card[data-kind='brutality']:hover,
+.card[data-kind='brutality']:focus-within {
+  border-color: var(--color-secondary);
+  box-shadow: var(--glow-brutality);
+}
+
+.body {
+  display: grid;
+  gap: var(--space-sm);
+}
+
+.header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.name {
+  margin-right: auto;
+  font-size: 1.75rem;
+}
+
+.trigger {
+  padding: var(--space-xs) var(--space-sm);
+  border-left: 3px solid var(--color-secondary-bright);
+  background: var(--color-sunken);
+  color: var(--color-text);
+  font-size: 0.875rem;
+}
+
+.trigger strong {
+  color: var(--color-secondary-bright);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.description {
+  color: var(--color-text-secondary);
+}

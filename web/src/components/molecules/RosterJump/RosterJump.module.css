@@ -1,0 +1,36 @@
+.strip {
+  display: flex;
+  gap: var(--space-sm);
+  margin: 0;
+  padding: 0 0 var(--space-xs);
+  overflow-x: auto;
+  scrollbar-color: var(--color-border-strong) transparent;
+  scrollbar-width: thin;
+  list-style: none;
+}
+
+.jump {
+  min-height: 2.75rem;
+  padding: 0.25rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0;
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.jump:hover {
+  border-color: var(--color-secondary-bright);
+}
+
+@media (min-width: 48rem) {
+  .strip {
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+}

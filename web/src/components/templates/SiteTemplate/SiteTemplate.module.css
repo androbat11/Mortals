@@ -1,0 +1,27 @@
+.site {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+.main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: var(--space-lg) var(--margin) 0;
+}
+
+.skip {
+  position: absolute;
+  top: -4rem;
+  left: var(--space-sm);
+  z-index: 20;
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary);
+  color: var(--color-text);
+}
+
+.skip:focus {
+  top: var(--space-sm);
+}

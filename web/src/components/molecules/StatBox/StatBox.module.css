@@ -1,0 +1,25 @@
+.box {
+  display: grid;
+  gap: var(--space-xs);
+  padding: var(--space-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  box-shadow: var(--rim-inset);
+  text-align: center;
+}
+
+.value {
+  color: var(--color-secondary-bright);
+  font-family: var(--font-display);
+  font-size: 2.75rem;
+  line-height: 1;
+}
+
+.label {
+  color: var(--color-text-secondary);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  overflow-wrap: anywhere;
+  text-transform: uppercase;
+}

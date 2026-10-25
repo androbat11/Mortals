@@ -1,38 +1,79 @@
-/* Shared colours and font. They match the 3D scene's dark background so the
-   page and the scene read as one. */
+/* Design tokens from the Netherflame design system
+   (specs/design/netherflame-design-system.md). Components use these variables and
+   never hard-code a colour, a font, or a spacing value. */
 :root {
-  --color-background: #1f2937;
-  --color-panel: #111827;
-  --color-text: #e5e7eb;
-  --color-accent: #f59e0b;
-  font-family:
-    system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --color-canvas: #0a0a0c;
+  --color-surface: #111116;
+  --color-surface-raised: #18181f;
+  --color-sunken: #0e0e13;
+  --color-chip: #1f1f28;
+  --color-zebra: #14141b;
+  --color-border: #272732;
+  --color-border-strong: #3f3f46;
+
+  --color-primary: #dc2626;
+  --color-primary-dark: #991b1b;
+  --color-primary-glow: #ef4444;
+  --color-secondary: #d97706;
+  --color-secondary-bright: #f59e0b;
+  --color-secondary-deep: #b45309;
+
+  --color-text: #f4f4f5;
+  --color-text-secondary: #a1a1aa;
+  --color-text-muted: #71717a;
+
+  --font-display: 'Bebas Neue', Impact, 'Arial Narrow', sans-serif;
+  --font-body: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2.5rem;
+  --gutter: 0.75rem;
+  --margin: 1rem;
+  --page-width: 90rem;
+
+  --glow-fatality:
+    0 0 24px -4px rgb(220 38 38 / 40%), inset 0 0 12px 0 rgb(220 38 38 / 15%);
+  --glow-brutality:
+    0 0 24px -4px rgb(217 119 6 / 40%), inset 0 0 12px 0 rgb(217 119 6 / 15%);
+  --rim-inset: inset 0 1px 0 0 rgb(255 255 255 / 8%);
+
+  /* A 45-degree cut on two opposite corners, for focal elements only. */
+  --clip-chamfer: polygon(
+    12px 0,
+    100% 0,
+    100% calc(100% - 12px),
+    calc(100% - 12px) 100%,
+    0 100%,
+    0 12px
+  );
+
+  font-family: var(--font-body);
   color: var(--color-text);
-  background: var(--color-background);
+  background: var(--color-canvas);
 }
 
-/* One focus ring for every interactive element, so keyboard users can always see
-   where they are. */
-:focus-visible {
-  outline: 3px solid var(--color-accent);
-  outline-offset: 2px;
-}
-
-/* Gentle colour transitions, only for users who have not asked for less motion. */
-@media (prefers-reduced-motion: no-preference) {
-  a,
-  button {
-    transition:
-      background-color 0.15s ease,
-      border-color 0.15s ease,
-      color 0.15s ease;
+/* Wider screens get more room (tablet and desktop gutters from the design). */
+@media (min-width: 48rem) {
+  :root {
+    --gutter: 1rem;
+    --margin: 1.5rem;
   }
 }
 
-/* A heading that only takes focus from the script (after a route change) is not a
-   control, so it does not need a ring around it. */
-h1[tabindex='-1']:focus {
-  outline: none;
+@media (min-width: 75rem) {
+  :root {
+    --gutter: 1.25rem;
+    --margin: 2rem;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 html,
@@ -42,7 +83,61 @@ body {
 }
 
 body {
-  min-height: 100%;
+  min-height: 100dvh;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  background: radial-gradient(ellipse at top, #1a0d0d 0%, var(--color-canvas) 75%)
+    fixed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 400;
+  line-height: 1.05;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: inherit;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+/* One focus ring for every interactive element, so keyboard users can always see
+   where they are. */
+:focus-visible {
+  outline: 3px solid var(--color-secondary-bright);
+  outline-offset: 2px;
+}
+
+/* A heading that only takes focus from the script (after a route change) is not a
+   control, so it does not need a ring around it. */
+h1[tabindex='-1']:focus {
+  outline: none;
+}
+
+/* Gentle colour transitions, only for users who have not asked for less motion. */
+@media (prefers-reduced-motion: no-preference) {
+  a,
+  button {
+    transition:
+      background-color 0.15s ease,
+      border-color 0.15s ease,
+      color 0.15s ease,
+      box-shadow 0.15s ease;
+  }
 }
 
 .scene-canvas {

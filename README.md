@@ -1,19 +1,19 @@
 # Mortals
 
-A Mortal Kombat fatalities hub. Browse 3D animations of fatalities, rendered with Three.js, each paired with a tutorial on how to perform it.
+A fan-tribute archive of Mortal Kombat finishing moves. Browse the fighters, watch an animated 3D preview of each fatality and brutality, and learn the exact input to perform it.
 
 ## Description
 
-Mortals is a hub where users can watch Mortal Kombat fatalities as 3D animations and learn how to execute them. For each fatality, the user sees:
+Mortals is an unofficial, fan-made archive (not affiliated with or endorsed by the rights holders). It has three pages in the Netherflame design (`specs/design/netherflame-design-system.md`):
 
-- **The animation**: a 3D Three.js rendering of the fatality.
-- **The game**: which Mortal Kombat game it comes from.
-- **What it does**: a description of the fatality.
-- **The tutorial**: the corresponding walkthrough for performing it.
+- **About** (home): what the archive is, counts, the difference between fatalities and brutalities, the input notation (arrows, buttons 1 to 4), and the roster.
+- **Fatalities** and **Brutalities**: every move by fighter, with its game, range or class, description, the trigger (brutalities), and the input sequence. A 16:9 slot on each card plays an animated preview built with our own low-poly figure (no game footage or artwork). Search and filters by game and by range or class narrow the list.
+
+All move content comes from a design draft and is marked **Unverified** until it is checked against the games (roadmap Phase 15).
 
 ## Tech Stack
 
-- [Vite](https://vite.dev/), [React](https://react.dev/) with TypeScript, and npm
+- [Vite](https://vite.dev/), [React](https://react.dev/) with TypeScript, and npm; CSS Modules with design tokens in `web/src/index.css`; Bebas Neue and Space Grotesk self-hosted through `@fontsource`
 - [Three.js](https://threejs.org/) for the 3D animations, used directly
 - [Vitest](https://vitest.dev/) for tests
 
@@ -49,12 +49,11 @@ Three.js code is split out of the components:
 - `web/src/core/`: generic tools that are not about 3D (`createRepository`, which every registry uses, and `tryCreate`), so the content in `web/src/data/` does not depend on the 3D folder.
 - `web/src/hooks/`: `useThreeScene`, a thin hook that creates the renderer and reports whether it failed; `setupScene`, which assembles the scene around it and undoes a half-finished setup if a step throws; `createSceneContents` (objects, lights, background and fog), `createSceneControls` (orbit controls with their limits), and `createSceneCleanup` (undoing it all in order), each small and single-purpose; `createSceneRepository`, the registry of everything the scene creates; and `browserFactories`, factories for browser APIs.
 - `web/src/components/organisms/SceneCanvas/`: the component that hosts the canvas.
-- `web/src/data/`: the fatality content, kept apart from the 3D code and the UI. `fatality.ts` defines the typed `Fatality` (id, name, game, description, non-empty tutorial steps, and the `animationId` of the animation that plays), `fatalities/` holds one factory per entry (today a clearly-labelled sample, not a real fatality), and `createFatalityRepository` plus `createFatality(id)` look an entry up by id. To add a fatality: add its id to `FatalityId`, write its factory, and add one line to the repository; the compiler reports whichever step is missing. Its move is a keyframe animation in `web/src/three/animation/animations/` (`createXTrack` writes the common track; see `createSweepKickFinisher`), registered under an id in `AnimationId`. The three entries today (an uppercut, a sweep kick, and an overhead smash, across two placeholder games) are clearly-labelled sample data, not real fatalities; replacing them with real, verified content is a few typed edits (the ids, the registries, and a keyframe file per animation) and needs no change to pages, components, or scene code.
-- Navigation: `web/src/routing/` defines the `Route` type (the list, or one fatality by id), `parseRoute` (any unknown hash is the list), and the only link builders (`listHref`, `fatalityHref`). It uses the URL hash, so it needs no router library and works on any static host with no rewrite rules. `useRoute` follows the hash, `AppRoutes` picks the page, and the list page is `FatalityListPage` (cards as links in a responsive grid: `BackLink` and `FatalityCard`, `FatalityList`, `ListPageTemplate`).
-- Game filter: the list route carries the chosen game (`#/?game=...`, written by `listHref(game)` and read by `parseRoute`; an unknown game means no filter), so a filtered list can be shared and reloaded and the back link on a fatality page returns to its game. `listGames` and `filterByGame` are pure data helpers, `useFatalityList` combines them, and `GameFilter` (molecule) and `FilterLink` (atom) render the choices as links with `aria-current`.
-- Loading and polish: the 3D scene is loaded lazily (`LazySceneCanvas`, a deliberate module-level value because React needs `lazy` created once outside any component), so the list page never downloads Three.js and the fatality page shows a loading message until the scene arrives; if the download fails, `SceneLoadError` is shown instead (no class error boundary is needed). `useDocumentTitle` sets each page's title, and a global focus ring and reduced-motion-aware transitions are in `web/src/index.css`.
+- `web/src/data/`: the archive content, kept apart from the 3D code and the UI. `fighter.ts` and `move.ts` define the typed `Fighter` and `Move` (kind fatality or brutality, game, range or class, description, trigger, input steps, animation id, unverified flag); each fighter is a factory in `fighters/` made through `createFighterRepository` (a `Record<FighterId, ...>`, so the compiler checks every id). Pure helpers filter (`filterEntries`), list (`listCategories`, `listGamesWithMoves`), and count (`countMoves`). Adding a move is a `createMove` call plus an animation id; adding a fighter is one factory, one `FighterId`, and one line in the repository.
+- Navigation: `web/src/routing/` defines the `Route` type (`about`, `fatalities`, `brutalities`), `parseRoute` (any unknown hash is About), the only link builders (`hrefs.ts`), and the nav items. Routes use the URL hash, so any static host works.
+- Loading and polish: the 3D scene is loaded lazily (`LazySceneCanvas`, a deliberate module-level value because React needs `lazy` created once outside any component), so no page downloads Three.js until a preview is played, and the preview shows a loading message until the scene arrives; if the download fails, `SceneLoadError` is shown instead (no class error boundary is needed). `useDocumentTitle` sets each page's title, and a global focus ring and reduced-motion-aware transitions are in `web/src/index.css`.
 - Playback: `usePlayback` creates one `PlaybackControl` (state in a closure) that the Pause or Play and Replay buttons write and the animation player reads every frame, so the user can pause or replay without rebuilding the scene; it starts paused when the system asks for reduced motion. `Button` (atom) and `PlaybackControls` (molecule) render it.
-- The fatality page is built from the layers above: `GameBadge` (atom), `FatalityHeader` and `TutorialSteps` (molecules), `FatalityDetails` (organism), `FatalityPageTemplate` (template: only the layout, with `scene`, `controls`, and `details` slots), and `web/src/pages/FatalityPage.tsx` (the page `App` renders). The page looks a fatality up by id through the `useFatality` hook, and the entry's `animationId` selects the animation. Styles are CSS Modules next to each component, mobile-first: stacked on a phone (the scene at a bounded height, so the page scrolls), side by side from about 960px. The shared colours are CSS variables in `web/src/index.css`.
+- The pages are built from the layers above: atoms (`InputChip`, `Tag`, `FilterChip`, `CornerBrackets`, `Button`), molecules (`InputSequence`, `MoveFilterBar`, `MoveSearch`, `PreviewPoster`, `PreviewStage`, `RosterJump`, `SiteNav`, `StatBox`, `InfoPanel`), organisms (`SiteHeader`, `SiteFooter`, `MovePreview`, `MoveCard`, `FighterSection`, `MoveArchive`, `RosterGrid`, `NotationLegend`, `AboutHero`, `SceneCanvas`), templates (`SiteTemplate`, `ArchiveTemplate`, `AboutTemplate`), and pages (`AboutPage`, `FatalitiesPage`, `BrutalitiesPage`). State is in hooks: `useMoveFilters` (the search and filters, shared by the header and the page), `useMoveArchive` (what is visible), `useActivePreview` (only one preview runs a 3D scene at a time, so the page holds one WebGL context), and `usePlayback`.
 
 ## Testing
 
@@ -77,6 +76,6 @@ npm run build   # type-checks, then writes the site to web/dist
 
 Upload the contents of `web/dist` to any static host (GitHub Pages, Netlify, Cloudflare Pages, Vercel, or a plain file server). It works at the root of a domain or under a sub-path, because the build uses relative paths, and deep links work because the routes live in the URL hash (`#/fatality/...`). To try the production build locally, run `npm run preview`, or serve `web/dist` with any static file server.
 
-The first load is small (the list page is under 250 kB of script); the 3D code (Three.js, about 560 kB) is downloaded only when a fatality page opens.
+The first load is small (the pages are about 250 kB of script); the 3D code (Three.js, about 560 kB) is downloaded only when a preview is played.
 
-Nothing is published from this repository yet: the host is the project owner's choice, and the three fatalities are still clearly-labelled sample data that should be replaced by real, verified content first. For GitHub Pages, add a workflow that builds `web/` and publishes `web/dist`, and turn Pages on in the repository settings.
+Nothing is published from this repository yet: the host is the project owner's choice, and the move content is unverified until Phase 15.

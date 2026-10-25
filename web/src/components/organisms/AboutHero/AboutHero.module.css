@@ -1,0 +1,70 @@
+.hero {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--space-md);
+  border: 1px solid var(--color-border);
+  background: radial-gradient(ellipse at 80% 0%, #3a0e0e 0%, var(--color-surface) 65%);
+  clip-path: var(--clip-chamfer);
+}
+
+.kicker {
+  color: var(--color-secondary-bright);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.title {
+  font-size: 3.5rem;
+  line-height: 0.95;
+}
+
+.title span {
+  color: var(--color-primary-glow);
+}
+
+.pitch {
+  max-width: 36rem;
+  color: var(--color-text-secondary);
+  font-size: 1.05rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.fatality,
+.brutality {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.4rem 1.5rem;
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  letter-spacing: 0.05em;
+  text-decoration: none;
+  text-transform: uppercase;
+  clip-path: var(--clip-chamfer);
+}
+
+.fatality {
+  background: linear-gradient(var(--color-primary), var(--color-primary-dark));
+}
+
+.brutality {
+  background: linear-gradient(var(--color-secondary-deep), #78350f);
+}
+
+@media (min-width: 48rem) {
+  .hero {
+    padding: 4rem var(--space-xl);
+  }
+
+  .title {
+    font-size: 6rem;
+  }
+}

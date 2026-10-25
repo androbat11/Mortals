@@ -1,0 +1,31 @@
+.page {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-xl);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gutter);
+}
+
+.explainers {
+  display: grid;
+  gap: var(--gutter);
+}
+
+.section {
+  display: grid;
+  gap: var(--space-md);
+}
+
+.section h2 {
+  font-size: 2.25rem;
+}
+
+@media (min-width: 48rem) {
+  .explainers {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

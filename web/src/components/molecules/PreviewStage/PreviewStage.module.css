@@ -1,0 +1,43 @@
+/* `!important` because the orbit controls set touch-action inline when they attach. */
+.stage {
+  position: absolute;
+  inset: 0;
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  touch-action: pan-y !important;
+}
+
+.scene canvas {
+  touch-action: pan-y !important;
+}
+
+.controls {
+  position: absolute;
+  right: var(--space-sm);
+  bottom: var(--space-sm);
+  left: var(--space-sm);
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  justify-content: space-between;
+  padding: var(--space-xs);
+  /* A dark bar so the buttons stay readable over any part of the scene. */
+  background: rgb(10 10 12 / 75%);
+}
+
+/* Compact buttons keep the bar to one row on a phone, so it does not cover the
+   figure; the targets stay 44px tall. */
+.controls button {
+  min-width: 0;
+  padding: 0.25rem 0.75rem;
+  font-size: 1.05rem;
+}
+
+.controls > div {
+  flex-wrap: nowrap;
+  gap: var(--space-xs);
+}

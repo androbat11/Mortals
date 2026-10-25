@@ -1,0 +1,45 @@
+.header {
+  display: grid;
+  gap: var(--space-xs);
+}
+
+.title {
+  color: var(--color-secondary-bright);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.name {
+  font-size: 2.5rem;
+}
+
+.alias {
+  color: var(--color-text-secondary);
+}
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs) var(--space-lg);
+  margin: var(--space-sm) 0 0;
+}
+
+.facts dt {
+  color: var(--color-text-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.facts dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+@media (min-width: 48rem) {
+  .name {
+    font-size: 3.5rem;
+  }
+}
