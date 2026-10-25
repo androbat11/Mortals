@@ -1,6 +1,6 @@
 # Mortals
 
-A Mortal Kombat fatalities hub: users watch a 3D animation of a fatality and learn how to perform it. The app lives in `web/` (Vite, React, TypeScript, Three.js, Vitest, npm).
+A fan-tribute archive of Mortal Kombat finishing moves: users browse the fighters, watch an animated preview of each fatality and brutality, and learn the exact input to perform it. The app lives in `web/` (Vite, React, TypeScript, Three.js, Vitest, npm).
 
 These rules apply for the whole development life cycle: planning, specs, implementation, tests, and review. Follow them without being reminded.
 
@@ -9,6 +9,7 @@ These rules apply for the whole development life cycle: planning, specs, impleme
 @specs/mission.md
 @specs/roadmap.md
 @specs/tech-stack.md
+@specs/design/netherflame-design-system.md
 
 - Every change must fit the mission, the current roadmap phase, and the tech stack. Do not add work from a later phase, and do not add dependencies the tech stack does not list.
 - If a request conflicts with the mission, roadmap, or tech stack, say so before acting.
@@ -20,6 +21,14 @@ These rules apply for the whole development life cycle: planning, specs, impleme
 - **Composable components.** Build components that compose: they take props and `children` and are combined into larger ones, rather than hard-coding content or duplicating markup.
 - **UI and logic are separate.** Components only render UI. State, effects, and event logic go in custom hooks (`web/src/hooks/`), and non-React logic goes in plain modules.
 - **Responsive design is required for every screen and component.** Build mobile-first with media queries, no fixed widths, and no horizontal scroll. Check phone (~375px), tablet (~768px), and desktop (~1280px) widths before calling a screen done.
+
+## Design system
+
+- **Follow the Netherflame design** (`specs/design/netherflame-design-system.md`, from the Stitch project "Mortal Kombat Finishers Archive"): dark surfaces, crimson for fatalities and primary actions, amber for brutalities and highlights, Bebas Neue for headings in uppercase, Space Grotesk for body text and labels.
+- **Use the tokens.** Colours, fonts, and spacing come from the CSS variables in `web/src/index.css`; components do not hard-code colours or font names.
+- **Sharp shapes.** No rounded corners (radius 0); chamfered 45-degree corners only on focal elements (hero, primary buttons, active cards). Depth comes from rims, insets, and glows, not soft shadows.
+- **No game assets.** Previews are our own animated 3D figures. Never add screenshots, videos, audio, artwork, or models from the games, and never hot-link images from Stitch or anywhere else. Keep the visible fan-tribute disclaimer.
+- **Unverified content is marked.** Move names, descriptions, triggers, and inputs are shown as unverified until checked against the games.
 
 ## Code style
 

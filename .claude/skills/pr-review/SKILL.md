@@ -35,11 +35,13 @@ Read these in full on every run. They are the source of truth; never rely on mem
 ## Step 3: Check against each guideline
 
 ### Mission
-- Does the change serve watching and learning a fatality, with no accounts, no clutter?
+- Does the change help a user find a move, see its preview, and learn its input, with no accounts and no clutter?
 - Does it keep the experience simple and low friction for casual fans?
 - Does every new screen or component work on phone, tablet, and desktop (mobile-first CSS, no fixed widths, no horizontal scroll)?
-- Are visuals original and low-poly, with no copyrighted game assets, names, or imported models?
+- Are the visuals original (our own animated 3D figures), with no game screenshots, videos, audio, artwork, or models, no hot-linked images, and the fan-tribute disclaimer and the "unverified" marking kept?
+- Does the change follow the Netherflame design system (tokens from `web/src/index.css`, sharp corners, Bebas Neue and Space Grotesk, crimson and amber)?
 - Is new content data plus an animation, not hard-coded into components?
+- Is any new factual content (a move, a name, an input) marked as unverified, and not invented?
 
 ### Roadmap
 - Which phase does the PR belong to? Flag work that belongs to a later phase (scope creep) and phases skipped or started before the previous one is verified.
@@ -76,6 +78,7 @@ To add a rule, append a row with the next ID. Never reuse or renumber an ID. Sev
 | R16 | should-fix | No module-level mutable state or global constants that act as shared state; values come from functions that return them. | CLAUDE.md: no global variables, which cause side effects. |
 | R17 | should-fix | Non-obvious design decisions are explained in code comments that say why (not what). | CLAUDE.md: comments capture design decisions so the code teaches. |
 | R18 | should-fix | Modules are small and grouped by purpose: one factory or helper per file (a type and its create and apply functions may share a file), source files under about 100 lines (tests exempt), placed in the folder for what they do (`web/src/three/objects`, `rendering`, `controls`, `animation`; subfolders such as `objects/character` are fine; generic tools such as `createRepository` live in `web/src/core`). | CLAUDE.md: small modules, grouped by purpose. |
+| R19 | should-fix | Styles use the design tokens (CSS variables from `web/src/index.css`) and the two design fonts; no hard-coded colours or font names in components, no rounded corners except where the design system allows, and no third-party font or image requests. | CLAUDE.md: design system. |
 
 ### Spec and quality
 - Compare the change to the phase's `requirements.md` and `validation.md`. List validation items that the diff does not satisfy or that look unchecked.
